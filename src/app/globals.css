@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Noto Sans", "Yu Gothic", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+}
