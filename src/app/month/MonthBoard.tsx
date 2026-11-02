@@ -267,6 +267,8 @@ export default function MonthBoard() {
 function Summary({ view, run }: { view: MonthView; run: FactsRun }) {
   const t = view.totals;
   const s = run.score;
+  const events = view.persons.flatMap((p) => [...p.green, ...p.yellow]);
+  const by = (v: string) => events.filter((e) => e.verdict === v).length;
   return (
     <section className="flex flex-col gap-3 rounded-xl border border-stone-200 bg-white p-4">
       <h2 className="text-base font-bold text-stone-900">10月の1行から</h2>
@@ -282,6 +284,11 @@ function Summary({ view, run }: { view: MonthView; run: FactsRun }) {
         <li>だれが何をしたか分からない → 捨てた: {t.dropped.vague}</li>
       </ul>
       <p className="text-[11px] leading-relaxed text-stone-500">捨てた1行は数だけを出し、だれのことかは出しません。</p>
+      <p className="text-xs leading-relaxed text-stone-700">
+        店長の物差しで見ると（出来事 {t.events}）: <span className="whitespace-nowrap font-semibold text-emerald-800">付ける {by("付ける")}</span>・
+        <span className="whitespace-nowrap font-semibold text-amber-800">迷う {by("迷う")}</span>（物差しで決められない = 店長が決める）・
+        <span className="whitespace-nowrap">付けない {by("付けない")}</span>
+      </p>
       <p className="rounded-lg bg-emerald-50 px-3 py-2 text-xs leading-relaxed text-emerald-900">
         架空のデータに隠した答えと比べると: 二重 {s.duplicates.found}/{s.duplicates.expected}・本人だけ {s.selfOnly.found}/
         {s.selfOnly.expected}・捨てる {s.dropped.found}/{s.dropped.expected}・だれが {s.actor.correct}/{s.actor.checked}・だれのため{" "}
@@ -305,6 +312,7 @@ function PersonCard({ person, scale }: { person: PersonView; scale: number }) {
   const g = person.green.length;
   const y = person.yellow.length;
   const give = person.green.filter((e) => e.verdict === "付ける").length;
+  const unsure = person.green.filter((e) => e.verdict === "迷う").length;
   return (
     <div className="rounded-xl border border-stone-200 bg-white">
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full flex-col gap-2 p-3 text-left">
@@ -320,7 +328,7 @@ function PersonCard({ person, scale }: { person: PersonView; scale: number }) {
         </div>
         <div className="flex items-center gap-3 text-xs">
           <span className="text-emerald-800">
-            緑 {g}（物差しで付ける {give}）
+            緑 {g}（付ける {give}・迷う {unsure}）
           </span>
           <span className="text-amber-800">黄 {y}</span>
           <span className="ml-auto text-stone-400">{open ? "閉じる ▲" : "開く ▼"}</span>

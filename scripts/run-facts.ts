@@ -6,7 +6,9 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { Entry } from "../src/lib/entries.ts";
-import { askChecker, askExtractor } from "../src/lib/facts/claude-ask.ts";
+import { askChecker, askExtractor, askYardstickQuote } from "../src/lib/facts/claude-ask.ts";
+import { quotesYardstick } from "../src/lib/facts/prompt.ts";
+import { SKILL_NAME } from "../src/lib/shop.ts";
 import { runMonth } from "../src/lib/facts/extract.ts";
 import { scoreAgainstLabels, type Label } from "../src/lib/facts/score.ts";
 import { model } from "../src/lib/models.ts";
@@ -18,6 +20,12 @@ const daysArg = process.argv.indexOf("--days");
 const limit = daysArg > 0 ? Number(process.argv[daysArg + 1]) : Infinity;
 const days = [...new Set(all.map((e) => e.date))].sort().slice(0, limit);
 const entries = all.filter((e) => days.includes(e.date));
+
+// Proof first: the extractor must quote the yardstick skill's first 付けない rule word for word.
+const skillText = readFileSync(path.join(root, ".claude/skills", SKILL_NAME, "SKILL.md"), "utf8");
+const quote = await askYardstickQuote();
+if (!quotesYardstick(quote.quote, skillText)) throw new Error(`the fact extractor could not quote the yardstick skill (${quote.quote})`);
+console.log("yardstick check: quoted word for word");
 
 const t0 = Date.now();
 const run = await runMonth(entries, {
@@ -33,6 +41,7 @@ const out = {
   _note: "Fictional data. Facts extracted by the fact-extractor subagent and checked by plain code.",
   generatedAt: new Date().toISOString(),
   models: { extractor: model("extractor"), checker: model("checker") },
+  yardstickQuoted: true,
   seconds,
   costUsd: Number(run.costUsd.toFixed(4)),
   counts: run.counts,

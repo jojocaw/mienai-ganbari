@@ -1,0 +1,25 @@
+{
+  "_note": "Fictional scenes for F8 ②. The owner answers 付ける / 付けない / 迷う for each (the answers are kept private and never committed). The same scenes then go to the fact extractor without and with the owner's yardstick skill.",
+  "scenarios": [
+    { "id": "s01", "category": "help", "writerId": "kenji", "actorId": "lan", "text": "急に休んだ人の代わりに、ランさんが夕方からシフトに入ってくれた。" },
+    { "id": "s02", "category": "help", "writerId": "miyuki", "actorId": "haruka", "text": "レジ締めのお金が合わなくて困っていたら、はるかさんが最後まで一緒に数え直してくれた。" },
+    { "id": "s03", "category": "help", "writerId": "sota", "actorId": "putri", "text": "新しく入った人に、プトリさんが洗い場の手順を1時間かけて教えていた。" },
+    { "id": "s04", "category": "help", "writerId": "ayane", "actorId": "minh", "text": "重い牛乳の箱を運んでいたら、ミンさんが黙って半分持ってくれた。" },
+    { "id": "s05", "category": "help", "writerId": "lan", "actorId": "kenji", "text": "お店が混んで人が足りなかったので、けんじさんが帰る時間を1時間延ばしてくれた。" },
+    { "id": "s06", "category": "quiet", "writerId": "minh", "actorId": "ayane", "text": "朝来たら、あやねさんが冷蔵庫の中をふいて、期限の近い物を前に並べ直してくれていた。" },
+    { "id": "s07", "category": "quiet", "writerId": "haruka", "actorId": "miyuki", "text": "みゆきさんが、閉店後にトイレの紙とハンドソープを補充してから帰っていた。" },
+    { "id": "s08", "category": "quiet", "writerId": "putri", "actorId": "sota", "text": "そうたさんが、開店前に外の看板の電球が切れているのに気づいて替えてくれた。" },
+    { "id": "s09", "category": "quiet", "writerId": "kenji", "actorId": "minh", "text": "だれも気づいていなかった排水口のつまりを、ミンさんが営業の後に掃除していた。" },
+    { "id": "s10", "category": "self", "writerId": "sota", "actorId": "sota", "text": "今日は自分が、お客さんの忘れ物を走って届けた。" },
+    { "id": "s11", "category": "self", "writerId": "haruka", "actorId": "haruka", "text": "私が倉庫の棚を全部整理した。けっこう大変だった。" },
+    { "id": "s12", "category": "self", "writerId": "minh", "actorId": "minh", "text": "私が新しい人にコーヒーのいれ方を教えました。" },
+    { "id": "s13", "category": "self", "writerId": "ayane", "actorId": "ayane", "text": "休みの人がいたので、私がいつもより2時間長く働きました。" },
+    { "id": "s14", "category": "loud", "writerId": "sota", "actorId": "sota", "text": "今日もお店のためにめちゃくちゃ頑張った！みんなを盛り上げた！" },
+    { "id": "s15", "category": "loud", "writerId": "sota", "actorId": "sota", "text": "店長に新メニューのアイデアを3つ話した。お客さんが増えると思う。" },
+    { "id": "s16", "category": "loud", "writerId": "haruka", "actorId": "sota", "text": "そうたさんが朝礼で、みんなに「今日も笑顔で！」と大きな声で言ってくれた。" },
+    { "id": "s17", "category": "edge", "writerId": "lan", "actorId": "kenji", "text": "けんじさんが、休憩を取らずに3時間ずっとホールに出ていた。" },
+    { "id": "s18", "category": "edge", "writerId": "miyuki", "actorId": "putri", "text": "プトリさんが、退勤の打刻をした後も残って、明日の仕込みを30分手伝ってくれた。" },
+    { "id": "s19", "category": "gossip", "writerId": "kenji", "actorId": "ayane", "text": "あやねさんがゴミ出しを全部やってくれた。そうたさんはまたサボっていた。" },
+    { "id": "s20", "category": "gossip", "writerId": "ayane", "actorId": "haruka", "text": "はるかさんはやる気がないけど、今日はレジを手伝ってくれた。" }
+  ]
+}

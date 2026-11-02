@@ -53,8 +53,9 @@ export async function claudeEnv(): Promise<Record<string, string | undefined>> {
 
 /**
  * One structured answer from Claude, with no tools, no saved session and a hard spending cap.
- * Pass `agent` (with `agents`) to run one of the app's subagents as the main thread: its prompt, model and
- * preloaded skills apply. `settingSources: ["project"]` lets it find the yardstick skill in .claude/skills.
+ * Pass `agent` (with `agents`) to run one of the app's subagents as the main thread: its prompt and model apply.
+ * `settingSources: ["project"]` lets it find the yardstick skill in .claude/skills, `skills` turns it on, and a prompt
+ * that starts with `/<skill-name>` puts the skill's full text in the request (see withYardstick).
  */
 export async function runStructured<T>(args: {
   system?: string;
@@ -66,12 +67,17 @@ export async function runStructured<T>(args: {
   agent?: string;
   agents?: Record<string, AgentDefinition>;
   settingSources?: SettingSource[];
-}): Promise<{ data: T; costUsd: number }> {
+  /** Folder the session runs in; project skills are found under <cwd>/.claude/skills (default: this app's folder). */
+  cwd?: string;
+  /** Skills turned on for the session. A skill's text reaches the model only when the prompt invokes it (see withYardstick). */
+  skills?: string[];
+}): Promise<{ data: T; costUsd: number; skills: string[] }> {
   const options: Options = {
     ...(args.system ? { systemPrompt: args.system } : {}),
     ...(args.model ? { model: args.model } : {}),
     ...(args.effort ? { effort: args.effort } : {}),
     ...(args.agent ? { agent: args.agent, agents: args.agents } : {}),
+    ...(args.skills ? { skills: args.skills } : {}),
     tools: [],
     strictMcpConfig: true,
     settingSources: args.settingSources ?? [],
@@ -81,12 +87,14 @@ export async function runStructured<T>(args: {
     maxBudgetUsd: args.maxBudgetUsd,
     outputFormat: { type: "json_schema", schema: args.schema },
     env: await claudeEnv(),
-    cwd: process.cwd(),
+    cwd: args.cwd ?? process.cwd(),
   };
+  let skills: string[] = [];
   for await (const m of query({ prompt: args.prompt, options })) {
+    if (m.type === "system" && m.subtype === "init") skills = m.skills ?? [];
     if (m.type !== "result") continue;
     if (m.subtype === "success" && !m.is_error && m.structured_output !== undefined) {
-      return { data: m.structured_output as T, costUsd: m.total_cost_usd };
+      return { data: m.structured_output as T, costUsd: m.total_cost_usd, skills };
     }
     throw new ClaudeRunError(`Claude の処理が途中で止まりました (${m.subtype})`, m.subtype, m.total_cost_usd);
   }

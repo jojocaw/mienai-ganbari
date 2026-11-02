@@ -28,11 +28,12 @@ The builder has run a small business for 18 years and has had to make these mont
 | F1 | Staff write one line a day (phone width, name picked from a list, line saved exactly as written) | ✅ working |
 | — | Fictional month: 180 lines over 30 days with a known mix and an answer key | ✅ generated + tested |
 | F2 | The owner's yardstick → a Claude **Skill** (`.claude/skills/<shop>-monosashi/SKILL.md`): ten questions, Claude writes a draft, plain code checks it (no character words, every rule points back to an answer), one retry, then the file is written | ✅ first real run: 6 give / 5 don't give / 3 unsure / 7 examples, 3 character words in the answers → 0 in the skill (Opus, ~$0.08) |
-| F3 | Fact extractor (subagent, preloads the owner's Skill): line → who did what for whom + the yardstick's verdict; gossip, judgements and vague lines are dropped and only counted. Plain code checks every answer (each line exactly once, people from the list, no character words) | ✅ real run on the fictional month: who did it right for 153/153 lines in Japanese, Vietnamese and Indonesian |
-| F4 | Checker: plain code groups the same event (same day, same person, same job) and finds self-report-only claims; a small checker subagent may suggest extra groups, accepted only when safe. Scored against the hidden answer key | ✅ real run: 9/9 duplicates (each written in two different languages), 36/36 self-report-only claims, 27/27 dropped lines, who did it 153/153, for whom 153/153, 0 false alarms · 30 days in 130 s for about $0.49 |
-| F5 | Month-end view (`/month`): green / yellow per person; every event opens to its original lines (who wrote them, in which language) and the yardstick's reason; dropped lines are only counted, never shown on anyone's page | ✅ the quiet person: 26 green / 0 yellow (wrote only 3 lines) · the loud person: 3 green / 20 yellow (wrote 32) |
+| F3 | Fact extractor (subagent; every prompt starts with the owner's Skill as a slash command, so the full yardstick is in its context): line → who did what for whom + the yardstick's verdict; gossip, judgements and vague lines are dropped and only counted. Plain code checks every answer (each line exactly once, people from the list, no character words) | ✅ real run on the fictional month, with the yardstick really in context (the run starts by making the extractor quote it word for word): who did it right for 153/153 lines in Japanese, Vietnamese and Indonesian |
+| F4 | Checker: plain code groups the same event (same day, same person, same job) and finds self-report-only claims; a small checker subagent may suggest extra groups, accepted only when safe. Scored against the hidden answer key | ✅ real run: 9/9 duplicates (each written in two different languages), 36/36 self-report-only claims, 27/27 dropped lines, who did it 153/153, for whom 153/153, 0 false alarms · 30 days in 150 s for about $0.70 |
+| F5 | Month-end view (`/month`): green / yellow per person; every event opens to its original lines (who wrote them, in which language) and the yardstick's reason; dropped lines are only counted, never shown on anyone's page | ✅ the quiet person: 26 green / 0 yellow (wrote only 3 lines) · the loud person: 3 green / 20 yellow (wrote 32) · the yardstick sorts the 144 events into 37 付ける / 75 迷う (outside the owner's rules, so the owner decides) / 32 付けない |
 | F6 | The owner sets the total, the unit (1/10/100/1000 yen) and a share 0–10 per person; plain TypeScript splits it to the yen (largest remainder, ties → larger share, then list order) and the rule is shown on the screen. Claude never calculates money | ✅ fictional decision: 50,000 yen → 11,700 / 5,900 × 6 / 2,900, nothing left over |
-| F7 | Thank-you letters in each person's language: the letter-writer subagent uses only the checked facts and the amount from F6; plain code checks every letter (amount exactly once, no other money, every fact it uses is real, no character words, the right language) and sends it back once with the problems | ✅ real run: 8/8 letters passed (one after a retry), Japanese / Vietnamese / Indonesian, 25 s for about $0.19 |
+| F7 | Thank-you letters in each person's language: the letter-writer subagent uses only the checked facts and the amount from F6; plain code checks every letter (amount exactly once, no other money, every fact it uses is real, no character words, the right language) and sends it back once with the problems | ✅ real run: 8/8 letters passed (one after a retry), Japanese / Vietnamese / Indonesian, 26 s for about $0.20 |
+| F8 | Two numbers for the video: ① the time to make the month-end decision, by hand vs with this tool; ② on twenty made-up scenes the owner answers (付ける / 付けない / 迷う), how often the fact extractor gives the owner's answer **without and with the owner's yardstick skill** — the only difference between the two runs is the skill (`npm run f8`; the owner's answers and skill stay private, only the counts are published) | ② ready. Dry run with the fictional café's skill: the skill changed Claude's answer on 11 of 20 scenes — e.g. all four self-report-only scenes became 付けない, as that owner's rules say (with the skill the extractor quotes the yardstick word for word; without it, it has none). The real score against the owner's own answers comes after the owner answers (planned for 11/5–11/6) |
 
 ## Try it
 
@@ -56,6 +57,7 @@ npm run facts       # F3 + F4 on the fictional month with the real subagents, sc
                     # → data/derived/month.json (committed, so the results can be read without a key)
 npm run letters     # F6 + F7: the fictional owner's decision → amounts by code → one letter per person
                     # → data/derived/letters.json (committed)
+npm run f8 -- --demo  # F8 ② dry run with the fictional café's skill: twenty scenes, without vs with the skill
 ```
 
 Without a key the app still runs: it shows the skill, the month and the letters already in the repository, and the buttons that call Claude are disabled.
@@ -82,7 +84,7 @@ Inside the app, the **Claude Agent SDK** (TypeScript) runs every Claude call. Ea
 |---|---|---|---|
 | F2 yardstick writer (`src/lib/monosashi/claude-writer.ts`) | Agent SDK `query()` with a JSON schema; plain code renders the file | Opus 5.5 · high | Runs once per shop, and every later step depends on it, so quality matters most |
 | The owner's yardstick (`.claude/skills/demo-cafe-monosashi/SKILL.md`) | **Skill** — written by Claude, for Claude | — | The owner's rules become a plain file the extractor loads every time: readable by the owner, reviewable on GitHub, no character words |
-| F3 `fact-extractor` (`src/lib/agents.ts`) | **Subagent** that preloads the Skill (`skills: [...]`), JSON schema output | Sonnet 5.5 · medium | Reads every line in three languages, day by day — many calls, needs good reading at a steady cost |
+| F3 `fact-extractor` (`src/lib/agents.ts`) | **Subagent** run as the main thread; every prompt starts with the Skill as a slash command (`/demo-cafe-monosashi`), so the owner's full rules are in its context — each real run first makes it quote a rule word for word, and stops if it cannot. JSON schema output | Sonnet 5.5 · medium | Reads every line in three languages, day by day — many calls, needs good reading at a steady cost |
 | F4 `checker` | **Subagent**, JSON schema output | Haiku 5.5 · low | A narrow job: it only *suggests* which facts are the same event; plain code decides |
 | F6 money (`src/lib/pay/allocate.ts`) | none — plain TypeScript | — | Money must be exact to the yen and explainable; Claude never calculates it |
 | F7 `letter-writer` | **Subagent**, JSON schema output | Opus 5.5 · medium | Few calls, and warm, natural thank-yous in Japanese, Vietnamese and Indonesian matter |
@@ -95,6 +97,26 @@ How the calls are kept safe and honest:
 - **Isolated runs.** The SDK runs with its own config directory and only the API key; every inherited `CLAUDE_*` / `ANTHROPIC_*` variable is dropped
   (we found a developer's own effort setting leaking in and making one call think for over four minutes). Subagents cannot start further subagents, and every call has a spending cap.
 - Models can be changed per role with `MIENAI_MODEL_WRITER` / `_EXTRACTOR` / `_CHECKER` / `_LETTER`.
+
+## How it was built with Claude Code
+
+Claude Code (Opus 5.5) was the center of the work, from the plan to the real runs:
+
+1. **Plan before code.** Before the kickoff, Claude Code wrote a spec with an acceptance line for every feature (kept outside this repository, as the rules ask). Each row of the Status table is checked against its line.
+2. **Measure first.** Right after F1, Claude Code built the fictional month with a hidden answer key (duplicates always told in two languages, self-reports, gossip, vague lines). Every later feature is scored against it, so "it works" always comes with a number.
+3. **For every feature:** plain-code checks and tests first (no API calls in tests), then the real Claude call, then a real run on the fictional month, then fixes for whatever the numbers show, then a commit.
+4. **Screens are checked like a user would.** Claude Code opens each page in a headless browser at phone (390 px) and PC widths, clicks through it (open a person, change a share, go back to the saved decision) and looks at the screenshots before committing.
+
+What the real runs caught, and how each was fixed (each fix has a test):
+
+| Found in a real run | Fix |
+|---|---|
+| One SDK call thought for over four minutes: the developer's own Claude Code settings (maximum effort, session variables) leaked into the app's SDK process | The app drops every inherited `CLAUDE_*` / `ANTHROPIC_*` variable and sets the effort per role |
+| A subagent answered in prose instead of JSON: an empty tool list on the agent also removed the SDK's structured-output tool | Tools are switched off for the session only, and the agents inherit that |
+| Claude would not merge two planted "duplicates" — rightly: the generator had written two different stories | The data generator was fixed, not the model; a test checks that every duplicate tells the same event |
+| A letter thanked someone "for Miyuki": the extractor read the thankful ending 「〜してくれた」 as "done for the writer" | A stricter rule for the extractor and a new for-whom score (153/153) |
+| Letters added purposes the facts did not state ("so the customers could read it easily") | One more rule for the letter writer, then a new real run, checked again |
+| **The owner's Skill was listed but never read.** F8's dry run showed the Skill changed only 2 of 20 answers; asked to quote the yardstick, the extractor said it had none. (`AgentDefinition.skills` preloads a Skill only for subagents started through the Agent tool — not for an agent that runs as the main thread, as here.) | Every extractor prompt now starts with the Skill as a slash command, which puts its full text in the request. Each real run first asks the extractor to quote the first 「付けない」 rule word for word and stops if the quote is not exact; without the Skill it answers that it has none. F3–F7 were run again with the Skill really in place |
 
 ## Principles
 
@@ -109,5 +131,5 @@ How the calls are kept safe and honest:
 小さなお店の月末の「プラス（賞与・手当・ありがとう）」を、声の大きい人ではなく、本当に頑張った人に届けるための道具です。
 スタッフは毎日1行を母語で書くだけ。Claude が事実だけにそろえ、月末に「周りが何度も名前を書いた見えない頑張り（緑）」と「本人の申告だけ（黄）」を分けて店長に見せます。**決めるのは店長**で、AI は配分を決めません。金額の計算はプログラムで1円まで行います。
 
-- できたこと: F1（毎日の1行・元の文のまま保存）・架空の1か月分 180行（答えつき・テストつき）・F2（店長の10問 → Claude が書くスキル。人柄の言葉は入らない）・F3/F4（事実の係 = Sonnet・確かめの係 = Haiku・隠した答えと比べて全問正解）・F5（月末の画面 `/month`）・F6（割合から1円までプログラムで計算）・F7（手紙の係 = Opus が母語で手紙・コードが確かめる・8通とも通った）
+- できたこと: F1（毎日の1行・元の文のまま保存）・架空の1か月分 180行（答えつき・テストつき）・F2（店長の10問 → Claude が書くスキル。人柄の言葉は入らない）・F3/F4（事実の係 = Sonnet・確かめの係 = Haiku・隠した答えと比べて全問正解）・F5（月末の画面 `/month`）・F6（割合から1円までプログラムで計算）・F7（手紙の係 = Opus が母語で手紙・コードが確かめる・8通とも通った）・F8 の準備（架空の20場面・物差しのスキルなし/ありで店長と同じ答えの数を比べる道具。物差しが本当に読まれているかは、決まりの1行を一字一句引用させて確かめる）
 - 動かし方: 上の「Try it」のとおり

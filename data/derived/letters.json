@@ -1,9 +1,9 @@
 {
   "_note": "Fictional data. Amounts are calculated by plain code (F6); letters are written by the letter-writer subagent and checked by plain code (F7).",
-  "generatedAt": "2026-11-02T06:57:27.718Z",
+  "generatedAt": "2026-11-02T07:32:39.503Z",
   "model": "claude-opus-5-5",
-  "seconds": 25,
-  "costUsd": 0.1935,
+  "seconds": 26,
+  "costUsd": 0.1961,
   "decision": {
     "month": "2026-10",
     "total": 50000,
@@ -45,53 +45,53 @@
         {
           "entryId": "seed-021",
           "date": "2026-10-04",
-          "action": "ミンさんがゴミを分別し直して捨てに行った",
+          "action": "ミンさんがゴミを分別し直して捨てた",
           "line": "Minh memilah ulang sampah lalu membuangnya.",
-          "writers": 2,
-          "selfOnly": false
-        },
-        {
-          "entryId": "seed-037",
-          "date": "2026-10-06",
-          "action": "ミンさんが外のメニュー看板の字を書き直した",
-          "line": "ミンさんが外のメニューの看板の字を書き直してくれた。",
-          "writers": 2,
-          "selfOnly": false
-        },
-        {
-          "entryId": "seed-040",
-          "date": "2026-10-07",
-          "action": "ミンさんがお客様の忘れ物に気づき、走って追いかけて届けた",
-          "line": "お客様の忘れ物にミンさんが気づいて、走って追いかけて届けていた。",
           "writers": 2,
           "selfOnly": false
         },
         {
           "entryId": "seed-104",
           "date": "2026-10-18",
-          "action": "ミンさんが急な欠勤の代わりに予定外でシフトに入った",
+          "action": "ミンさんが急に休んだ人の代わりに、予定外でシフトに入った。",
           "line": "急に休んだ人の代わりに、ミンさんが予定外でシフトに入ってくれた。",
           "writers": 2,
           "selfOnly": false
         },
         {
-          "entryId": "seed-007",
+          "entryId": "seed-011",
           "date": "2026-10-02",
-          "action": "お客様の忘れ物に気づき、走って追いかけて届けた",
-          "line": "お客様の忘れ物にミンさんが気づいて、走って追いかけて届けていた。",
+          "action": "ミンさんがトイレ掃除をした",
+          "line": "だれもやりたがらないトイレ掃除を、ミンさんが今日もやってくれていた。",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-014",
+          "date": "2026-10-03",
+          "action": "ミンさんが閉店後に一人で床のモップがけをした",
+          "line": "ミンさんが閉店後に一人で床のモップがけをしてくれていた。",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-030",
+          "date": "2026-10-05",
+          "action": "ミンさんが豆が切れそうなのに気づき、早めに補充した",
+          "line": "豆が切れそうなのにミンさんが気づいて、早めに補充してくれた。",
           "writers": 1,
           "selfOnly": false
         }
       ],
       "attempts": 1,
       "problems": [],
-      "letter": "Minh thân mến,\nCảm ơn bạn đã vào ca ngoài lịch để thay cho người nghỉ đột xuất. Cảm ơn bạn đã nhận ra đồ khách để quên, chạy theo và mang trả cho khách. Bạn cũng đã viết lại chữ trên bảng thực đơn bên ngoài, và phân loại lại rác rồi mang đi đổ. Tôi thật sự rất biết ơn bạn. Khoản cộng thêm tháng này là 11,700円.",
-      "japanese": "ミンさんへ\n急に休んだ人の代わりに、予定外でシフトに入ってくれてありがとう。お客様の忘れ物に気づいて、走って追いかけて届けてくれてありがとう。外のメニュー看板の字を書き直してくれたこと、ゴミを分別し直して捨てに行ってくれたことにも感謝しています。本当に助かりました。今月のプラスは11,700円です。",
+      "letter": "Minh thân mến,\nCảm ơn em đã vào ca ngoài lịch để thay cho người nghỉ đột xuất.\nCảm ơn em cũng đã phân loại lại rác rồi mới đem đi bỏ.\nEm còn dọn nhà vệ sinh, và sau giờ đóng cửa đã một mình lau sàn bằng cây lau nhà.\nNhững việc đó thật sự đã giúp tôi rất nhiều.\nKhoản cộng thêm tháng này là 11,700円.\nCảm ơn em rất nhiều.",
+      "japanese": "ミンさんへ\n急に休んだ人の代わりに、予定外でシフトに入ってくれてありがとう。\nゴミを分別し直して捨ててくれたことにも感謝しています。\nトイレ掃除もしてくれて、閉店後には一人で床のモップがけもしてくれました。\n本当に助かりました。\n今月のプラスは11,700円です。\nどうもありがとう。",
       "usedEntryIds": [
         "seed-104",
-        "seed-040",
-        "seed-037",
-        "seed-021"
+        "seed-021",
+        "seed-011",
+        "seed-014"
       ]
     },
     {
@@ -101,17 +101,9 @@
       "amountText": "5,900円",
       "reasons": [
         {
-          "entryId": "seed-026",
-          "date": "2026-10-05",
-          "action": "はるかさんが重い小麦粉の袋を奥の倉庫まで運んだ",
-          "line": "Haruka membawa karung tepung yang berat sampai ke gudang belakang.",
-          "writers": 2,
-          "selfOnly": false
-        },
-        {
           "entryId": "seed-024",
           "date": "2026-10-04",
-          "action": "はるかさんが休みを返上して人が足りない時間に入った",
+          "action": "はるかさんが自分の休みの日に、人が足りない時間帯のシフトに入った",
           "line": "はるかさんが自分の休みを返上して、人が足りない時間に入ってくれた。",
           "writers": 1,
           "selfOnly": false
@@ -119,37 +111,45 @@
         {
           "entryId": "seed-049",
           "date": "2026-10-08",
-          "action": "はるかさんが閉店後に床全体をモップがけした",
+          "action": "はるかさんが閉店後に誰にも言われず床全体をモップがけした",
           "line": "Haruka diam-diam mengepel seluruh lantai setelah kafe tutup.",
           "writers": 1,
           "selfOnly": false
         },
         {
-          "entryId": "seed-058",
-          "date": "2026-10-10",
-          "action": "はるかさんが重い粉の袋を倉庫の奥まで運んだ",
-          "line": "はるかさんが重い粉の袋を倉庫の奥まで運んでくれた。",
+          "entryId": "seed-103",
+          "date": "2026-10-18",
+          "action": "はるかさんが残って、プトリさんに一日の終わりのレジ締めを教えた。",
+          "line": "Haruka ở lại chỉ Putri cách kết sổ cuối ngày.",
           "writers": 1,
           "selfOnly": false
         },
         {
-          "entryId": "seed-065",
-          "date": "2026-10-11",
-          "action": "はるかが店の前の看板のメニューを書き直した",
-          "line": "Haruka menulis ulang menu di papan depan kafe.",
+          "entryId": "seed-130",
+          "date": "2026-10-22",
+          "action": "閉店後、はるかさんが誰にも言われずに床を全部拭いた",
+          "line": "閉店後、はるかさんが何も言わずに床を全部拭いてくれた。",
           "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-026",
+          "date": "2026-10-05",
+          "action": "はるかさんが重い粉の袋を倉庫の奥まで運んだ",
+          "line": "Haruka membawa karung tepung yang berat sampai ke gudang belakang.",
+          "writers": 2,
           "selfOnly": false
         }
       ],
-      "attempts": 1,
+      "attempts": 2,
       "problems": [],
-      "letter": "はるかさん、10月もありがとうございました。重い小麦粉の袋を奥の倉庫まで運んでくれて、ありがとう。休みを返上して、人が足りない時間に入ってくれたこと、本当に助かりました。閉店後に床全体をモップがけしてくれたことと、店の前の看板のメニューを書き直してくれたことにも感謝しています。今月のプラスは5,900円です。来月もよろしくお願いします。",
-      "japanese": "はるかさん、10月もありがとうございました。重い小麦粉の袋を奥の倉庫まで運んでくれて、ありがとう。休みを返上して、人が足りない時間に入ってくれたこと、本当に助かりました。閉店後に床全体をモップがけしてくれたことと、店の前の看板のメニューを書き直してくれたことにも感謝しています。今月のプラスは5,900円です。来月もよろしくお願いします。",
+      "letter": "はるかさん、10月もありがとうございました。5日に、重い粉の袋を倉庫の奥まで運んでくれましたね。4日には自分の休みの日に、人が足りない時間帯のシフトに入ってくれて、本当に助かりました。18日には残って、プトリさんに一日の終わりのレジ締めを教えてくれました。22日の閉店後には、誰にも言われずに床を全部拭いてくれました。今月のプラスは5,900円です。これからもよろしくお願いします。",
+      "japanese": "はるかさん、10月もありがとうございました。5日に、重い粉の袋を倉庫の奥まで運んでくれましたね。4日には自分の休みの日に、人が足りない時間帯のシフトに入ってくれて、本当に助かりました。18日には残って、プトリさんに一日の終わりのレジ締めを教えてくれました。22日の閉店後には、誰にも言われずに床を全部拭いてくれました。今月のプラスは5,900円です。これからもよろしくお願いします。",
       "usedEntryIds": [
         "seed-026",
         "seed-024",
-        "seed-049",
-        "seed-065"
+        "seed-103",
+        "seed-130"
       ]
     },
     {
@@ -167,47 +167,46 @@
           "selfOnly": false
         },
         {
-          "entryId": "seed-033",
-          "date": "2026-10-06",
-          "action": "みゆきさんがチーズケーキ作りを手伝い、開店前に間に合った",
-          "line": "Miyuki membantu membuat cheesecake sehingga sempat sebelum buka.",
+          "entryId": "seed-064",
+          "date": "2026-10-11",
+          "action": "みゆきさんがランさんのレジ締めに最後まで付き合って教えた",
+          "line": "みゆきさんがランさんのレジ締めに最後まで付き合って教えていた。",
           "writers": 1,
           "selfOnly": false
         },
         {
-          "entryId": "seed-036",
-          "date": "2026-10-06",
-          "action": "みゆきさんが山になっていた洗い物を黙って洗った",
-          "line": "みゆきさんが山になっていた洗い物を黙って洗ってくれた。",
+          "entryId": "seed-134",
+          "date": "2026-10-22",
+          "action": "人が足りない時に、みゆきさんが休みの日を返して出勤した",
+          "line": "Miyuki bỏ ngày nghỉ của mình để vào làm lúc thiếu người.",
           "writers": 1,
           "selfOnly": false
         },
         {
-          "entryId": "seed-059",
-          "date": "2026-10-10",
-          "action": "みゆきさんが開店前にテラスのテーブルを拭いた",
-          "line": "Sebelum buka, Miyuki sudah mengelap meja teras juga.",
+          "entryId": "seed-154",
+          "date": "2026-10-26",
+          "action": "みゆきさんが豆が切れそうなのに気づいて、早めに補充した",
+          "line": "豆が切れそうなのにみゆきさんが気づいて、早めに補充してくれた。",
           "writers": 1,
           "selfOnly": false
         },
         {
-          "entryId": "seed-061",
-          "date": "2026-10-10",
-          "action": "みゆきさんがトイレの紙の補充と掃除を行った",
-          "line": "みゆきさんがトイレの紙の補充と掃除をしてくれていた。",
+          "entryId": "seed-018",
+          "date": "2026-10-03",
+          "action": "みゆきさんが重い粉の袋を倉庫の奥まで運んだ",
+          "line": "みゆきさんが重い粉の袋を倉庫の奥まで運んでくれた。",
           "writers": 1,
           "selfOnly": false
         }
       ],
-      "attempts": 2,
+      "attempts": 1,
       "problems": [],
-      "letter": "みゆきさん、10月もありがとうございました。チーズケーキ作りを手伝ってくれて、開店前に間に合いました。山になっていた洗い物を洗ってくれて、本当に助かりました。開店前にテラスのテーブルを拭いてくれたことにも感謝しています。トイレの紙の補充と掃除もしてくれて、ありがとうございました。今月のプラスは5,900円です。",
-      "japanese": "みゆきさん、10月もありがとうございました。チーズケーキ作りを手伝ってくれて、開店前に間に合いました。山になっていた洗い物を洗ってくれて、本当に助かりました。開店前にテラスのテーブルを拭いてくれたことにも感謝しています。トイレの紙の補充と掃除もしてくれて、ありがとうございました。今月のプラスは5,900円です。",
+      "letter": "みゆきさん、10月もお疲れさまでした。ランさんのレジ締めに最後まで付き合って、教えてくれましたね。人が足りない時に、休みの日を返して出勤してくれました。豆が切れそうなのに気づいて、早めに補充してくれました。本当に助かりました、ありがとう。今月のプラスは5,900円です。",
+      "japanese": "みゆきさん、10月もお疲れさまでした。ランさんのレジ締めに最後まで付き合って、教えてくれましたね。人が足りない時に、休みの日を返して出勤してくれました。豆が切れそうなのに気づいて、早めに補充してくれました。本当に助かりました、ありがとう。今月のプラスは5,900円です。",
       "usedEntryIds": [
-        "seed-033",
-        "seed-036",
-        "seed-059",
-        "seed-027"
+        "seed-064",
+        "seed-134",
+        "seed-154"
       ]
     },
     {
@@ -219,8 +218,32 @@
         {
           "entryId": "seed-012",
           "date": "2026-10-02",
-          "action": "豆が切れそうなのに気づき、早めに補充した",
+          "action": "けんじさんが豆が切れそうなのに気づいて、早めに補充した",
           "line": "豆が切れそうなのにけんじさんが気づいて、早めに補充してくれた。",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-050",
+          "date": "2026-10-08",
+          "action": "けんじさんがそうたさんのレジ締めに最後まで付き合って教えた",
+          "line": "けんじさんがそうたさんのレジ締めに最後まで付き合って教えていた。",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-132",
+          "date": "2026-10-22",
+          "action": "けんじさんが閉店後に一人で床のモップがけをした",
+          "line": "けんじさんが閉店後に一人で床のモップがけをしてくれていた。",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-173",
+          "date": "2026-10-29",
+          "action": "けんじさんがランさんにレジの使い方を教えた",
+          "line": "Kenji đã kiên nhẫn chỉ cho Lan cách dùng máy tính tiền.",
           "writers": 1,
           "selfOnly": false
         },
@@ -231,41 +254,17 @@
           "line": "Kenji membuang semua sampah setelah kafe tutup.",
           "writers": 1,
           "selfOnly": false
-        },
-        {
-          "entryId": "seed-032",
-          "date": "2026-10-06",
-          "action": "けんじさんが風で倒れた外の看板を直し、重しを付けた",
-          "line": "風で倒れた外の看板を、けんじさんが直して重しを付けてくれた。",
-          "writers": 1,
-          "selfOnly": false
-        },
-        {
-          "entryId": "seed-047",
-          "date": "2026-10-08",
-          "action": "けんじさんが客の忘れ物に気づき、走って届けた",
-          "line": "Kenji thấy khách để quên đồ nên đã chạy theo trả lại.",
-          "writers": 1,
-          "selfOnly": false
-        },
-        {
-          "entryId": "seed-050",
-          "date": "2026-10-08",
-          "action": "けんじさんがそうたさんのレジ締めを最後まで付き添って教えた",
-          "line": "けんじさんがそうたさんのレジ締めに最後まで付き合って教えていた。",
-          "writers": 1,
-          "selfOnly": false
         }
       ],
       "attempts": 1,
       "problems": [],
-      "letter": "けんじさん、10月もありがとうございました。豆が切れそうなのに気づいて、早めに補充してくれましたね。風で倒れた外の看板を直して、重しを付けてくれたのも本当に助かりました。お客さんの忘れ物に気づいて、走って届けてくれましたね。そうたさんのレジ締めにも最後まで付き添って教えてくれて、ありがとう。今月のプラスは5,900円です。",
-      "japanese": "けんじさん、10月もありがとうございました。豆が切れそうなのに気づいて、早めに補充してくれましたね。風で倒れた外の看板を直して、重しを付けてくれたのも本当に助かりました。お客さんの忘れ物に気づいて、走って届けてくれましたね。そうたさんのレジ締めにも最後まで付き添って教えてくれて、ありがとう。今月のプラスは5,900円です。",
+      "letter": "けんじさん、10月もありがとうございました。豆が切れそうなのに気づいて、早めに補充してくれましたね。そうたさんのレジ締めに最後まで付き合って教えてくれたこと、ランさんにレジの使い方を教えてくれたことにも感謝しています。閉店後に一人で床のモップがけをしてくれたのも、本当に助かりました。今月のプラスは5,900円です。来月もよろしくお願いします。",
+      "japanese": "けんじさん、10月もありがとうございました。豆が切れそうなのに気づいて、早めに補充してくれましたね。そうたさんのレジ締めに最後まで付き合って教えてくれたこと、ランさんにレジの使い方を教えてくれたことにも感謝しています。閉店後に一人で床のモップがけをしてくれたのも、本当に助かりました。今月のプラスは5,900円です。来月もよろしくお願いします。",
       "usedEntryIds": [
         "seed-012",
-        "seed-032",
-        "seed-047",
-        "seed-050"
+        "seed-050",
+        "seed-173",
+        "seed-132"
       ]
     },
     {
@@ -277,17 +276,9 @@
         {
           "entryId": "seed-172",
           "date": "2026-10-29",
-          "action": "あやねさんが重い粉の袋を倉庫の奥まで運んだ",
+          "action": "あやねさんが重い粉の袋を倉庫の中まで運んだ",
           "line": "Ayane vác mấy bao bột nặng vào tận trong kho.",
           "writers": 2,
-          "selfOnly": false
-        },
-        {
-          "entryId": "seed-043",
-          "date": "2026-10-07",
-          "action": "あやねさんが人知れずたまったグラスと皿を洗った",
-          "line": "Ayane diam-diam mencuci tumpukan gelas dan piring.",
-          "writers": 1,
           "selfOnly": false
         },
         {
@@ -299,31 +290,38 @@
           "selfOnly": false
         },
         {
-          "entryId": "seed-081",
-          "date": "2026-10-14",
-          "action": "あやねさんがトイレを掃除した",
-          "line": "Ayane lagi-lagi membersihkan toilet, pekerjaan yang tidak disukai orang.",
-          "writers": 1,
-          "selfOnly": false
-        },
-        {
           "entryId": "seed-090",
           "date": "2026-10-15",
           "action": "あやねさんが閉店後のゴミ出しを全部やった",
           "line": "閉店後のゴミ出しをあやねさんが全部やってくれていた。",
           "writers": 1,
           "selfOnly": false
+        },
+        {
+          "entryId": "seed-162",
+          "date": "2026-10-27",
+          "action": "あやねさんがランさんにレジの打ち方を教えた",
+          "line": "あやねさんがランさんにレジの打ち方をていねいに教えていた。",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-013",
+          "date": "2026-10-03",
+          "action": "あやねさんがコーヒー豆の補充と在庫の数の確認をした",
+          "line": "あやねさんがコーヒー豆の補充と在庫の数の確認をしてくれていた。",
+          "writers": 1,
+          "selfOnly": false
         }
       ],
       "attempts": 1,
       "problems": [],
-      "letter": "あやねさん、10月もありがとうございました。重い粉の袋を倉庫の奥まで運んでくれましたね。たまったグラスとお皿を洗ってくれたことも、トイレを掃除してくれたことも、ありがとう。閉店後のゴミ出しを全部やってくれて、本当に助かりました。今月のプラスは5,900円です。これからもよろしくお願いします。",
-      "japanese": "あやねさん、10月もありがとうございました。重い粉の袋を倉庫の奥まで運んでくれましたね。たまったグラスとお皿を洗ってくれたことも、トイレを掃除してくれたことも、ありがとう。閉店後のゴミ出しを全部やってくれて、本当に助かりました。今月のプラスは5,900円です。これからもよろしくお願いします。",
+      "letter": "あやねさん、10月もお疲れさまでした。重い粉の袋を倉庫の中まで運んでくれて、ありがとうございます。閉店後のゴミ出しを全部やってくれたことも、本当に助かりました。ランさんにレジの打ち方を教えてくれて、ありがとうございます。今月のプラスは5,900円です。来月もよろしくお願いします。",
+      "japanese": "あやねさん、10月もお疲れさまでした。重い粉の袋を倉庫の中まで運んでくれて、ありがとうございます。閉店後のゴミ出しを全部やってくれたことも、本当に助かりました。ランさんにレジの打ち方を教えてくれて、ありがとうございます。今月のプラスは5,900円です。来月もよろしくお願いします。",
       "usedEntryIds": [
         "seed-172",
-        "seed-043",
-        "seed-081",
-        "seed-090"
+        "seed-090",
+        "seed-162"
       ]
     },
     {
@@ -335,8 +333,16 @@
         {
           "entryId": "seed-052",
           "date": "2026-10-09",
-          "action": "ランさんがトイレの紙を補充して掃除した",
+          "action": "ランがトイレの紙を補充し、トイレを掃除した",
           "line": "ランさんがトイレの紙の補充と掃除をしてくれていた。",
+          "writers": 2,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-107",
+          "date": "2026-10-18",
+          "action": "ランさんがコーヒー豆の補充と在庫の数の確認をした。",
+          "line": "ランさんがコーヒー豆の補充と在庫の数の確認をしてくれていた。",
           "writers": 2,
           "selfOnly": false
         },
@@ -349,38 +355,31 @@
           "selfOnly": false
         },
         {
-          "entryId": "seed-010",
-          "date": "2026-10-02",
-          "action": "お客様の忘れた傘を駅の近くまで届けに行った",
-          "line": "ランさんがお客様の忘れた傘を駅の近くまで届けに行っていた。",
+          "entryId": "seed-075",
+          "date": "2026-10-13",
+          "action": "ランさんがみゆきさんにレジの打ち方を教えた",
+          "line": "ランさんがみゆきさんにレジの打ち方をていねいに教えていた。",
           "writers": 1,
           "selfOnly": false
         },
         {
-          "entryId": "seed-055",
-          "date": "2026-10-09",
-          "action": "ランさんが閉店後のゴミ出しを全部行った",
-          "line": "閉店後のゴミ出しをランさんが全部やってくれていた。",
-          "writers": 1,
-          "selfOnly": false
-        },
-        {
-          "entryId": "seed-071",
-          "date": "2026-10-12",
-          "action": "ランさんが開店前にテラス席まで拭いた",
-          "line": "開店前、ランさんがテラス席まで拭いてくれていた。",
+          "entryId": "seed-124",
+          "date": "2026-10-21",
+          "action": "急に休んだ人の代わりに、ランさんが予定外でシフトに入った",
+          "line": "急に休んだ人の代わりに、ランさんが予定外でシフトに入ってくれた。",
           "writers": 1,
           "selfOnly": false
         }
       ],
       "attempts": 1,
       "problems": [],
-      "letter": "Lan ơi, cảm ơn em vì tháng 10 vừa qua. Em đã bổ sung giấy và dọn dẹp nhà vệ sinh. Sau giờ đóng cửa, em đã một mình lau sàn nhà. Em còn mang chiếc ô mà khách để quên đến tận gần nhà ga. Tôi thật sự cảm ơn em, những việc đó đã giúp tôi rất nhiều. Khoản cộng thêm tháng này của em là 5,900円.",
-      "japanese": "ランさん、10月もありがとう。トイレの紙を補充して、掃除をしてくれましたね。閉店後には、一人で床のモップがけをしてくれました。お客様の忘れた傘を、駅の近くまで届けに行ってくれました。本当にありがとう、とても助かりました。今月のプラスは5,900円です。",
+      "letter": "Lan thân mến,\nCảm ơn em đã bổ sung giấy vệ sinh và dọn dẹp nhà vệ sinh. Cảm ơn em đã bổ sung hạt cà phê và kiểm tra số lượng hàng tồn kho. Sau giờ đóng cửa, em đã một mình lau sàn nhà, cảm ơn em. Khi có người nghỉ đột xuất, em đã vào ca thay dù không có trong lịch, điều đó thật sự giúp tôi rất nhiều. Khoản cộng thêm tháng này là 5,900円. Cảm ơn em rất nhiều.",
+      "japanese": "ランさんへ\nトイレの紙の補充とトイレの掃除をしてくれて、ありがとう。コーヒー豆の補充と在庫の数の確認をしてくれて、ありがとう。閉店後に一人で床のモップがけをしてくれて、ありがとう。急に休んだ人の代わりに予定外でシフトに入ってくれて、本当に助かりました。今月のプラスは5,900円です。本当にありがとう。",
       "usedEntryIds": [
         "seed-052",
+        "seed-107",
         "seed-118",
-        "seed-010"
+        "seed-124"
       ]
     },
     {
@@ -390,33 +389,25 @@
       "amountText": "5,900円",
       "reasons": [
         {
-          "entryId": "seed-001",
-          "date": "2026-10-01",
-          "action": "プトリさんが朝早く来て、今日のケーキを全部仕込んだ",
-          "line": "Putri đến từ sáng sớm và chuẩn bị xong hết bánh cho hôm nay.",
-          "writers": 1,
-          "selfOnly": false
-        },
-        {
           "entryId": "seed-009",
           "date": "2026-10-02",
-          "action": "コーヒー豆の補充と在庫の数の確認をした",
+          "action": "プトリさんがコーヒー豆の補充と在庫の数の確認をした",
           "line": "プトリさんがコーヒー豆の補充と在庫の数の確認をしてくれていた。",
           "writers": 1,
           "selfOnly": false
         },
         {
-          "entryId": "seed-034",
-          "date": "2026-10-06",
-          "action": "プトリさんが風で倒れた外の看板を直し、重しを付けた",
-          "line": "風で倒れた外の看板を、プトリさんが直して重しを付けてくれた。",
+          "entryId": "seed-017",
+          "date": "2026-10-03",
+          "action": "プトリさんがミンさんのレジ締めに最後まで付き合って教えた",
+          "line": "プトリさんがミンさんのレジ締めに最後まで付き合って教えていた。",
           "writers": 1,
           "selfOnly": false
         },
         {
           "entryId": "seed-044",
           "date": "2026-10-07",
-          "action": "プトリさんが閉店後に一人で床のモップがけをした",
+          "action": "プトリさんが閉店後に一人で床をモップがけした",
           "line": "プトリさんが閉店後に一人で床のモップがけをしてくれていた。",
           "writers": 1,
           "selfOnly": false
@@ -424,20 +415,28 @@
         {
           "entryId": "seed-048",
           "date": "2026-10-08",
-          "action": "プトリさんが皆のやりたがらないトイレ掃除をした",
+          "action": "プトリさんがトイレ掃除を今日もやった",
           "line": "だれもやりたがらないトイレ掃除を、プトリさんが今日もやってくれていた。",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-001",
+          "date": "2026-10-01",
+          "action": "プトリさんが朝早く来て、今日のケーキの仕込みを終わらせた",
+          "line": "Putri đến từ sáng sớm và chuẩn bị xong hết bánh cho hôm nay.",
           "writers": 1,
           "selfOnly": false
         }
       ],
       "attempts": 1,
       "problems": [],
-      "letter": "Putri, terima kasih untuk bulan Oktober ini. Kamu memperbaiki papan nama di luar yang jatuh karena angin, lalu memasang pemberat. Setelah kafe tutup, kamu mengepel lantai sendirian. Kamu juga membersihkan toilet. Semua itu sangat membantu saya. Tambahan bulan ini adalah 5,900円.",
-      "japanese": "プトリさん、10月もありがとうございました。風で倒れた外の看板を直して、重しを付けてくれましたね。閉店後には、一人で床のモップがけをしてくれました。トイレ掃除もしてくれました。どれも本当に助かりました。今月のプラスは5,900円です。",
+      "letter": "Putri, terima kasih untuk bulan Oktober ini. Kamu datang pagi-pagi dan menyelesaikan persiapan kue untuk hari itu. Kamu juga menemani Min sampai selesai saat menutup kasir dan mengajarinya. Setelah toko tutup, kamu mengepel lantai sendirian. Terima kasih, itu sangat membantu saya. Tambahan bulan ini adalah 5,900円.",
+      "japanese": "プトリさん、10月もありがとうございました。朝早く来て、その日のケーキの仕込みを終わらせてくれましたね。ミンさんのレジ締めに最後まで付き合って、教えてくれました。閉店後には一人で床をモップがけしてくれました。本当に助かりました、ありがとう。今月のプラスは5,900円です。",
       "usedEntryIds": [
-        "seed-034",
-        "seed-044",
-        "seed-048"
+        "seed-001",
+        "seed-017",
+        "seed-044"
       ]
     },
     {
@@ -449,32 +448,32 @@
         {
           "entryId": "seed-078",
           "date": "2026-10-13",
-          "action": "そうたがトイレを掃除した",
+          "action": "そうたさんがトイレを掃除した",
           "line": "Sota lagi-lagi membersihkan toilet, pekerjaan yang tidak disukai orang.",
-          "writers": 1,
-          "selfOnly": false
-        },
-        {
-          "entryId": "seed-177",
-          "date": "2026-10-30",
-          "action": "そうたさんが誰もやりたがらないトイレ掃除をした",
-          "line": "だれもやりたがらないトイレ掃除を、そうたさんが今日もやってくれていた。",
           "writers": 1,
           "selfOnly": false
         },
         {
           "entryId": "seed-098",
           "date": "2026-10-17",
-          "action": "そうたが、お客さんの忘れた傘を駅の近くまで届けた。",
+          "action": "Sotaさんがお客様の忘れ傘を駅の近くまで届けた",
           "line": "Sota mengantar payung pelanggan yang tertinggal sampai dekat stasiun.",
+          "writers": 1,
+          "selfOnly": false
+        },
+        {
+          "entryId": "seed-177",
+          "date": "2026-10-30",
+          "action": "そうたさんがトイレ掃除をした",
+          "line": "だれもやりたがらないトイレ掃除を、そうたさんが今日もやってくれていた。",
           "writers": 1,
           "selfOnly": false
         }
       ],
       "attempts": 1,
       "problems": [],
-      "letter": "そうたさん、今月もありがとうございます。10月13日と30日に、トイレの掃除をしてくれましたね。17日には、お客さんが忘れた傘を駅の近くまで届けてくれました。本当に助かりました。今月のプラスは2,900円です。来月もよろしくお願いします。",
-      "japanese": "そうたさん、今月もありがとうございます。10月13日と30日に、トイレの掃除をしてくれましたね。17日には、お客さんが忘れた傘を駅の近くまで届けてくれました。本当に助かりました。今月のプラスは2,900円です。来月もよろしくお願いします。",
+      "letter": "そうたさん、10月もありがとうございました。\n13日と30日に、トイレの掃除をしてくれましたね。\n17日には、お客様の忘れ傘を駅の近くまで届けてくれました。\n本当に助かりました。\n今月のプラスは2,900円です。\n来月もよろしくお願いします。",
+      "japanese": "そうたさん、10月もありがとうございました。\n13日と30日に、トイレの掃除をしてくれましたね。\n17日には、お客様の忘れ傘を駅の近くまで届けてくれました。\n本当に助かりました。\n今月のプラスは2,900円です。\n来月もよろしくお願いします。",
       "usedEntryIds": [
         "seed-078",
         "seed-177",

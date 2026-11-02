@@ -1,9 +1,13 @@
 // The app's subagents (Claude Agent SDK). Each one has a narrow job and its own model.
 // They get no tools: runStructured() turns every built-in tool off for the session and the agents inherit that
 // (only the SDK's own StructuredOutput tool remains, which returns the JSON answer).
-// The fact extractor preloads the owner's yardstick skill, so the owner's rules are applied to every line.
+// The fact extractor works with the owner's yardstick skill: every prompt to it starts with the skill as a slash command
+// (/<skill-name>, see withYardstick in facts/prompt.ts), which puts the skill's full text in its context. We checked this:
+// asked to quote the yardstick word for word, it quotes it exactly; without the command it answers that it has none.
+// (AgentDefinition.skills preloads a skill only for subagents started through the Agent tool, not for an agent that
+//  runs as the main thread like here, so it is not used.)
 // アプリの手伝い役 (サブエージェント)。役は狭く、モデルは役ごと、道具は持たせない。
-// 事実そろえ係は店長の物差しのスキルを読み込んでから働く。
+// 事実そろえ係には、毎回の頼み文の頭で店長の物差しのスキルを「/スキル名」で呼び、決まりの全文を読ませてから働かせる。
 
 import type { AgentDefinition } from "@anthropic-ai/claude-agent-sdk";
 import { effort, model } from "./models.ts";
@@ -41,7 +45,6 @@ export function agentDefinitions(): Record<string, AgentDefinition> {
     "fact-extractor": {
       description: "Turns daily one-line notes into plain facts and applies the owner's yardstick skill.",
       prompt: FACT_EXTRACTOR_PROMPT,
-      skills: [SKILL_NAME],
       model: model("extractor"),
       effort: effort("extractor"),
       maxTurns: 4,

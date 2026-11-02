@@ -11,7 +11,7 @@ import { SKILL_NAME } from "../src/lib/shop.ts";
 import { STAFF } from "../src/lib/staff.ts";
 import { checkFacts } from "../src/lib/facts/check.ts";
 import { extractBatch, ExtractError, runMonth, suggestGroups, type Ask } from "../src/lib/facts/extract.ts";
-import { buildExtractPrompt } from "../src/lib/facts/prompt.ts";
+import { buildExtractPrompt, firstDontGiveRule, quotesYardstick, withYardstick } from "../src/lib/facts/prompt.ts";
 import { scoreAgainstLabels, type Label } from "../src/lib/facts/score.ts";
 import { validateExtraction } from "../src/lib/facts/validate.ts";
 
@@ -142,13 +142,25 @@ test("the extractor's prompt lists every staff member and every line, as written
   for (const e of day) assert.ok(p.includes(e.text) && p.includes(e.id));
 });
 
-test("each subagent has a narrow job: no tools of its own, its own model, and the extractor preloads the owner's skill", () => {
+test("each subagent has a narrow job: no tools of its own, its own model, and every extractor prompt starts with the owner's skill", () => {
   const a = agentDefinitions();
   // No tools are granted here; the session turns all built-in tools off and the agents inherit that.
   assert.equal(a["fact-extractor"].tools, undefined);
   assert.equal(a.checker.tools, undefined);
-  assert.deepEqual(a["fact-extractor"].skills, [SKILL_NAME]);
+  // The skill is invoked as a slash command at the top of each prompt (AgentDefinition.skills does not reach a main-thread agent)
+  assert.equal(a["fact-extractor"].skills, undefined);
+  assert.ok(withYardstick("Lines (1): ...").startsWith(`/${SKILL_NAME}\n`));
   assert.equal(a["fact-extractor"].model, model("extractor"));
   assert.equal(a.checker.model, model("checker"));
   assert.equal(new Set([model("writer"), model("extractor"), model("checker")]).size, 3);
+});
+
+test("the yardstick check: only a word-for-word quote of the first 付けない rule counts as proof that the skill was read", () => {
+  const skill = readFileSync(path.join(import.meta.dirname, "..", ".claude/skills", SKILL_NAME, "SKILL.md"), "utf8");
+  const rule = firstDontGiveRule(skill);
+  assert.equal(rule, "自分の担当の仕事をやっただけのもの。（答え 5）");
+  assert.ok(quotesYardstick(rule!, skill));
+  assert.ok(quotesYardstick(`- ${rule}`, skill));
+  assert.equal(quotesYardstick("NONE", skill), false);
+  assert.equal(quotesYardstick("自分の担当の仕事をしただけ", skill), false);
 });

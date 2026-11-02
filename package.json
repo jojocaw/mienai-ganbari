@@ -12,6 +12,7 @@
     "monosashi": "node --env-file-if-exists=.env.local scripts/write-monosashi.ts",
     "facts": "node --env-file-if-exists=.env.local scripts/run-facts.ts",
     "letters": "node --env-file-if-exists=.env.local scripts/run-letters.ts",
+    "f8": "node --env-file-if-exists=.env.local scripts/run-f8.ts",
     "test": "node --test \"tests/**/*.test.ts\""
   },
   "dependencies": {

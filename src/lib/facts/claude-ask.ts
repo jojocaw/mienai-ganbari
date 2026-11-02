@@ -4,19 +4,37 @@
 import { agentDefinitions } from "../agents.ts";
 import { runStructured } from "../claude.ts";
 import type { Ask } from "./extract.ts";
-import { CHECK_SCHEMA, EXTRACT_SCHEMA } from "./prompt.ts";
+import { SKILL_NAME } from "../shop.ts";
+import { CHECK_SCHEMA, EXTRACT_SCHEMA, SKILL_QUOTE_PROMPT, SKILL_QUOTE_SCHEMA, withYardstick } from "./prompt.ts";
 
+/** The fact extractor with the owner's yardstick: the skill is turned on and invoked at the top of every prompt. */
 export const askExtractor: Ask = async ({ prompt }) => {
   const { data, costUsd } = await runStructured<unknown>({
-    prompt,
+    prompt: withYardstick(prompt),
     schema: EXTRACT_SCHEMA,
     agent: "fact-extractor",
     agents: agentDefinitions(),
     settingSources: ["project"],
+    skills: [SKILL_NAME],
     maxBudgetUsd: 0.5,
   });
   return { raw: data, costUsd };
 };
+
+/** Asks the fact extractor (with the yardstick, as in askExtractor) to quote the yardstick's first 付けない rule. */
+export async function askYardstickQuote(opts: { cwd?: string } = {}): Promise<{ quote: string; costUsd: number }> {
+  const { data, costUsd } = await runStructured<{ quote: string }>({
+    prompt: withYardstick(SKILL_QUOTE_PROMPT),
+    schema: SKILL_QUOTE_SCHEMA,
+    agent: "fact-extractor",
+    agents: agentDefinitions(),
+    settingSources: ["project"],
+    skills: [SKILL_NAME],
+    ...(opts.cwd ? { cwd: opts.cwd } : {}),
+    maxBudgetUsd: 0.2,
+  });
+  return { quote: data.quote, costUsd };
+}
 
 export const askChecker: Ask = async ({ prompt }) => {
   const { data, costUsd } = await runStructured<unknown>({
