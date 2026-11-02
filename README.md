@@ -19,6 +19,32 @@ or taught the new hire goes unnoticed — especially when Japanese is not their 
 
 The builder has run a small business for 18 years and has had to make these month-end calls by hand.
 
+### How it works
+
+```mermaid
+flowchart TB
+  subgraph once["Once per shop"]
+    direction LR
+    Q["The owner answers<br/>ten questions"] --> W["Yardstick writer<br/>Opus"] --> K[("The owner's yardstick<br/>Claude Skill: SKILL.md<br/>grows with the owner's<br/>month-end corrections (F9)")]
+  end
+  subgraph daily["Every day"]
+    S["Each staff member writes one line<br/>in their own language"]
+  end
+  subgraph facts["End of the month"]
+    direction LR
+    X["Fact extractor<br/>Sonnet subagent<br/>with the yardstick skill"] --> C["Checks<br/>plain code;<br/>Haiku only suggests"] --> M["Month-end view<br/>green: named by others<br/>yellow: self-report only"]
+  end
+  subgraph decide["The owner decides"]
+    direction LR
+    O{"Shares<br/>0 to 10"} --> A["Amounts to the yen<br/>plain code"] --> L["Thank-you letters<br/>Opus, in each<br/>person's language"]
+  end
+  once --> facts
+  daily --> facts
+  facts --> decide
+```
+
+Claude reads and writes; plain code checks every answer and does every calculation; the owner makes every decision.
+
 ---
 
 ## Status (2026-11-03)
@@ -101,6 +127,7 @@ How the calls are kept safe and honest:
 - **Isolated runs.** The SDK runs with its own config directory and only the API key; every inherited `CLAUDE_*` / `ANTHROPIC_*` variable is dropped
   (we found a developer's own effort setting leaking in and making one call think for over four minutes). Subagents cannot start further subagents, and every call has a spending cap.
 - Models can be changed per role with `MIENAI_MODEL_WRITER` / `_EXTRACTOR` / `_CHECKER` / `_LETTER`.
+- **Cost**, measured on the fictional month (8 staff, 180 lines): facts and checks $0.70 (`data/derived/month.json`) + letters $0.20 (`data/derived/letters.json`) — **about $0.90 a month**. The yardstick skill is written once per shop (about $0.08). The cost grows with the number of lines.
 
 ## How it was built with Claude Code
 
@@ -129,6 +156,13 @@ What the real runs caught, and how each was fixed (each fix has a test):
 - Every number on the month-end screen links back to the original lines, shown next to any translation.
 - Staff can see their own records. The owner makes the final call.
 
+### Privacy
+
+- **What goes to Claude:** the daily lines (to turn them into facts), the checked facts and the amounts (to write the letters), and the owner's ten answers (to write the yardstick). The subagents have no tools and no MCP, so they cannot touch files, the network or money.
+- **What stays on the machine:** lines written in the app (`data/local/entries.json`) and the earlier versions of the yardstick (`data/local/skill-history/`) are never committed.
+- **The yardstick keeps actions, not people:** names are taken out of the owner's examples, and plain code refuses any word that judges a person's character.
+- **Gossip and judgements are dropped and only counted** — they are never shown on anyone's page.
+
 ---
 
 ## 日本語の説明 (短く)
@@ -137,4 +171,6 @@ What the real runs caught, and how each was fixed (each fix has a test):
 スタッフは毎日1行を母語で書くだけ。Claude が事実だけにそろえ、月末に「周りが何度も名前を書いた見えない頑張り（緑）」と「本人の申告だけ（黄）」を分けて店長に見せます。**決めるのは店長**で、AI は配分を決めません。金額の計算はプログラムで1円まで行います。
 
 - できたこと: F1（毎日の1行・元の文のまま保存）・架空の1か月分 180行（答えつき・テストつき）・F2（店長の10問 → Claude が書くスキル。人柄の言葉は入らない）・F3/F4（事実の係 = Sonnet・確かめの係 = Haiku・隠した答えと比べて全問正解）・F5（月末の画面 `/month`）・F6（割合から1円までプログラムで計算）・F7（手紙の係 = Opus が母語で手紙・コードが確かめる・8通とも通った）・F8 ②（店長と同じ答えになった数。架空の20場面: 物差しなし 7・7・8 → 物差しあり 9・9・9 / 20。後から店長が答えた新しい12場面: 物差しだけ 5・5・5 → 店長の前の20の答えを例に足すと 9・7・8 / 12（小さな手伝い・片づけの3場面が 0回 → 3回とも一致）。店長の理由の1行だけでは、合う数は変わらなかった（5・5・5）。物差しが本当に読まれているかは、決まりの1行を一字一句引用させて確かめる）・F9（店長が月末に Claude の答えを直すと、その答えが物差しのスキルの「店長が実際に決めた例」に入る。名前は外し、行動だけ・プログラムで足す・1回で元に戻せる）
+- 仕組みの図: 上の「How it works」(1回だけ = 店長の10問 → 物差しのスキル / 毎日 = 1人1行 / 月末 = 事実の係 → 確かめ → 月末の画面 → 店長が決める → 金額はプログラム → 母語の手紙)
+- 費用: 架空の1か月 (8人・180行) で 事実と確かめ 0.70ドル＋手紙 0.20ドル = 1か月 約0.9ドル (物差しのスキルはお店ごとに1回 約0.08ドル)
 - 動かし方: 上の「Try it」のとおり
