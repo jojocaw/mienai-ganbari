@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { sameDecision, type Decision } from "@/lib/letters/plan";
+import { actionWithoutActor, type OwnerCorrection } from "@/lib/month/corrections";
+import type { Verdict } from "@/lib/monosashi/lint";
 import type { LetterRow, LettersRun } from "@/lib/letters/run";
 import type { FactsRun } from "@/lib/month/load";
 import type { EventView, MonthView, PersonView } from "@/lib/month/summary";
@@ -14,16 +17,18 @@ const ORDER = STAFF.map((s) => s.id);
 const staffName = (id: string) => STAFF.find((s) => s.id === id)?.name ?? id;
 const md = (date: string) => `${Number(date.slice(5, 7))}/${Number(date.slice(8, 10))}`;
 /** The person's card already says who did it, so a leading "ミンさんが" is left out. */
-const withoutActor = (action: string, actorId: string) => {
-  const ja = STAFF.find((s) => s.id === actorId)?.ja;
-  return ja ? action.replace(new RegExp(`^${ja}(さん)?(が|は)、?`), "") : action;
-};
+const withoutActor = actionWithoutActor;
 const modelLabel = (id: string) =>
   id
     .replace(/^claude-/, "")
     .replace(/-(\d+)-(\d+)$/, " $1.$2")
     .replace(/^./, (c) => c.toUpperCase());
 const usd = (n: number) => `$${n.toFixed(2)}`;
+
+const VERDICT_ORDER: Verdict[] = ["付ける", "迷う", "付けない"];
+/** The owner's answer wins over the yardstick's (Claude's) answer. */
+type Owner = Record<string, Verdict>;
+const effective = (e: EventView, owner: Owner): Verdict => owner[e.id] ?? e.verdict;
 
 const VERDICT_STYLE: Record<string, string> = {
   付ける: "bg-emerald-100 text-emerald-900",
@@ -40,6 +45,7 @@ export default function MonthBoard() {
   const [liveRun, setLiveRun] = useState<LettersRun | null>(null);
   const [busy, setBusy] = useState(false);
   const [letterError, setLetterError] = useState("");
+  const [owner, setOwner] = useState<Owner>({});
 
   useEffect(() => {
     fetch("/api/month")
@@ -100,6 +106,15 @@ export default function MonthBoard() {
     }
   }
 
+  function decide(e: EventView, v: Verdict) {
+    const next = { ...owner };
+    if (v === e.verdict) delete next[e.id];
+    else next[e.id] = v;
+    setOwner(next);
+  }
+  const events = data.view.persons.flatMap((p) => [...p.green, ...p.yellow]);
+  const corrected = events.filter((e) => owner[e.id] !== undefined);
+
   return (
     <div className="flex flex-col gap-8">
       <Summary view={data.view} run={data.run} />
@@ -109,13 +124,16 @@ export default function MonthBoard() {
         <p className="text-xs leading-relaxed text-stone-600">
           <span className="font-semibold text-emerald-800">緑</span> = ほかの人が書いた頑張り。
           <span className="font-semibold text-amber-800">黄</span> = 本人だけが書いたこと（ほかの人の1行では確かめられていない）。開くと、元の1行がそのまま見られます。
+          Claude の答え（付ける・迷う・付けない）がちがう時は、出来事を開いて「店長の答え」を押します。
         </p>
         <div className="flex flex-col gap-2">
           {data.view.persons.map((p) => (
-            <PersonCard key={p.id} person={p} scale={scale} />
+            <PersonCard key={p.id} person={p} scale={scale} owner={owner} onDecide={decide} />
           ))}
         </div>
       </section>
+
+      <TeachSkill corrected={corrected} owner={owner} />
 
       <section className="flex flex-col gap-3 rounded-xl border border-stone-300 bg-white p-4">
         <h2 className="text-lg font-bold text-stone-900">店長が決める</h2>
@@ -307,12 +325,12 @@ function Stat({ n, label }: { n: number; label: string }) {
   );
 }
 
-function PersonCard({ person, scale }: { person: PersonView; scale: number }) {
+function PersonCard({ person, scale, owner, onDecide }: { person: PersonView; scale: number; owner: Owner; onDecide: (e: EventView, v: Verdict) => void }) {
   const [open, setOpen] = useState(false);
   const g = person.green.length;
   const y = person.yellow.length;
-  const give = person.green.filter((e) => e.verdict === "付ける").length;
-  const unsure = person.green.filter((e) => e.verdict === "迷う").length;
+  const give = person.green.filter((e) => effective(e, owner) === "付ける").length;
+  const unsure = person.green.filter((e) => effective(e, owner) === "迷う").length;
   return (
     <div className="rounded-xl border border-stone-200 bg-white">
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full flex-col gap-2 p-3 text-left">
@@ -341,7 +359,7 @@ function PersonCard({ person, scale }: { person: PersonView; scale: number }) {
               <h3 className="text-xs font-bold text-emerald-800">ほかの人が書いた頑張り（緑）</h3>
               <ul>
                 {person.green.map((e) => (
-                  <EventItem key={e.id} event={e} />
+                  <EventItem key={e.id} event={e} ownerVerdict={owner[e.id]} onDecide={onDecide} />
                 ))}
               </ul>
             </div>
@@ -351,7 +369,7 @@ function PersonCard({ person, scale }: { person: PersonView; scale: number }) {
               <h3 className="text-xs font-bold text-amber-800">本人だけが書いたこと（黄）</h3>
               <ul>
                 {person.yellow.map((e) => (
-                  <EventItem key={e.id} event={e} />
+                  <EventItem key={e.id} event={e} ownerVerdict={owner[e.id]} onDecide={onDecide} />
                 ))}
               </ul>
             </div>
@@ -362,14 +380,18 @@ function PersonCard({ person, scale }: { person: PersonView; scale: number }) {
   );
 }
 
-function EventItem({ event }: { event: EventView }) {
+function EventItem({ event, ownerVerdict, onDecide }: { event: EventView; ownerVerdict?: Verdict; onDecide: (e: EventView, v: Verdict) => void }) {
   const [open, setOpen] = useState(false);
+  const shown = ownerVerdict ?? event.verdict;
   return (
     <li className="border-t border-stone-100 py-2">
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full items-start gap-2 text-left">
         <span className="w-10 shrink-0 pt-0.5 text-xs tabular-nums text-stone-500">{md(event.date)}</span>
         <span className="flex-1 text-sm leading-snug text-stone-800">{withoutActor(event.action, event.actorId)}</span>
-        <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] ${VERDICT_STYLE[event.verdict] ?? ""}`}>{event.verdict}</span>
+        <span className="flex shrink-0 flex-col items-end gap-0.5">
+          <span className={`rounded-full px-2 py-0.5 text-[11px] ${VERDICT_STYLE[shown] ?? ""} ${ownerVerdict ? "ring-2 ring-stone-800" : ""}`}>{shown}</span>
+          {ownerVerdict && <span className="text-[10px] text-stone-500">店長が直した（Claude: <s>{event.verdict}</s>）</span>}
+        </span>
       </button>
       {event.writers.length > 1 && <p className="ml-12 mt-0.5 text-[11px] text-stone-500">{event.writers.length}人が書いた（1つにまとめた）</p>}
       {open && (
@@ -382,7 +404,21 @@ function EventItem({ event }: { event: EventView }) {
               {l.text}
             </blockquote>
           ))}
-          <p className="text-[11px] leading-relaxed text-stone-500">物差し: {event.reason}</p>
+          <p className="text-[11px] leading-relaxed text-stone-500">物差し（Claude）: {event.reason}</p>
+          <div className="flex items-center gap-1.5" role="group" aria-label="店長の答え">
+            <span className="text-[11px] font-semibold text-stone-700">店長の答え</span>
+            {VERDICT_ORDER.map((v) => (
+              <button
+                key={v}
+                type="button"
+                aria-pressed={shown === v}
+                onClick={() => onDecide(event, v)}
+                className={`rounded-full border px-2.5 py-1 text-xs ${shown === v ? `${VERDICT_STYLE[v]} border-stone-800 font-bold` : "border-stone-300 text-stone-600"}`}
+              >
+                {v}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </li>
@@ -459,5 +495,139 @@ function BehindTheScenes({ run, letters }: { run: FactsRun; letters: LettersRun 
         ))}
       </ul>
     </details>
+  );
+}
+
+type SaveResult = {
+  added: { line: string; verdict: Verdict }[];
+  changed: { line: string; from: Verdict; to: Verdict }[];
+  unchanged: number;
+  removed: { line: string; verdict: Verdict }[];
+  total: number;
+  relPath: string;
+  section: string;
+  skipped: number;
+};
+
+/** F9: the owner's corrections become examples in the yardstick skill, so next month starts closer to the owner. */
+function TeachSkill({ corrected, owner }: { corrected: EventView[]; owner: Owner }) {
+  const [section, setSection] = useState("");
+  const [canUndo, setCanUndo] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [result, setResult] = useState<SaveResult | null>(null);
+  const [savedKey, setSavedKey] = useState("");
+
+  useEffect(() => {
+    fetch("/api/monosashi/examples")
+      .then((r) => r.json())
+      .then((d: { section: string; canUndo: boolean }) => {
+        setSection(d.section);
+        setCanUndo(d.canUndo);
+      })
+      .catch(() => {});
+  }, []);
+
+  const corrections: OwnerCorrection[] = corrected.map((e) => ({ eventId: e.id, verdict: owner[e.id] }));
+  const key = JSON.stringify(corrections);
+  const saved = key === savedKey;
+
+  async function save() {
+    setBusy(true);
+    setError("");
+    try {
+      const r = await fetch("/api/monosashi/examples", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ corrections }) });
+      const d = await r.json();
+      if (!r.ok) {
+        setError(d.error || "保存できませんでした");
+        return;
+      }
+      setResult(d.result);
+      setSection(d.result.section);
+      setCanUndo(true);
+      setSavedKey(key);
+    } catch {
+      setError("通信できませんでした");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function undo() {
+    setBusy(true);
+    setError("");
+    try {
+      const r = await fetch("/api/monosashi/examples", { method: "DELETE" });
+      const d = await r.json();
+      if (!r.ok) {
+        setError(d.error || "戻せませんでした");
+        return;
+      }
+      setSection(d.section);
+      setCanUndo(d.canUndo);
+      setResult(null);
+      setSavedKey("");
+    } catch {
+      setError("通信できませんでした");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="flex flex-col gap-3 rounded-xl border border-emerald-300 bg-emerald-50/40 p-4">
+      <h2 className="text-lg font-bold text-stone-900">来月の物差しに覚えさせる</h2>
+      <p className="text-xs leading-relaxed text-stone-700">
+        店長が直した答えを、物差しのスキルの「店長が実際に決めた例」に足します。来月からは、似た1行に店長と同じ答えを出しやすくなります。足すのはプログラムで、Claude は使いません。人の名前は外し、行動だけを残します。
+      </p>
+      {corrected.length === 0 ? (
+        <p className="rounded-lg border border-dashed border-stone-300 bg-white px-3 py-2 text-xs leading-relaxed text-stone-600">
+          まだ直した答えはありません。上のカードで出来事を開き、「店長の答え」を押すと、ここに並びます。
+        </p>
+      ) : (
+        <ul className="flex flex-col gap-1.5">
+          {corrected.map((e) => (
+            <li key={e.id} className="rounded-lg bg-white px-3 py-2 text-sm leading-snug text-stone-800">
+              「{withoutActor(e.action, e.actorId)}」
+              <span className="mt-0.5 block text-[11px] text-stone-500">
+                Claude: {e.verdict} → <b className="text-stone-900">店長: {owner[e.id]}</b>
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <button
+        type="button"
+        disabled={busy || corrected.length === 0 || saved}
+        onClick={save}
+        className={`rounded-xl px-4 py-3 text-base font-bold ${saved ? "border border-emerald-600 bg-emerald-100 text-emerald-900" : "bg-emerald-700 text-white disabled:bg-stone-300"}`}
+      >
+        {saved ? "✓ 物差しに入りました" : busy ? "保存しています…" : `物差しに覚えさせる（${corrected.length}件）`}
+      </button>
+      {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>}
+      {result && (
+        <p className="text-sm text-stone-800">
+          例を <b>{result.added.length}件</b> 足しました{result.changed.length > 0 && `（答えを変えた例 ${result.changed.length}件）`}。スキルの中の店長の例は全部で {result.total}件です。
+          {result.removed.length > 0 && ` 古い例 ${result.removed.length}件は外しました（新しい決めを先に残します）。`}
+        </p>
+      )}
+      {section && (
+        <details className="text-xs" open={Boolean(result)}>
+          <summary className="cursor-pointer font-semibold text-stone-700">スキルの中の「店長が実際に決めた例」（ファイルの中身そのまま）</summary>
+          <pre className="mt-1 max-h-64 overflow-auto whitespace-pre-wrap rounded-lg bg-white p-2.5 font-sans leading-relaxed text-stone-800">{section}</pre>
+          <Link href="/monosashi" className="mt-1 inline-block font-semibold text-emerald-700 underline underline-offset-4">
+            物差しのスキル全体を見る
+          </Link>
+        </details>
+      )}
+      {canUndo && (
+        <button type="button" disabled={busy} onClick={undo} className="self-start text-sm font-semibold text-stone-600 underline underline-offset-4 disabled:opacity-40">
+          元に戻す（足す前の物差しに）
+        </button>
+      )}
+      <p className="rounded-lg bg-white px-3 py-2 text-[11px] leading-relaxed text-stone-600">
+        本物の店長（このアプリを作った経営者）の答えで測りました: 後から答えた新しい12の場面で、店長と同じ答えになった数は、物差しだけ 5・5・5 → 店長が前に決めた20の答えを例に足すと 9・7・8（3回ずつ・README の F8）。
+      </p>
+    </section>
   );
 }

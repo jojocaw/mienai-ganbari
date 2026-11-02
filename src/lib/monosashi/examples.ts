@@ -6,6 +6,9 @@
 // 10問の答えから書いた決まりと、店長の実際の判断がずれることがある。そのずれを伝える。人を評価する言葉は入れない。
 
 import { findCharacterWords, lintSkillText, type Verdict } from "./lint.ts";
+// (mergeOwnerExamples below is the month-to-month version: the owner corrects the month-end verdicts on /month and
+//  those decisions join the section, so next month's extractor gives the owner's answer on similar lines.)
+// (下の mergeOwnerExamples は月ごとの版: 店長が /month で直した答えを足していく。)
 
 export const OWNER_EXAMPLES_HEADING = "店長が実際に決めた例";
 
@@ -44,4 +47,73 @@ export function addOwnerExamples(skillText: string, add: { examples?: OwnerExamp
   const lint = lintSkillText(text, skillName);
   if (!lint.ok) throw new Error(lint.problems.join(" / "));
   return text;
+}
+
+const EXAMPLE_LINE = /^- 「(.+)」→ \*\*(付ける|付けない|迷う)\*\*$/;
+const NOTE_LINE = /^店長のことば: 「(.+)」$/;
+
+/** Where the owner's section starts and ends in the skill text (end = the start of the next heading), or null. */
+function sectionBounds(skillText: string): { start: number; end: number } | null {
+  const start = skillText.indexOf(`## ${OWNER_EXAMPLES_HEADING}`);
+  if (start < 0) return null;
+  const next = skillText.indexOf("\n## ", start + 1);
+  return { start, end: next >= 0 ? next + 1 : skillText.length };
+}
+
+/** The owner's decisions and words already in the skill (empty lists when the section is not there). */
+export function readOwnerExamples(skillText: string): { examples: OwnerExample[]; notes: string[] } {
+  const b = sectionBounds(skillText);
+  if (!b) return { examples: [], notes: [] };
+  const examples: OwnerExample[] = [];
+  const notes: string[] = [];
+  for (const l of skillText.slice(b.start, b.end).split("\n")) {
+    const ex = EXAMPLE_LINE.exec(l);
+    if (ex) examples.push({ line: ex[1], verdict: ex[2] as Verdict });
+    const note = NOTE_LINE.exec(l);
+    if (note) notes.push(note[1]);
+  }
+  return { examples, notes };
+}
+
+/** The most owner examples the skill keeps. Past this, the oldest ones leave first (the newest decisions count most). */
+export const MAX_OWNER_EXAMPLES = 60;
+
+export interface MergeResult {
+  text: string;
+  added: OwnerExample[];
+  changed: { line: string; from: Verdict; to: Verdict }[];
+  unchanged: number;
+  /** Oldest examples taken out to stay within MAX_OWNER_EXAMPLES. */
+  removed: OwnerExample[];
+  total: number;
+}
+
+/**
+ * Month after month: adds the owner's new decisions to the section, keeping the earlier ones and the owner's words.
+ * A new decision on a line already in the section replaces the old verdict. Plain code, no Claude.
+ * Throws if there is nothing to add or a line judges a person (nothing is written then).
+ */
+export function mergeOwnerExamples(skillText: string, examples: OwnerExample[], skillName: string): MergeResult {
+  if (examples.length === 0) throw new Error("足す例がありません");
+  for (const ex of examples) checkLine("例", ex.line);
+  const current = readOwnerExamples(skillText);
+  const list = [...current.examples];
+  const added: OwnerExample[] = [];
+  const changed: MergeResult["changed"] = [];
+  let unchanged = 0;
+  for (const ex of examples) {
+    const i = list.findIndex((e) => e.line === ex.line);
+    if (i < 0) {
+      list.push(ex);
+      added.push(ex);
+    } else if (list[i].verdict !== ex.verdict) {
+      changed.push({ line: ex.line, from: list[i].verdict, to: ex.verdict });
+      list[i] = ex;
+    } else unchanged++;
+  }
+  const removed = list.length > MAX_OWNER_EXAMPLES ? list.splice(0, list.length - MAX_OWNER_EXAMPLES) : [];
+  const b = sectionBounds(skillText);
+  const base = b ? skillText.slice(0, b.start) + skillText.slice(b.end) : skillText;
+  const text = addOwnerExamples(base, { examples: list, notes: current.notes }, skillName);
+  return { text, added, changed, unchanged, removed, total: list.length };
 }

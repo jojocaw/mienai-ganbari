@@ -21,7 +21,7 @@ The builder has run a small business for 18 years and has had to make these mont
 
 ---
 
-## Status (2026-11-02)
+## Status (2026-11-03)
 
 | | Feature | Status |
 |---|---|---|
@@ -34,6 +34,7 @@ The builder has run a small business for 18 years and has had to make these mont
 | F6 | The owner sets the total, the unit (1/10/100/1000 yen) and a share 0–10 per person; plain TypeScript splits it to the yen (largest remainder, ties → larger share, then list order) and the rule is shown on the screen. Claude never calculates money | ✅ fictional decision: 50,000 yen → 11,700 / 5,900 × 6 / 2,900, nothing left over |
 | F7 | Thank-you letters in each person's language: the letter-writer subagent uses only the checked facts and the amount from F6; plain code checks every letter (amount exactly once, no other money, every fact it uses is real, no character words, the right language) and sends it back once with the problems | ✅ real run: 8/8 letters passed (one after a retry), Japanese / Vietnamese / Indonesian, 26 s for about $0.20 |
 | F8 | Two numbers for the video: ① the time to make the month-end decision, by hand vs with this tool; ② on twenty made-up scenes the owner answers (付ける / 付けない / 迷う), how often the fact extractor gives the owner's answer **without and with the owner's yardstick skill** — the only difference between the two runs is the skill, and every run first proves the skill is (or is not) in context with a word-for-word quote (`npm run f8`; the owner's answers and skill stay private, only the counts are published in `data/derived/f8.json`) | ② measured with a real shop owner's answers (Sonnet, 3 runs each). **Twenty scenes: without the skill 7, 7, 8 → with the owner's skill 9, 9, 9.** Most misses were small everyday help the owner does not reward (付けない) but Claude does (付ける): the owner's ten written answers say teaching and helping count. **Twelve new scenes the owner answered afterwards** (`npm run f8 -- --round2`, `data/derived/f8-round2.json`): no skill 6, 6, 7 · the skill 5, 5, 5 · **the skill plus the owner's twenty earlier answers as examples 9, 7, 8** · the skill plus the owner's own one-line reason 5, 5, 5 · both 7, 7, 8. The owner's past decisions carried over to new lines (three small everyday scenes, help and tidying, went from 0 of 3 runs to 3 of 3); the one-line reason alone did not move the count. (Inside the twenty, examples from one half tested on the other: 8, 8, 8 → 9, 9, 9, `--examples`.) ① to be measured |
+| F9 | The owner corrects the month-end verdicts on `/month` (open an event → 店長の答え: 付ける / 迷う / 付けない), and one tap adds those decisions to the yardstick Skill as examples (「店長が実際に決めた例」): word for word, without people's names, by plain code (no Claude). Month after month the section grows; a new decision on the same line replaces the old one; past 60 the oldest leave first; the version before each save is kept in `data/local/skill-history/` and one tap puts it back. Why examples: in F8 ② the owner's past decisions carried over to new lines (5 → 9, 7, 8 of 12) while a one-line reason did not | ✅ working (6 tests; not yet measured on a second month) |
 
 ## Try it
 
@@ -44,7 +45,8 @@ npm install
 npm run seed     # (re)generate the fictional month → data/seed/
 npm run dev      # http://localhost:3000  — pick a name, write one line, save
                  # http://localhost:3000/monosashi — the owner's ten questions → the yardstick skill
-                 # http://localhost:3000/month — the month-end view, the owner's decision and the letters
+                 # http://localhost:3000/month — the month-end view, the owner's decision and the letters;
+                 #   open an event, correct the answer (店長の答え), then 「物差しに覚えさせる」 adds it to the skill
 npm test         # all tests (no API calls)
 ```
 
@@ -134,5 +136,5 @@ What the real runs caught, and how each was fixed (each fix has a test):
 小さなお店の月末の「プラス（賞与・手当・ありがとう）」を、声の大きい人ではなく、本当に頑張った人に届けるための道具です。
 スタッフは毎日1行を母語で書くだけ。Claude が事実だけにそろえ、月末に「周りが何度も名前を書いた見えない頑張り（緑）」と「本人の申告だけ（黄）」を分けて店長に見せます。**決めるのは店長**で、AI は配分を決めません。金額の計算はプログラムで1円まで行います。
 
-- できたこと: F1（毎日の1行・元の文のまま保存）・架空の1か月分 180行（答えつき・テストつき）・F2（店長の10問 → Claude が書くスキル。人柄の言葉は入らない）・F3/F4（事実の係 = Sonnet・確かめの係 = Haiku・隠した答えと比べて全問正解）・F5（月末の画面 `/month`）・F6（割合から1円までプログラムで計算）・F7（手紙の係 = Opus が母語で手紙・コードが確かめる・8通とも通った）・F8 ②（店長と同じ答えになった数。架空の20場面: 物差しなし 7・7・8 → 物差しあり 9・9・9 / 20。後から店長が答えた新しい12場面: 物差しだけ 5・5・5 → 店長の前の20の答えを例に足すと 9・7・8 / 12（小さな手伝い・片づけの3場面が 0回 → 3回とも一致）。店長の理由の1行だけでは、合う数は変わらなかった（5・5・5）。物差しが本当に読まれているかは、決まりの1行を一字一句引用させて確かめる）
+- できたこと: F1（毎日の1行・元の文のまま保存）・架空の1か月分 180行（答えつき・テストつき）・F2（店長の10問 → Claude が書くスキル。人柄の言葉は入らない）・F3/F4（事実の係 = Sonnet・確かめの係 = Haiku・隠した答えと比べて全問正解）・F5（月末の画面 `/month`）・F6（割合から1円までプログラムで計算）・F7（手紙の係 = Opus が母語で手紙・コードが確かめる・8通とも通った）・F8 ②（店長と同じ答えになった数。架空の20場面: 物差しなし 7・7・8 → 物差しあり 9・9・9 / 20。後から店長が答えた新しい12場面: 物差しだけ 5・5・5 → 店長の前の20の答えを例に足すと 9・7・8 / 12（小さな手伝い・片づけの3場面が 0回 → 3回とも一致）。店長の理由の1行だけでは、合う数は変わらなかった（5・5・5）。物差しが本当に読まれているかは、決まりの1行を一字一句引用させて確かめる）・F9（店長が月末に Claude の答えを直すと、その答えが物差しのスキルの「店長が実際に決めた例」に入る。名前は外し、行動だけ・プログラムで足す・1回で元に戻せる）
 - 動かし方: 上の「Try it」のとおり
