@@ -11,6 +11,7 @@
     "seed": "node scripts/generate-seed.ts",
     "monosashi": "node --env-file-if-exists=.env.local scripts/write-monosashi.ts",
     "facts": "node --env-file-if-exists=.env.local scripts/run-facts.ts",
+    "letters": "node --env-file-if-exists=.env.local scripts/run-letters.ts",
     "test": "node --test \"tests/**/*.test.ts\""
   },
   "dependencies": {

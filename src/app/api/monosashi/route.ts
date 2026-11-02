@@ -1,12 +1,8 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { live } from "@/lib/live";
 import { validateAnswers } from "@/lib/monosashi/questions";
 import { readSkill, SkillWriteError, writeSkill } from "@/lib/monosashi/write-skill";
-
-/** Claude is called only when an API key is set and live calls are not switched off (MIENAI_ALLOW_LIVE=0). */
-function live(): boolean {
-  return Boolean(process.env.ANTHROPIC_API_KEY) && process.env.MIENAI_ALLOW_LIVE !== "0";
-}
 
 async function demoAnswers(): Promise<Record<string, string>> {
   const raw = await readFile(path.join(process.cwd(), "data", "seed", "owner-answers.json"), "utf8");

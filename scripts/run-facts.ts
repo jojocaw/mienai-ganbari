@@ -51,4 +51,5 @@ part("duplicates", score.duplicates);
 part("self-only", score.selfOnly);
 part("dropped", score.dropped);
 console.log(`actor: ${score.actor.correct}/${score.actor.checked} correct, wrong [${score.actor.wrong.join(" ")}]`);
+console.log(`for whom: ${score.forWhom.correct}/${score.forWhom.checked} correct, wrong [${score.forWhom.wrong.join(" ")}]`);
 console.log(`all found: ${score.allFound}`);

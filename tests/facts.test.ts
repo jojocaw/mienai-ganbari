@@ -27,7 +27,7 @@ function ideal(id: string, rename = false) {
   if (l.kind === "gossip" || l.kind === "vague") return { entryId: id, kind: "drop", dropReason: l.kind, ...empty };
   const actorId = l.kind === "self" ? l.authorId : l.subjectIds[0];
   const task = rename && l.kind === "dup" ? `${l.task}-again` : l.task!;
-  return { entryId: id, kind: l.kind === "self" ? "self" : "help", dropReason: "", actorId, forIds: [], action: `${actorId} did ${l.task}`, task, verdict: "付ける", reason: "答え1の決まりに合う" };
+  return { entryId: id, kind: l.kind === "self" ? "self" : "help", dropReason: "", actorId, forIds: l.helpedId ? [l.helpedId] : [], action: `${actorId} did ${l.task}`, task, verdict: "付ける", reason: "答え1の決まりに合う" };
 }
 const idsIn = (prompt: string) => [...prompt.matchAll(/entryId: (\S+) \|/g)].map((m) => m[1]);
 const idealAsk = (rename = false): Ask => async ({ prompt }) => ({ raw: { items: idsIn(prompt).map((id) => ideal(id, rename)) }, costUsd: 0.001 });
@@ -36,6 +36,7 @@ test("a perfect extractor run finds every planted duplicate, self-report-only cl
   const run = await runMonth(entries, { extract: idealAsk() });
   const score = scoreAgainstLabels(run, labels);
   assert.equal(score.allFound, true, JSON.stringify(score));
+  assert.equal(score.forWhom.correct, score.forWhom.checked);
   assert.deepEqual(run.counts, { facts: 153, events: 144, duplicates: 9, selfOnly: 36, dropped: { gossip: 18, judgement: 0, vague: 9 } });
   assert.equal(Object.keys(run.attempts).length, 30);
 });

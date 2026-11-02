@@ -12,9 +12,14 @@ export default function Home() {
         </p>
       </header>
       <EntryForm />
-      <Link href="/monosashi" className="text-center text-sm font-semibold text-emerald-700 underline underline-offset-4">
-        店長の方へ: 物差しをつくる →
-      </Link>
+      <div className="flex flex-col items-center gap-2">
+        <Link href="/monosashi" className="text-sm font-semibold text-emerald-700 underline underline-offset-4">
+          店長の方へ: 物差しをつくる →
+        </Link>
+        <Link href="/month" className="text-sm font-semibold text-emerald-700 underline underline-offset-4">
+          店長の方へ: 月末のふりかえり →
+        </Link>
+      </div>
       <footer className="mt-auto text-center text-xs leading-relaxed text-stone-400">
         すべてのデータは架空です。決めるのは店長で、AI は配分を決めません。
       </footer>

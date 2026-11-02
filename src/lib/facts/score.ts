@@ -13,6 +13,8 @@ export interface Label {
   task?: string;
   eventKey?: string;
   dupOf?: string;
+  /** The person who was helped, when the line names one. */
+  helpedId?: string;
 }
 
 export interface Part {
@@ -28,6 +30,8 @@ export interface Score {
   dropped: Part;
   /** For kept lines: is the person who did it the right one? */
   actor: { checked: number; correct: number; wrong: string[] };
+  /** For kept lines: is the person helped right (named in the line, or nobody)? */
+  forWhom: { checked: number; correct: number; wrong: string[] };
   allFound: boolean;
 }
 
@@ -69,7 +73,13 @@ export function scoreAgainstLabels(run: { facts: CheckedFact[]; dropped: Dropped
     return !f || f.actorId !== want;
   });
   const actor = { checked: kept.length, correct: kept.length - wrongActor.length, wrong: wrongActor.map((l) => l.id) };
+  const wrongFor = kept.filter((l) => {
+    const f = fact.get(l.id);
+    const want = l.helpedId ? [l.helpedId] : [];
+    return !f || [...f.forIds].sort().join(",") !== want.join(",");
+  });
+  const forWhom = { checked: kept.length, correct: kept.length - wrongFor.length, wrong: wrongFor.map((l) => l.id) };
 
   const clean = (p: Part) => p.missed.length === 0 && p.wrong.length === 0;
-  return { duplicates, selfOnly, dropped, actor, allFound: clean(duplicates) && clean(selfOnly) && clean(dropped) && actor.wrong.length === 0 };
+  return { duplicates, selfOnly, dropped, actor, forWhom, allFound: clean(duplicates) && clean(selfOnly) && clean(dropped) && actor.wrong.length === 0 };
 }
