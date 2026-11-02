@@ -62,3 +62,8 @@ test("no template placeholder is left in any line, and nobody writes about thems
   for (const e of entries) assert.ok(!/[{}]/.test(e.text), e.text);
   for (const l of labels) if (l.kind === "help" || l.kind === "gossip" || l.kind === "dup") assert.notEqual(l.authorId, l.subjectIds[0]);
 });
+
+test("only the planted duplicates repeat an event: help lines and self-reports are each a different event", () => {
+  const keys = labels.filter((l: { kind: string }) => l.kind === "help" || l.kind === "self").map((l: { eventKey: string }) => l.eventKey);
+  assert.equal(new Set(keys).size, keys.length);
+});

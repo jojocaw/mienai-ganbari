@@ -2,22 +2,22 @@
   {
     "id": "seed-001",
     "kind": "self",
-    "authorId": "haruka",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "garbage",
-    "eventKey": "2026-10-01:garbage:haruka"
-  },
-  {
-    "id": "seed-002",
-    "kind": "self",
     "authorId": "sota",
     "subjectIds": [
       "sota"
     ],
-    "task": "lost_item",
-    "eventKey": "2026-10-01:lost_item:sota"
+    "task": "toilet",
+    "eventKey": "2026-10-01:toilet:sota"
+  },
+  {
+    "id": "seed-002",
+    "kind": "self",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "cake_prep",
+    "eventKey": "2026-10-01:cake_prep:miyuki"
   },
   {
     "id": "seed-003",
@@ -31,6 +31,26 @@
   },
   {
     "id": "seed-004",
+    "kind": "self",
+    "authorId": "sota",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "lost_item",
+    "eventKey": "2026-10-01:lost_item:sota"
+  },
+  {
+    "id": "seed-005",
+    "kind": "self",
+    "authorId": "haruka",
+    "subjectIds": [
+      "haruka"
+    ],
+    "task": "garbage",
+    "eventKey": "2026-10-01:garbage:haruka"
+  },
+  {
+    "id": "seed-006",
     "kind": "gossip",
     "authorId": "haruka",
     "subjectIds": [
@@ -38,37 +58,7 @@
     ]
   },
   {
-    "id": "seed-005",
-    "kind": "self",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "cake_prep",
-    "eventKey": "2026-10-01:cake_prep:miyuki"
-  },
-  {
-    "id": "seed-006",
-    "kind": "self",
-    "authorId": "sota",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "toilet",
-    "eventKey": "2026-10-01:toilet:sota"
-  },
-  {
     "id": "seed-007",
-    "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "lan"
-    ],
-    "task": "lost_item",
-    "eventKey": "2026-10-02:lost_item:lan"
-  },
-  {
-    "id": "seed-008",
     "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
@@ -78,17 +68,17 @@
     "eventKey": "2026-10-02:beans:putri"
   },
   {
-    "id": "seed-009",
+    "id": "seed-008",
     "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
-      "kenji"
+      "minh"
     ],
-    "task": "beans",
-    "eventKey": "2026-10-02:beans:kenji"
+    "task": "lost_item",
+    "eventKey": "2026-10-02:lost_item:minh"
   },
   {
-    "id": "seed-010",
+    "id": "seed-009",
     "kind": "help",
     "authorId": "lan",
     "subjectIds": [
@@ -96,6 +86,16 @@
     ],
     "task": "garbage",
     "eventKey": "2026-10-02:garbage:minh"
+  },
+  {
+    "id": "seed-010",
+    "kind": "help",
+    "authorId": "kenji",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "lost_item",
+    "eventKey": "2026-10-02:lost_item:lan"
   },
   {
     "id": "seed-011",
@@ -112,44 +112,13 @@
     "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
-      "minh"
+      "kenji"
     ],
-    "task": "lost_item",
-    "eventKey": "2026-10-02:lost_item:minh"
+    "task": "beans",
+    "eventKey": "2026-10-02:beans:kenji"
   },
   {
     "id": "seed-013",
-    "kind": "dup",
-    "authorId": "kenji",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "lost_item",
-    "eventKey": "2026-10-02:lost_item:minh",
-    "dupOf": "seed-012"
-  },
-  {
-    "id": "seed-014",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "boxes",
-    "eventKey": "2026-10-03:boxes:miyuki"
-  },
-  {
-    "id": "seed-015",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-03:signboard:haruka"
-  },
-  {
-    "id": "seed-016",
     "kind": "help",
     "authorId": "miyuki",
     "subjectIds": [
@@ -157,6 +126,36 @@
     ],
     "task": "beans",
     "eventKey": "2026-10-03:beans:ayane"
+  },
+  {
+    "id": "seed-014",
+    "kind": "help",
+    "authorId": "lan",
+    "subjectIds": [
+      "haruka"
+    ],
+    "task": "dishes",
+    "eventKey": "2026-10-03:dishes:haruka"
+  },
+  {
+    "id": "seed-015",
+    "kind": "help",
+    "authorId": "haruka",
+    "subjectIds": [
+      "putri"
+    ],
+    "task": "teach_register",
+    "eventKey": "2026-10-03:teach_register:putri"
+  },
+  {
+    "id": "seed-016",
+    "kind": "help",
+    "authorId": "ayane",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-03:boxes:miyuki"
   },
   {
     "id": "seed-017",
@@ -171,43 +170,42 @@
   {
     "id": "seed-018",
     "kind": "help",
-    "authorId": "haruka",
+    "authorId": "ayane",
     "subjectIds": [
-      "putri"
+      "haruka"
     ],
-    "task": "teach_register",
-    "eventKey": "2026-10-03:teach_register:putri"
+    "task": "signboard",
+    "eventKey": "2026-10-03:signboard:haruka"
   },
   {
     "id": "seed-019",
-    "kind": "dup",
-    "authorId": "haruka",
+    "kind": "help",
+    "authorId": "ayane",
     "subjectIds": [
-      "miyuki"
+      "haruka"
     ],
-    "task": "boxes",
-    "eventKey": "2026-10-03:boxes:miyuki",
-    "dupOf": "seed-014"
+    "task": "cover_shift",
+    "eventKey": "2026-10-04:cover_shift:haruka"
   },
   {
     "id": "seed-020",
     "kind": "help",
     "authorId": "lan",
     "subjectIds": [
-      "haruka"
+      "ayane"
     ],
-    "task": "dishes",
-    "eventKey": "2026-10-03:dishes:haruka"
+    "task": "garbage",
+    "eventKey": "2026-10-04:garbage:ayane"
   },
   {
     "id": "seed-021",
-    "kind": "help",
-    "authorId": "putri",
+    "kind": "self",
+    "authorId": "sota",
     "subjectIds": [
-      "minh"
+      "sota"
     ],
-    "task": "garbage",
-    "eventKey": "2026-10-04:garbage:minh"
+    "task": "beans",
+    "eventKey": "2026-10-04:beans:sota"
   },
   {
     "id": "seed-022",
@@ -221,66 +219,27 @@
   },
   {
     "id": "seed-023",
-    "kind": "self",
-    "authorId": "sota",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "beans",
-    "eventKey": "2026-10-04:beans:sota"
-  },
-  {
-    "id": "seed-024",
-    "kind": "help",
-    "authorId": "lan",
-    "subjectIds": [
-      "ayane"
-    ],
-    "task": "garbage",
-    "eventKey": "2026-10-04:garbage:ayane"
-  },
-  {
-    "id": "seed-025",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "cover_shift",
-    "eventKey": "2026-10-04:cover_shift:haruka"
-  },
-  {
-    "id": "seed-026",
     "kind": "help",
     "authorId": "putri",
     "subjectIds": [
-      "haruka"
+      "minh"
     ],
-    "task": "boxes",
-    "eventKey": "2026-10-05:boxes:haruka"
+    "task": "garbage",
+    "eventKey": "2026-10-04:garbage:minh"
   },
   {
-    "id": "seed-027",
-    "kind": "help",
-    "authorId": "miyuki",
+    "id": "seed-024",
+    "kind": "dup",
+    "authorId": "haruka",
     "subjectIds": [
       "minh"
     ],
-    "task": "beans",
-    "eventKey": "2026-10-05:beans:minh"
+    "task": "garbage",
+    "eventKey": "2026-10-04:garbage:minh",
+    "dupOf": "seed-023"
   },
   {
-    "id": "seed-028",
-    "kind": "help",
-    "authorId": "haruka",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "toilet",
-    "eventKey": "2026-10-05:toilet:miyuki"
-  },
-  {
-    "id": "seed-029",
+    "id": "seed-025",
     "kind": "help",
     "authorId": "putri",
     "subjectIds": [
@@ -290,7 +249,35 @@
     "eventKey": "2026-10-05:garbage:kenji"
   },
   {
-    "id": "seed-030",
+    "id": "seed-026",
+    "kind": "help",
+    "authorId": "haruka",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "toilet",
+    "eventKey": "2026-10-05:toilet:miyuki"
+  },
+  {
+    "id": "seed-027",
+    "kind": "gossip",
+    "authorId": "kenji",
+    "subjectIds": [
+      "sota"
+    ]
+  },
+  {
+    "id": "seed-028",
+    "kind": "help",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "beans",
+    "eventKey": "2026-10-05:beans:minh"
+  },
+  {
+    "id": "seed-029",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -300,23 +287,35 @@
     "eventKey": "2026-10-05:cover_shift:sota"
   },
   {
-    "id": "seed-031",
-    "kind": "gossip",
-    "authorId": "kenji",
+    "id": "seed-030",
+    "kind": "help",
+    "authorId": "putri",
     "subjectIds": [
-      "sota"
-    ]
+      "haruka"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-05:boxes:haruka"
+  },
+  {
+    "id": "seed-031",
+    "kind": "dup",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "haruka"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-05:boxes:haruka",
+    "dupOf": "seed-030"
   },
   {
     "id": "seed-032",
-    "kind": "dup",
-    "authorId": "putri",
+    "kind": "help",
+    "authorId": "kenji",
     "subjectIds": [
-      "minh"
+      "putri"
     ],
-    "task": "beans",
-    "eventKey": "2026-10-05:beans:minh",
-    "dupOf": "seed-027"
+    "task": "signboard",
+    "eventKey": "2026-10-06:signboard:putri"
   },
   {
     "id": "seed-033",
@@ -331,36 +330,6 @@
   {
     "id": "seed-034",
     "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "putri"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-06:signboard:putri"
-  },
-  {
-    "id": "seed-035",
-    "kind": "help",
-    "authorId": "haruka",
-    "subjectIds": [
-      "kenji"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-06:signboard:kenji"
-  },
-  {
-    "id": "seed-036",
-    "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "dishes",
-    "eventKey": "2026-10-06:dishes:miyuki"
-  },
-  {
-    "id": "seed-037",
-    "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
       "minh"
@@ -369,18 +338,18 @@
     "eventKey": "2026-10-06:signboard:minh"
   },
   {
-    "id": "seed-038",
+    "id": "seed-035",
     "kind": "dup",
-    "authorId": "lan",
+    "authorId": "putri",
     "subjectIds": [
-      "kenji"
+      "minh"
     ],
     "task": "signboard",
-    "eventKey": "2026-10-06:signboard:kenji",
-    "dupOf": "seed-035"
+    "eventKey": "2026-10-06:signboard:minh",
+    "dupOf": "seed-034"
   },
   {
-    "id": "seed-039",
+    "id": "seed-036",
     "kind": "help",
     "authorId": "putri",
     "subjectIds": [
@@ -390,12 +359,44 @@
     "eventKey": "2026-10-06:cake_prep:miyuki"
   },
   {
-    "id": "seed-040",
-    "kind": "gossip",
-    "authorId": "sota",
+    "id": "seed-037",
+    "kind": "help",
+    "authorId": "haruka",
     "subjectIds": [
       "kenji"
-    ]
+    ],
+    "task": "signboard",
+    "eventKey": "2026-10-06:signboard:kenji"
+  },
+  {
+    "id": "seed-038",
+    "kind": "help",
+    "authorId": "kenji",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "dishes",
+    "eventKey": "2026-10-06:dishes:miyuki"
+  },
+  {
+    "id": "seed-039",
+    "kind": "help",
+    "authorId": "kenji",
+    "subjectIds": [
+      "putri"
+    ],
+    "task": "mop",
+    "eventKey": "2026-10-07:mop:putri"
+  },
+  {
+    "id": "seed-040",
+    "kind": "help",
+    "authorId": "kenji",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "lost_item",
+    "eventKey": "2026-10-07:lost_item:minh"
   },
   {
     "id": "seed-041",
@@ -409,37 +410,6 @@
   },
   {
     "id": "seed-042",
-    "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "putri"
-    ],
-    "task": "mop",
-    "eventKey": "2026-10-07:mop:putri"
-  },
-  {
-    "id": "seed-043",
-    "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "lost_item",
-    "eventKey": "2026-10-07:lost_item:minh"
-  },
-  {
-    "id": "seed-044",
-    "kind": "dup",
-    "authorId": "lan",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "lost_item",
-    "eventKey": "2026-10-07:lost_item:minh",
-    "dupOf": "seed-043"
-  },
-  {
-    "id": "seed-045",
     "kind": "gossip",
     "authorId": "ayane",
     "subjectIds": [
@@ -447,37 +417,26 @@
     ]
   },
   {
-    "id": "seed-046",
-    "kind": "help",
+    "id": "seed-043",
+    "kind": "dup",
     "authorId": "ayane",
-    "subjectIds": [
-      "kenji"
-    ],
-    "task": "teach_register",
-    "eventKey": "2026-10-08:teach_register:kenji"
-  },
-  {
-    "id": "seed-047",
-    "kind": "help",
-    "authorId": "miyuki",
     "subjectIds": [
       "minh"
     ],
-    "task": "toilet",
-    "eventKey": "2026-10-08:toilet:minh"
+    "task": "lost_item",
+    "eventKey": "2026-10-07:lost_item:minh",
+    "dupOf": "seed-040"
   },
   {
-    "id": "seed-048",
-    "kind": "help",
-    "authorId": "lan",
+    "id": "seed-044",
+    "kind": "gossip",
+    "authorId": "sota",
     "subjectIds": [
       "kenji"
-    ],
-    "task": "lost_item",
-    "eventKey": "2026-10-08:lost_item:kenji"
+    ]
   },
   {
-    "id": "seed-049",
+    "id": "seed-045",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
@@ -487,7 +446,17 @@
     "eventKey": "2026-10-08:toilet:putri"
   },
   {
-    "id": "seed-050",
+    "id": "seed-046",
+    "kind": "help",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "toilet",
+    "eventKey": "2026-10-08:toilet:minh"
+  },
+  {
+    "id": "seed-047",
     "kind": "help",
     "authorId": "putri",
     "subjectIds": [
@@ -497,7 +466,7 @@
     "eventKey": "2026-10-08:mop:haruka"
   },
   {
-    "id": "seed-051",
+    "id": "seed-048",
     "kind": "self",
     "authorId": "kenji",
     "subjectIds": [
@@ -507,7 +476,45 @@
     "eventKey": "2026-10-08:dishes:kenji"
   },
   {
+    "id": "seed-049",
+    "kind": "help",
+    "authorId": "lan",
+    "subjectIds": [
+      "kenji"
+    ],
+    "task": "lost_item",
+    "eventKey": "2026-10-08:lost_item:kenji"
+  },
+  {
+    "id": "seed-050",
+    "kind": "help",
+    "authorId": "ayane",
+    "subjectIds": [
+      "kenji"
+    ],
+    "task": "teach_register",
+    "eventKey": "2026-10-08:teach_register:kenji"
+  },
+  {
+    "id": "seed-051",
+    "kind": "self",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "lost_item",
+    "eventKey": "2026-10-09:lost_item:miyuki"
+  },
+  {
     "id": "seed-052",
+    "kind": "gossip",
+    "authorId": "sota",
+    "subjectIds": [
+      "putri"
+    ]
+  },
+  {
+    "id": "seed-053",
     "kind": "help",
     "authorId": "lan",
     "subjectIds": [
@@ -515,12 +522,6 @@
     ],
     "task": "dishes",
     "eventKey": "2026-10-09:dishes:minh"
-  },
-  {
-    "id": "seed-053",
-    "kind": "vague",
-    "authorId": "sota",
-    "subjectIds": []
   },
   {
     "id": "seed-054",
@@ -534,44 +535,33 @@
   },
   {
     "id": "seed-055",
-    "kind": "self",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "lost_item",
-    "eventKey": "2026-10-09:lost_item:miyuki"
+    "kind": "vague",
+    "authorId": "sota",
+    "subjectIds": []
   },
   {
     "id": "seed-056",
-    "kind": "gossip",
-    "authorId": "sota",
-    "subjectIds": [
-      "putri"
-    ]
-  },
-  {
-    "id": "seed-057",
     "kind": "help",
     "authorId": "miyuki",
     "subjectIds": [
       "lan"
     ],
-    "task": "garbage",
-    "eventKey": "2026-10-09:garbage:lan"
+    "task": "toilet",
+    "eventKey": "2026-10-09:toilet:lan"
+  },
+  {
+    "id": "seed-057",
+    "kind": "dup",
+    "authorId": "ayane",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "toilet",
+    "eventKey": "2026-10-09:toilet:lan",
+    "dupOf": "seed-056"
   },
   {
     "id": "seed-058",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "boxes",
-    "eventKey": "2026-10-10:boxes:haruka"
-  },
-  {
-    "id": "seed-059",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -579,6 +569,16 @@
     ],
     "task": "signboard",
     "eventKey": "2026-10-10:signboard:sota"
+  },
+  {
+    "id": "seed-059",
+    "kind": "help",
+    "authorId": "putri",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "setup",
+    "eventKey": "2026-10-10:setup:miyuki"
   },
   {
     "id": "seed-060",
@@ -593,12 +593,12 @@
   {
     "id": "seed-061",
     "kind": "help",
-    "authorId": "putri",
+    "authorId": "ayane",
     "subjectIds": [
-      "miyuki"
+      "haruka"
     ],
-    "task": "setup",
-    "eventKey": "2026-10-10:setup:miyuki"
+    "task": "boxes",
+    "eventKey": "2026-10-10:boxes:haruka"
   },
   {
     "id": "seed-062",
@@ -612,67 +612,6 @@
   },
   {
     "id": "seed-063",
-    "kind": "self",
-    "authorId": "haruka",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "beans",
-    "eventKey": "2026-10-11:beans:haruka"
-  },
-  {
-    "id": "seed-064",
-    "kind": "self",
-    "authorId": "kenji",
-    "subjectIds": [
-      "kenji"
-    ],
-    "task": "dishes",
-    "eventKey": "2026-10-11:dishes:kenji"
-  },
-  {
-    "id": "seed-065",
-    "kind": "help",
-    "authorId": "putri",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-11:signboard:haruka"
-  },
-  {
-    "id": "seed-066",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "teach_register",
-    "eventKey": "2026-10-11:teach_register:miyuki"
-  },
-  {
-    "id": "seed-067",
-    "kind": "self",
-    "authorId": "sota",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "cake_prep",
-    "eventKey": "2026-10-11:cake_prep:sota"
-  },
-  {
-    "id": "seed-068",
-    "kind": "dup",
-    "authorId": "kenji",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-11:signboard:haruka",
-    "dupOf": "seed-065"
-  },
-  {
-    "id": "seed-069",
     "kind": "help",
     "authorId": "miyuki",
     "subjectIds": [
@@ -682,27 +621,57 @@
     "eventKey": "2026-10-11:boxes:putri"
   },
   {
-    "id": "seed-070",
-    "kind": "help",
-    "authorId": "haruka",
+    "id": "seed-064",
+    "kind": "self",
+    "authorId": "sota",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "cake_prep",
+    "eventKey": "2026-10-11:cake_prep:sota"
+  },
+  {
+    "id": "seed-065",
+    "kind": "self",
+    "authorId": "kenji",
     "subjectIds": [
       "kenji"
     ],
-    "task": "cake_prep",
-    "eventKey": "2026-10-12:cake_prep:kenji"
+    "task": "dishes",
+    "eventKey": "2026-10-11:dishes:kenji"
   },
   {
-    "id": "seed-071",
-    "kind": "self",
-    "authorId": "lan",
+    "id": "seed-066",
+    "kind": "help",
+    "authorId": "putri",
     "subjectIds": [
-      "lan"
+      "haruka"
     ],
-    "task": "boxes",
-    "eventKey": "2026-10-12:boxes:lan"
+    "task": "signboard",
+    "eventKey": "2026-10-11:signboard:haruka"
   },
   {
-    "id": "seed-072",
+    "id": "seed-067",
+    "kind": "help",
+    "authorId": "ayane",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "teach_register",
+    "eventKey": "2026-10-11:teach_register:miyuki"
+  },
+  {
+    "id": "seed-068",
+    "kind": "self",
+    "authorId": "haruka",
+    "subjectIds": [
+      "haruka"
+    ],
+    "task": "beans",
+    "eventKey": "2026-10-11:beans:haruka"
+  },
+  {
+    "id": "seed-069",
     "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
@@ -712,38 +681,27 @@
     "eventKey": "2026-10-12:setup:lan"
   },
   {
-    "id": "seed-073",
-    "kind": "help",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "ayane"
-    ],
-    "task": "garbage",
-    "eventKey": "2026-10-12:garbage:ayane"
-  },
-  {
-    "id": "seed-074",
-    "kind": "dup",
-    "authorId": "miyuki",
+    "id": "seed-070",
+    "kind": "self",
+    "authorId": "lan",
     "subjectIds": [
       "lan"
     ],
-    "task": "setup",
-    "eventKey": "2026-10-12:setup:lan",
-    "dupOf": "seed-072"
+    "task": "boxes",
+    "eventKey": "2026-10-12:boxes:lan"
   },
   {
-    "id": "seed-075",
-    "kind": "self",
-    "authorId": "sota",
+    "id": "seed-071",
+    "kind": "help",
+    "authorId": "haruka",
     "subjectIds": [
-      "sota"
+      "kenji"
     ],
-    "task": "teach_register",
-    "eventKey": "2026-10-12:teach_register:sota"
+    "task": "cake_prep",
+    "eventKey": "2026-10-12:cake_prep:kenji"
   },
   {
-    "id": "seed-076",
+    "id": "seed-072",
     "kind": "help",
     "authorId": "putri",
     "subjectIds": [
@@ -753,37 +711,27 @@
     "eventKey": "2026-10-12:cake_prep:minh"
   },
   {
-    "id": "seed-077",
-    "kind": "help",
-    "authorId": "putri",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "boxes",
-    "eventKey": "2026-10-13:boxes:haruka"
-  },
-  {
-    "id": "seed-078",
+    "id": "seed-073",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
       "sota"
     ],
-    "task": "cover_shift",
-    "eventKey": "2026-10-13:cover_shift:sota"
+    "task": "teach_register",
+    "eventKey": "2026-10-12:teach_register:sota"
   },
   {
-    "id": "seed-079",
+    "id": "seed-074",
     "kind": "help",
-    "authorId": "putri",
+    "authorId": "miyuki",
     "subjectIds": [
-      "sota"
+      "ayane"
     ],
-    "task": "toilet",
-    "eventKey": "2026-10-13:toilet:sota"
+    "task": "garbage",
+    "eventKey": "2026-10-12:garbage:ayane"
   },
   {
-    "id": "seed-080",
+    "id": "seed-075",
     "kind": "help",
     "authorId": "lan",
     "subjectIds": [
@@ -793,17 +741,7 @@
     "eventKey": "2026-10-13:mop:putri"
   },
   {
-    "id": "seed-081",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "lan"
-    ],
-    "task": "teach_register",
-    "eventKey": "2026-10-13:teach_register:lan"
-  },
-  {
-    "id": "seed-082",
+    "id": "seed-076",
     "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
@@ -813,7 +751,47 @@
     "eventKey": "2026-10-13:lost_item:kenji"
   },
   {
-    "id": "seed-083",
+    "id": "seed-077",
+    "kind": "self",
+    "authorId": "sota",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "cover_shift",
+    "eventKey": "2026-10-13:cover_shift:sota"
+  },
+  {
+    "id": "seed-078",
+    "kind": "help",
+    "authorId": "putri",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "toilet",
+    "eventKey": "2026-10-13:toilet:sota"
+  },
+  {
+    "id": "seed-079",
+    "kind": "help",
+    "authorId": "ayane",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "teach_register",
+    "eventKey": "2026-10-13:teach_register:lan"
+  },
+  {
+    "id": "seed-080",
+    "kind": "help",
+    "authorId": "putri",
+    "subjectIds": [
+      "haruka"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-13:boxes:haruka"
+  },
+  {
+    "id": "seed-081",
     "kind": "help",
     "authorId": "putri",
     "subjectIds": [
@@ -823,27 +801,7 @@
     "eventKey": "2026-10-14:cake_prep:miyuki"
   },
   {
-    "id": "seed-084",
-    "kind": "self",
-    "authorId": "sota",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "cover_shift",
-    "eventKey": "2026-10-14:cover_shift:sota"
-  },
-  {
-    "id": "seed-085",
-    "kind": "self",
-    "authorId": "sota",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "dishes",
-    "eventKey": "2026-10-14:dishes:sota"
-  },
-  {
-    "id": "seed-086",
+    "id": "seed-082",
     "kind": "help",
     "authorId": "ayane",
     "subjectIds": [
@@ -853,7 +811,7 @@
     "eventKey": "2026-10-14:lost_item:putri"
   },
   {
-    "id": "seed-087",
+    "id": "seed-083",
     "kind": "help",
     "authorId": "putri",
     "subjectIds": [
@@ -863,27 +821,27 @@
     "eventKey": "2026-10-14:toilet:ayane"
   },
   {
-    "id": "seed-088",
-    "kind": "help",
-    "authorId": "lan",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-15:signboard:minh"
-  },
-  {
-    "id": "seed-089",
+    "id": "seed-084",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
       "sota"
     ],
     "task": "dishes",
-    "eventKey": "2026-10-15:dishes:sota"
+    "eventKey": "2026-10-14:dishes:sota"
   },
   {
-    "id": "seed-090",
+    "id": "seed-085",
+    "kind": "self",
+    "authorId": "sota",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "cover_shift",
+    "eventKey": "2026-10-14:cover_shift:sota"
+  },
+  {
+    "id": "seed-086",
     "kind": "self",
     "authorId": "lan",
     "subjectIds": [
@@ -893,7 +851,27 @@
     "eventKey": "2026-10-15:lost_item:lan"
   },
   {
-    "id": "seed-091",
+    "id": "seed-087",
+    "kind": "help",
+    "authorId": "lan",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "signboard",
+    "eventKey": "2026-10-15:signboard:minh"
+  },
+  {
+    "id": "seed-088",
+    "kind": "self",
+    "authorId": "sota",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "dishes",
+    "eventKey": "2026-10-15:dishes:sota"
+  },
+  {
+    "id": "seed-089",
     "kind": "help",
     "authorId": "miyuki",
     "subjectIds": [
@@ -903,7 +881,7 @@
     "eventKey": "2026-10-15:setup:kenji"
   },
   {
-    "id": "seed-092",
+    "id": "seed-090",
     "kind": "help",
     "authorId": "miyuki",
     "subjectIds": [
@@ -913,17 +891,17 @@
     "eventKey": "2026-10-15:garbage:ayane"
   },
   {
-    "id": "seed-093",
+    "id": "seed-091",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
       "minh"
     ],
-    "task": "signboard",
-    "eventKey": "2026-10-15:signboard:minh"
+    "task": "beans",
+    "eventKey": "2026-10-15:beans:minh"
   },
   {
-    "id": "seed-094",
+    "id": "seed-092",
     "kind": "self",
     "authorId": "putri",
     "subjectIds": [
@@ -933,25 +911,7 @@
     "eventKey": "2026-10-16:mop:putri"
   },
   {
-    "id": "seed-095",
-    "kind": "gossip",
-    "authorId": "sota",
-    "subjectIds": [
-      "lan"
-    ]
-  },
-  {
-    "id": "seed-096",
-    "kind": "help",
-    "authorId": "lan",
-    "subjectIds": [
-      "ayane"
-    ],
-    "task": "setup",
-    "eventKey": "2026-10-16:setup:ayane"
-  },
-  {
-    "id": "seed-097",
+    "id": "seed-093",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
@@ -961,7 +921,7 @@
     "eventKey": "2026-10-16:cake_prep:minh"
   },
   {
-    "id": "seed-098",
+    "id": "seed-094",
     "kind": "help",
     "authorId": "minh",
     "subjectIds": [
@@ -971,7 +931,25 @@
     "eventKey": "2026-10-16:lost_item:putri"
   },
   {
-    "id": "seed-099",
+    "id": "seed-095",
+    "kind": "help",
+    "authorId": "lan",
+    "subjectIds": [
+      "ayane"
+    ],
+    "task": "setup",
+    "eventKey": "2026-10-16:setup:ayane"
+  },
+  {
+    "id": "seed-096",
+    "kind": "gossip",
+    "authorId": "sota",
+    "subjectIds": [
+      "lan"
+    ]
+  },
+  {
+    "id": "seed-097",
     "kind": "help",
     "authorId": "ayane",
     "subjectIds": [
@@ -981,15 +959,34 @@
     "eventKey": "2026-10-16:setup:kenji"
   },
   {
-    "id": "seed-100",
-    "kind": "dup",
-    "authorId": "miyuki",
+    "id": "seed-098",
+    "kind": "help",
+    "authorId": "lan",
     "subjectIds": [
-      "kenji"
+      "haruka"
     ],
-    "task": "setup",
-    "eventKey": "2026-10-16:setup:kenji",
-    "dupOf": "seed-099"
+    "task": "cake_prep",
+    "eventKey": "2026-10-17:cake_prep:haruka"
+  },
+  {
+    "id": "seed-099",
+    "kind": "help",
+    "authorId": "putri",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "lost_item",
+    "eventKey": "2026-10-17:lost_item:sota"
+  },
+  {
+    "id": "seed-100",
+    "kind": "help",
+    "authorId": "lan",
+    "subjectIds": [
+      "miyuki"
+    ],
+    "task": "cake_prep",
+    "eventKey": "2026-10-17:cake_prep:miyuki"
   },
   {
     "id": "seed-101",
@@ -1004,36 +1001,6 @@
   {
     "id": "seed-102",
     "kind": "help",
-    "authorId": "lan",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "cake_prep",
-    "eventKey": "2026-10-17:cake_prep:miyuki"
-  },
-  {
-    "id": "seed-103",
-    "kind": "help",
-    "authorId": "lan",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "cake_prep",
-    "eventKey": "2026-10-17:cake_prep:haruka"
-  },
-  {
-    "id": "seed-104",
-    "kind": "help",
-    "authorId": "putri",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "lost_item",
-    "eventKey": "2026-10-17:lost_item:sota"
-  },
-  {
-    "id": "seed-105",
-    "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
       "putri"
@@ -1042,7 +1009,7 @@
     "eventKey": "2026-10-17:cake_prep:putri"
   },
   {
-    "id": "seed-106",
+    "id": "seed-103",
     "kind": "self",
     "authorId": "miyuki",
     "subjectIds": [
@@ -1050,6 +1017,37 @@
     ],
     "task": "teach_register",
     "eventKey": "2026-10-18:teach_register:miyuki"
+  },
+  {
+    "id": "seed-104",
+    "kind": "help",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-18:boxes:minh"
+  },
+  {
+    "id": "seed-105",
+    "kind": "help",
+    "authorId": "ayane",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "cover_shift",
+    "eventKey": "2026-10-18:cover_shift:minh"
+  },
+  {
+    "id": "seed-106",
+    "kind": "dup",
+    "authorId": "lan",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "cover_shift",
+    "eventKey": "2026-10-18:cover_shift:minh",
+    "dupOf": "seed-105"
   },
   {
     "id": "seed-107",
@@ -1063,6 +1061,12 @@
   },
   {
     "id": "seed-108",
+    "kind": "vague",
+    "authorId": "kenji",
+    "subjectIds": []
+  },
+  {
+    "id": "seed-109",
     "kind": "help",
     "authorId": "sota",
     "subjectIds": [
@@ -1072,30 +1076,25 @@
     "eventKey": "2026-10-18:beans:lan"
   },
   {
-    "id": "seed-109",
+    "id": "seed-110",
+    "kind": "dup",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "beans",
+    "eventKey": "2026-10-18:beans:lan",
+    "dupOf": "seed-109"
+  },
+  {
+    "id": "seed-111",
     "kind": "help",
     "authorId": "ayane",
     "subjectIds": [
       "minh"
     ],
-    "task": "cover_shift",
-    "eventKey": "2026-10-18:cover_shift:minh"
-  },
-  {
-    "id": "seed-110",
-    "kind": "vague",
-    "authorId": "kenji",
-    "subjectIds": []
-  },
-  {
-    "id": "seed-111",
-    "kind": "help",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "boxes",
-    "eventKey": "2026-10-18:boxes:minh"
+    "task": "teach_register",
+    "eventKey": "2026-10-19:teach_register:minh"
   },
   {
     "id": "seed-112",
@@ -1107,26 +1106,6 @@
   },
   {
     "id": "seed-113",
-    "kind": "help",
-    "authorId": "haruka",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-19:signboard:miyuki"
-  },
-  {
-    "id": "seed-114",
-    "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "setup",
-    "eventKey": "2026-10-19:setup:minh"
-  },
-  {
-    "id": "seed-115",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -1136,7 +1115,7 @@
     "eventKey": "2026-10-19:beans:sota"
   },
   {
-    "id": "seed-116",
+    "id": "seed-114",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -1146,43 +1125,27 @@
     "eventKey": "2026-10-19:garbage:sota"
   },
   {
-    "id": "seed-117",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "teach_register",
-    "eventKey": "2026-10-19:teach_register:minh"
-  },
-  {
-    "id": "seed-118",
-    "kind": "help",
-    "authorId": "sota",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "garbage",
-    "eventKey": "2026-10-20:garbage:minh"
-  },
-  {
-    "id": "seed-119",
-    "kind": "vague",
-    "authorId": "miyuki",
-    "subjectIds": []
-  },
-  {
-    "id": "seed-120",
+    "id": "seed-115",
     "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
-      "lan"
+      "miyuki"
     ],
-    "task": "mop",
-    "eventKey": "2026-10-20:mop:lan"
+    "task": "signboard",
+    "eventKey": "2026-10-19:signboard:miyuki"
   },
   {
-    "id": "seed-121",
+    "id": "seed-116",
+    "kind": "help",
+    "authorId": "kenji",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "setup",
+    "eventKey": "2026-10-19:setup:minh"
+  },
+  {
+    "id": "seed-117",
     "kind": "gossip",
     "authorId": "lan",
     "subjectIds": [
@@ -1190,7 +1153,7 @@
     ]
   },
   {
-    "id": "seed-122",
+    "id": "seed-118",
     "kind": "self",
     "authorId": "ayane",
     "subjectIds": [
@@ -1200,15 +1163,62 @@
     "eventKey": "2026-10-20:garbage:ayane"
   },
   {
-    "id": "seed-123",
-    "kind": "gossip",
-    "authorId": "putri",
+    "id": "seed-119",
+    "kind": "help",
+    "authorId": "haruka",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "mop",
+    "eventKey": "2026-10-20:mop:lan"
+  },
+  {
+    "id": "seed-120",
+    "kind": "dup",
+    "authorId": "kenji",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "mop",
+    "eventKey": "2026-10-20:mop:lan",
+    "dupOf": "seed-119"
+  },
+  {
+    "id": "seed-121",
+    "kind": "vague",
+    "authorId": "miyuki",
+    "subjectIds": []
+  },
+  {
+    "id": "seed-122",
+    "kind": "help",
+    "authorId": "sota",
     "subjectIds": [
       "minh"
-    ]
+    ],
+    "task": "garbage",
+    "eventKey": "2026-10-20:garbage:minh"
+  },
+  {
+    "id": "seed-123",
+    "kind": "help",
+    "authorId": "haruka",
+    "subjectIds": [
+      "putri"
+    ],
+    "task": "dishes",
+    "eventKey": "2026-10-21:dishes:putri"
   },
   {
     "id": "seed-124",
+    "kind": "gossip",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "haruka"
+    ]
+  },
+  {
+    "id": "seed-125",
     "kind": "help",
     "authorId": "haruka",
     "subjectIds": [
@@ -1216,16 +1226,6 @@
     ],
     "task": "dishes",
     "eventKey": "2026-10-21:dishes:minh"
-  },
-  {
-    "id": "seed-125",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "lan"
-    ],
-    "task": "cover_shift",
-    "eventKey": "2026-10-21:cover_shift:lan"
   },
   {
     "id": "seed-126",
@@ -1239,65 +1239,24 @@
   },
   {
     "id": "seed-127",
-    "kind": "dup",
-    "authorId": "putri",
+    "kind": "help",
+    "authorId": "ayane",
     "subjectIds": [
-      "minh"
+      "lan"
     ],
-    "task": "lost_item",
-    "eventKey": "2026-10-21:lost_item:minh",
-    "dupOf": "seed-126"
+    "task": "cover_shift",
+    "eventKey": "2026-10-21:cover_shift:lan"
   },
   {
     "id": "seed-128",
     "kind": "gossip",
-    "authorId": "miyuki",
+    "authorId": "putri",
     "subjectIds": [
-      "haruka"
+      "minh"
     ]
   },
   {
     "id": "seed-129",
-    "kind": "help",
-    "authorId": "haruka",
-    "subjectIds": [
-      "putri"
-    ],
-    "task": "dishes",
-    "eventKey": "2026-10-21:dishes:putri"
-  },
-  {
-    "id": "seed-130",
-    "kind": "help",
-    "authorId": "lan",
-    "subjectIds": [
-      "miyuki"
-    ],
-    "task": "cover_shift",
-    "eventKey": "2026-10-22:cover_shift:miyuki"
-  },
-  {
-    "id": "seed-131",
-    "kind": "help",
-    "authorId": "haruka",
-    "subjectIds": [
-      "kenji"
-    ],
-    "task": "mop",
-    "eventKey": "2026-10-22:mop:kenji"
-  },
-  {
-    "id": "seed-132",
-    "kind": "help",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "mop",
-    "eventKey": "2026-10-22:mop:haruka"
-  },
-  {
-    "id": "seed-133",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
@@ -1307,7 +1266,7 @@
     "eventKey": "2026-10-22:beans:minh"
   },
   {
-    "id": "seed-134",
+    "id": "seed-130",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
@@ -1317,37 +1276,43 @@
     "eventKey": "2026-10-22:beans:haruka"
   },
   {
-    "id": "seed-135",
+    "id": "seed-131",
     "kind": "vague",
     "authorId": "ayane",
     "subjectIds": []
   },
   {
-    "id": "seed-136",
-    "kind": "gossip",
-    "authorId": "ayane",
+    "id": "seed-132",
+    "kind": "help",
+    "authorId": "haruka",
     "subjectIds": [
       "kenji"
-    ]
+    ],
+    "task": "mop",
+    "eventKey": "2026-10-22:mop:kenji"
   },
   {
-    "id": "seed-137",
-    "kind": "self",
-    "authorId": "haruka",
+    "id": "seed-133",
+    "kind": "help",
+    "authorId": "miyuki",
     "subjectIds": [
       "haruka"
     ],
+    "task": "mop",
+    "eventKey": "2026-10-22:mop:haruka"
+  },
+  {
+    "id": "seed-134",
+    "kind": "help",
+    "authorId": "lan",
+    "subjectIds": [
+      "miyuki"
+    ],
     "task": "cover_shift",
-    "eventKey": "2026-10-23:cover_shift:haruka"
+    "eventKey": "2026-10-22:cover_shift:miyuki"
   },
   {
-    "id": "seed-138",
-    "kind": "vague",
-    "authorId": "minh",
-    "subjectIds": []
-  },
-  {
-    "id": "seed-139",
+    "id": "seed-135",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -1357,7 +1322,7 @@
     "eventKey": "2026-10-23:teach_register:sota"
   },
   {
-    "id": "seed-140",
+    "id": "seed-136",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -1367,7 +1332,7 @@
     "eventKey": "2026-10-23:cover_shift:sota"
   },
   {
-    "id": "seed-141",
+    "id": "seed-137",
     "kind": "gossip",
     "authorId": "kenji",
     "subjectIds": [
@@ -1375,37 +1340,31 @@
     ]
   },
   {
-    "id": "seed-142",
-    "kind": "self",
-    "authorId": "kenji",
+    "id": "seed-138",
+    "kind": "gossip",
+    "authorId": "ayane",
     "subjectIds": [
       "kenji"
-    ],
-    "task": "toilet",
-    "eventKey": "2026-10-24:toilet:kenji"
+    ]
   },
   {
-    "id": "seed-143",
-    "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "teach_register",
-    "eventKey": "2026-10-24:teach_register:minh"
-  },
-  {
-    "id": "seed-144",
-    "kind": "help",
+    "id": "seed-139",
+    "kind": "self",
     "authorId": "haruka",
     "subjectIds": [
-      "lan"
+      "haruka"
     ],
-    "task": "garbage",
-    "eventKey": "2026-10-24:garbage:lan"
+    "task": "cover_shift",
+    "eventKey": "2026-10-23:cover_shift:haruka"
   },
   {
-    "id": "seed-145",
+    "id": "seed-140",
+    "kind": "vague",
+    "authorId": "minh",
+    "subjectIds": []
+  },
+  {
+    "id": "seed-141",
     "kind": "help",
     "authorId": "ayane",
     "subjectIds": [
@@ -1415,7 +1374,17 @@
     "eventKey": "2026-10-24:cover_shift:haruka"
   },
   {
-    "id": "seed-146",
+    "id": "seed-142",
+    "kind": "help",
+    "authorId": "haruka",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "garbage",
+    "eventKey": "2026-10-24:garbage:lan"
+  },
+  {
+    "id": "seed-143",
     "kind": "self",
     "authorId": "ayane",
     "subjectIds": [
@@ -1425,25 +1394,27 @@
     "eventKey": "2026-10-24:cover_shift:ayane"
   },
   {
-    "id": "seed-147",
-    "kind": "gossip",
-    "authorId": "sota",
-    "subjectIds": [
-      "miyuki"
-    ]
-  },
-  {
-    "id": "seed-148",
+    "id": "seed-144",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
-      "ayane"
+      "minh"
     ],
-    "task": "lost_item",
-    "eventKey": "2026-10-25:lost_item:ayane"
+    "task": "teach_register",
+    "eventKey": "2026-10-24:teach_register:minh"
   },
   {
-    "id": "seed-149",
+    "id": "seed-145",
+    "kind": "self",
+    "authorId": "kenji",
+    "subjectIds": [
+      "kenji"
+    ],
+    "task": "toilet",
+    "eventKey": "2026-10-24:toilet:kenji"
+  },
+  {
+    "id": "seed-146",
     "kind": "help",
     "authorId": "lan",
     "subjectIds": [
@@ -1453,13 +1424,17 @@
     "eventKey": "2026-10-25:cake_prep:putri"
   },
   {
-    "id": "seed-150",
-    "kind": "vague",
-    "authorId": "sota",
-    "subjectIds": []
+    "id": "seed-147",
+    "kind": "help",
+    "authorId": "kenji",
+    "subjectIds": [
+      "ayane"
+    ],
+    "task": "lost_item",
+    "eventKey": "2026-10-25:lost_item:ayane"
   },
   {
-    "id": "seed-151",
+    "id": "seed-148",
     "kind": "self",
     "authorId": "putri",
     "subjectIds": [
@@ -1469,7 +1444,15 @@
     "eventKey": "2026-10-25:mop:putri"
   },
   {
-    "id": "seed-152",
+    "id": "seed-149",
+    "kind": "gossip",
+    "authorId": "sota",
+    "subjectIds": [
+      "miyuki"
+    ]
+  },
+  {
+    "id": "seed-150",
     "kind": "help",
     "authorId": "miyuki",
     "subjectIds": [
@@ -1479,37 +1462,13 @@
     "eventKey": "2026-10-25:cake_prep:lan"
   },
   {
-    "id": "seed-153",
-    "kind": "help",
+    "id": "seed-151",
+    "kind": "vague",
     "authorId": "sota",
-    "subjectIds": [
-      "lan"
-    ],
-    "task": "teach_register",
-    "eventKey": "2026-10-26:teach_register:lan"
+    "subjectIds": []
   },
   {
-    "id": "seed-154",
-    "kind": "self",
-    "authorId": "sota",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "garbage",
-    "eventKey": "2026-10-26:garbage:sota"
-  },
-  {
-    "id": "seed-155",
-    "kind": "help",
-    "authorId": "ayane",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "mop",
-    "eventKey": "2026-10-26:mop:minh"
-  },
-  {
-    "id": "seed-156",
+    "id": "seed-152",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
@@ -1519,7 +1478,33 @@
     "eventKey": "2026-10-26:beans:miyuki"
   },
   {
-    "id": "seed-157",
+    "id": "seed-153",
+    "kind": "help",
+    "authorId": "ayane",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "mop",
+    "eventKey": "2026-10-26:mop:minh"
+  },
+  {
+    "id": "seed-154",
+    "kind": "vague",
+    "authorId": "putri",
+    "subjectIds": []
+  },
+  {
+    "id": "seed-155",
+    "kind": "self",
+    "authorId": "sota",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "garbage",
+    "eventKey": "2026-10-26:garbage:sota"
+  },
+  {
+    "id": "seed-156",
     "kind": "gossip",
     "authorId": "miyuki",
     "subjectIds": [
@@ -1527,29 +1512,17 @@
     ]
   },
   {
-    "id": "seed-158",
-    "kind": "vague",
-    "authorId": "putri",
-    "subjectIds": []
-  },
-  {
-    "id": "seed-159",
+    "id": "seed-157",
     "kind": "help",
-    "authorId": "miyuki",
+    "authorId": "sota",
     "subjectIds": [
-      "ayane"
+      "lan"
     ],
     "task": "teach_register",
-    "eventKey": "2026-10-27:teach_register:ayane"
+    "eventKey": "2026-10-26:teach_register:lan"
   },
   {
-    "id": "seed-160",
-    "kind": "vague",
-    "authorId": "lan",
-    "subjectIds": []
-  },
-  {
-    "id": "seed-161",
+    "id": "seed-158",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -1557,6 +1530,32 @@
     ],
     "task": "mop",
     "eventKey": "2026-10-27:mop:sota"
+  },
+  {
+    "id": "seed-159",
+    "kind": "vague",
+    "authorId": "lan",
+    "subjectIds": []
+  },
+  {
+    "id": "seed-160",
+    "kind": "help",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "lan"
+    ],
+    "task": "signboard",
+    "eventKey": "2026-10-27:signboard:lan"
+  },
+  {
+    "id": "seed-161",
+    "kind": "help",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "ayane"
+    ],
+    "task": "teach_register",
+    "eventKey": "2026-10-27:teach_register:ayane"
   },
   {
     "id": "seed-162",
@@ -1571,26 +1570,6 @@
   {
     "id": "seed-163",
     "kind": "help",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "lan"
-    ],
-    "task": "signboard",
-    "eventKey": "2026-10-27:signboard:lan"
-  },
-  {
-    "id": "seed-164",
-    "kind": "help",
-    "authorId": "putri",
-    "subjectIds": [
-      "minh"
-    ],
-    "task": "dishes",
-    "eventKey": "2026-10-28:dishes:minh"
-  },
-  {
-    "id": "seed-165",
-    "kind": "help",
     "authorId": "putri",
     "subjectIds": [
       "miyuki"
@@ -1599,29 +1578,7 @@
     "eventKey": "2026-10-28:garbage:miyuki"
   },
   {
-    "id": "seed-166",
-    "kind": "gossip",
-    "authorId": "kenji",
-    "subjectIds": [
-      "lan"
-    ]
-  },
-  {
-    "id": "seed-167",
-    "kind": "vague",
-    "authorId": "haruka",
-    "subjectIds": []
-  },
-  {
-    "id": "seed-168",
-    "kind": "gossip",
-    "authorId": "ayane",
-    "subjectIds": [
-      "haruka"
-    ]
-  },
-  {
-    "id": "seed-169",
+    "id": "seed-164",
     "kind": "help",
     "authorId": "lan",
     "subjectIds": [
@@ -1631,14 +1588,56 @@
     "eventKey": "2026-10-28:setup:ayane"
   },
   {
+    "id": "seed-165",
+    "kind": "vague",
+    "authorId": "haruka",
+    "subjectIds": []
+  },
+  {
+    "id": "seed-166",
+    "kind": "gossip",
+    "authorId": "ayane",
+    "subjectIds": [
+      "haruka"
+    ]
+  },
+  {
+    "id": "seed-167",
+    "kind": "help",
+    "authorId": "putri",
+    "subjectIds": [
+      "minh"
+    ],
+    "task": "dishes",
+    "eventKey": "2026-10-28:dishes:minh"
+  },
+  {
+    "id": "seed-168",
+    "kind": "gossip",
+    "authorId": "kenji",
+    "subjectIds": [
+      "lan"
+    ]
+  },
+  {
+    "id": "seed-169",
+    "kind": "help",
+    "authorId": "lan",
+    "subjectIds": [
+      "ayane"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-29:boxes:ayane"
+  },
+  {
     "id": "seed-170",
     "kind": "help",
-    "authorId": "minh",
+    "authorId": "miyuki",
     "subjectIds": [
-      "kenji"
+      "ayane"
     ],
-    "task": "teach_register",
-    "eventKey": "2026-10-29:teach_register:kenji"
+    "task": "dishes",
+    "eventKey": "2026-10-29:dishes:ayane"
   },
   {
     "id": "seed-171",
@@ -1652,26 +1651,6 @@
   },
   {
     "id": "seed-172",
-    "kind": "help",
-    "authorId": "lan",
-    "subjectIds": [
-      "ayane"
-    ],
-    "task": "boxes",
-    "eventKey": "2026-10-29:boxes:ayane"
-  },
-  {
-    "id": "seed-173",
-    "kind": "help",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "ayane"
-    ],
-    "task": "dishes",
-    "eventKey": "2026-10-29:dishes:ayane"
-  },
-  {
-    "id": "seed-174",
     "kind": "self",
     "authorId": "sota",
     "subjectIds": [
@@ -1681,7 +1660,18 @@
     "eventKey": "2026-10-29:lost_item:sota"
   },
   {
-    "id": "seed-175",
+    "id": "seed-173",
+    "kind": "dup",
+    "authorId": "putri",
+    "subjectIds": [
+      "ayane"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-29:boxes:ayane",
+    "dupOf": "seed-169"
+  },
+  {
+    "id": "seed-174",
     "kind": "help",
     "authorId": "miyuki",
     "subjectIds": [
@@ -1691,35 +1681,17 @@
     "eventKey": "2026-10-29:lost_item:minh"
   },
   {
+    "id": "seed-175",
+    "kind": "help",
+    "authorId": "minh",
+    "subjectIds": [
+      "kenji"
+    ],
+    "task": "teach_register",
+    "eventKey": "2026-10-29:teach_register:kenji"
+  },
+  {
     "id": "seed-176",
-    "kind": "help",
-    "authorId": "kenji",
-    "subjectIds": [
-      "sota"
-    ],
-    "task": "toilet",
-    "eventKey": "2026-10-30:toilet:sota"
-  },
-  {
-    "id": "seed-177",
-    "kind": "gossip",
-    "authorId": "sota",
-    "subjectIds": [
-      "minh"
-    ]
-  },
-  {
-    "id": "seed-178",
-    "kind": "help",
-    "authorId": "miyuki",
-    "subjectIds": [
-      "haruka"
-    ],
-    "task": "boxes",
-    "eventKey": "2026-10-30:boxes:haruka"
-  },
-  {
-    "id": "seed-179",
     "kind": "help",
     "authorId": "kenji",
     "subjectIds": [
@@ -1729,11 +1701,39 @@
     "eventKey": "2026-10-30:teach_register:lan"
   },
   {
-    "id": "seed-180",
+    "id": "seed-177",
     "kind": "gossip",
     "authorId": "sota",
     "subjectIds": [
       "miyuki"
+    ]
+  },
+  {
+    "id": "seed-178",
+    "kind": "help",
+    "authorId": "kenji",
+    "subjectIds": [
+      "sota"
+    ],
+    "task": "toilet",
+    "eventKey": "2026-10-30:toilet:sota"
+  },
+  {
+    "id": "seed-179",
+    "kind": "help",
+    "authorId": "miyuki",
+    "subjectIds": [
+      "haruka"
+    ],
+    "task": "boxes",
+    "eventKey": "2026-10-30:boxes:haruka"
+  },
+  {
+    "id": "seed-180",
+    "kind": "gossip",
+    "authorId": "sota",
+    "subjectIds": [
+      "minh"
     ]
   }
 ]

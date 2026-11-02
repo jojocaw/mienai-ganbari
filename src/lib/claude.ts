@@ -3,7 +3,7 @@
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { query, type Options } from "@anthropic-ai/claude-agent-sdk";
+import { query, type AgentDefinition, type Options, type SettingSource } from "@anthropic-ai/claude-agent-sdk";
 
 export class MissingApiKeyError extends Error {}
 
@@ -19,11 +19,6 @@ export class ClaudeRunError extends Error {
 
 export function hasApiKey(): boolean {
   return Boolean(process.env.ANTHROPIC_API_KEY);
-}
-
-export function model(role: "writer"): string {
-  const byRole = { writer: process.env.MIENAI_MODEL_WRITER || "claude-opus-5-5" };
-  return byRole[role];
 }
 
 function configDir(): string {
@@ -52,25 +47,34 @@ export async function claudeEnv(): Promise<Record<string, string | undefined>> {
   };
 }
 
-/** One structured answer from Claude, with no tools, no saved session and a hard spending cap. */
+/**
+ * One structured answer from Claude, with no tools, no saved session and a hard spending cap.
+ * Pass `agent` (with `agents`) to run one of the app's subagents as the main thread: its prompt, model and
+ * preloaded skills apply. `settingSources: ["project"]` lets it find the yardstick skill in .claude/skills.
+ */
 export async function runStructured<T>(args: {
-  system: string;
+  system?: string;
   prompt: string;
   schema: Record<string, unknown>;
-  model: string;
+  model?: string;
   maxBudgetUsd: number;
+  agent?: string;
+  agents?: Record<string, AgentDefinition>;
+  settingSources?: SettingSource[];
 }): Promise<{ data: T; costUsd: number }> {
   const options: Options = {
-    systemPrompt: args.system,
-    model: args.model,
+    ...(args.system ? { systemPrompt: args.system } : {}),
+    ...(args.model ? { model: args.model } : {}),
+    ...(args.agent ? { agent: args.agent, agents: args.agents } : {}),
     tools: [],
-    settingSources: [],
+    settingSources: args.settingSources ?? [],
     persistSession: false,
     permissionMode: "dontAsk",
     maxTurns: 4,
     maxBudgetUsd: args.maxBudgetUsd,
     outputFormat: { type: "json_schema", schema: args.schema },
     env: await claudeEnv(),
+    cwd: process.cwd(),
   };
   for await (const m of query({ prompt: args.prompt, options })) {
     if (m.type !== "result") continue;

@@ -28,8 +28,8 @@ The builder has run a small business for 18 years and has had to make these mont
 | F1 | Staff write one line a day (phone width, name picked from a list, line saved exactly as written) | ✅ working |
 | — | Fictional month: 180 lines over 30 days with a known mix and an answer key | ✅ generated + tested |
 | F2 | The owner's yardstick → a Claude **Skill** (`.claude/skills/<shop>-monosashi/SKILL.md`): ten questions, Claude writes a draft, plain code checks it (no character words, every rule points back to an answer), one retry, then the file is written | 🔧 built + tested · first real run next |
-| F3 | Fact extractor (subagent): line → who / whom / what, gossip removed and counted | planned |
-| F4 | Checker (subagent): finds duplicates and self-report-only claims | planned |
+| F3 | Fact extractor (subagent, preloads the owner's Skill): line → who did what for whom + the yardstick's verdict; gossip, judgements and vague lines are dropped and only counted. Plain code checks every answer (each line exactly once, people from the list, no character words) | 🔧 built + tested · first real run next |
+| F4 | Checker: plain code groups the same event (same day, same person, same job) and finds self-report-only claims; a small checker subagent may suggest extra groups, accepted only when safe. Scored against the hidden answer key (all 9 duplicates, 36 self-reports, 27 dropped lines) | 🔧 built + tested · first real run next |
 | F5 | Month-end view: green / yellow, every number traceable to its lines | planned |
 | F6 | Allocation to the yen by plain TypeScript (Claude never calculates money) | planned |
 | F7 | Thank-you letters in each person's language (subagent) | planned |
@@ -72,8 +72,11 @@ The fictional month is in `data/seed/entries.json`; `data/seed/labels.json` is t
 - In the app: the **Claude Agent SDK** (TypeScript).
   - F2: Claude turns the owner's answers into a structured draft (JSON schema output, no tools, a spending cap per call).
     Plain code checks the draft and renders the Skill file, so the rules stay readable and reviewable on GitHub.
-  - F3–F7 (next): the Skill is loaded from the project (`settingSources: ["project"]`) by three subagents
-    (fact extractor, checker, letter writer). Subagents cannot start further subagents.
+  - F3/F4: subagents defined in `src/lib/agents.ts` (`fact-extractor` preloads the yardstick Skill from
+    `.claude/skills/`; `checker` only suggests same-event groups). Each one has no tools and its own model:
+    the writer uses Opus (one careful call), the extractor Sonnet (every line, three languages), the checker Haiku (a narrow job).
+    Plain code runs them day by day and makes every final decision. Subagents cannot start further subagents.
+  - F7 (next): a letter-writer subagent.
   - The SDK runs with its own config directory and an API key only, so it never falls back to a personal Claude login.
 - Money is never calculated by Claude.
 

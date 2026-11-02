@@ -264,6 +264,20 @@ interface Row {
   ref?: Row;
 }
 
+function helpLine(author: Staff, subj: Staff, task: Task): string {
+  const u = task.needsU ? pick(STAFF.filter((x) => x.id !== subj.id && x.id !== author.id)) : undefined;
+  return fill(pick(task.other[author.lang]), author, subj, u);
+}
+
+function selfLine(author: Staff, task: Task): string {
+  let text = pick(task.self[author.lang]);
+  if (author.id === "sota") {
+    text = text.replace("私が", "自分が");
+    if (rand() < 0.6) text += pick(BOAST);
+  }
+  return text;
+}
+
 function build(): Row[] {
   const rows: Row[] = [];
 
@@ -271,24 +285,14 @@ function build(): Row[] {
   const helpSubjects = shuffle(repeat({ minh: 26, sota: 3, haruka: 14, miyuki: 13, kenji: 13, ayane: 13, lan: 13, putri: 13 }));
   const helpAuthors = repeat({ sota: 4, minh: 2, haruka: 18, miyuki: 17, kenji: 17, ayane: 17, lan: 17, putri: 16 });
   for (const [a, s] of pairAuthors(helpSubjects, helpAuthors)) {
-    const author = byId.get(a)!;
-    const subj = byId.get(s)!;
     const task = pick(TASKS);
-    let u: Staff | undefined;
-    if (task.needsU) u = pick(STAFF.filter((x) => x.id !== s && x.id !== a));
-    rows.push({ kind: "help", authorId: a, subjectIds: [s], task: task.key, text: fill(pick(task.other[author.lang]), author, subj, u) });
+    rows.push({ kind: "help", authorId: a, subjectIds: [s], task: task.key, text: helpLine(byId.get(a)!, byId.get(s)!, task) });
   }
 
   // self-reports: 36 lines. Sota writes 20 of them; Minh writes none.
   for (const a of repeat({ sota: 20, haruka: 3, miyuki: 3, kenji: 3, ayane: 3, lan: 2, putri: 2 })) {
-    const author = byId.get(a)!;
     const task = pick(TASKS);
-    let text = pick(task.self[author.lang]);
-    if (a === "sota") {
-      text = text.replace("私が", "自分が");
-      if (rand() < 0.6) text += pick(BOAST);
-    }
-    rows.push({ kind: "self", authorId: a, subjectIds: [a], task: task.key, text });
+    rows.push({ kind: "self", authorId: a, subjectIds: [a], task: task.key, text: selfLine(byId.get(a)!, task) });
   }
 
   // gossip / judgements about character: 18 lines (to be discarded by the fact checker).
@@ -308,6 +312,21 @@ function build(): Row[] {
   // spread the 171 lines over 30 days (about 6 a day)
   const order = shuffle([...rows]);
   order.forEach((r, i) => (r.day = Math.floor((i * 30) / order.length)));
+
+  // Keep events unique: two "help" lines (or a help line and a self-report) about the same person, job and day
+  // would be one event written twice, and only the planted duplicates below may do that.
+  const taken = new Set<string>();
+  for (const r of order) {
+    if (r.kind !== "help" && r.kind !== "self") continue;
+    const author = byId.get(r.authorId)!;
+    const subj = byId.get(r.subjectIds[0])!;
+    if (taken.has(`${r.day}|${subj.id}|${r.task}`)) {
+      const task = pick(TASKS.filter((t) => !taken.has(`${r.day}|${subj.id}|${t.key}`)));
+      r.task = task.key;
+      r.text = r.kind === "help" ? helpLine(author, subj, task) : selfLine(author, task);
+    }
+    taken.add(`${r.day}|${subj.id}|${r.task}`);
+  }
 
   // duplicates: 9 lines that report an event someone already reported (same day, same person, same task)
   const helps = rows.filter((r) => r.kind === "help");
