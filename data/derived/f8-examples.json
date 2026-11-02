@@ -1,0 +1,178 @@
+{
+  "_note": "F8 ②, second measurement: the same twenty scenes, also with the owner's skill plus the owner's own answers as examples. Two folds: odd-numbered scenes were tested with the even ones as examples and the other way round, so no scene was tested with its own answer in the skill; gossip scenes were tested but never used as examples. The owner's answers and the skill are private; only the counts are published.",
+  "generatedAt": "2026-11-02T08:27:16.859Z",
+  "model": "claude-sonnet-5-5",
+  "scenes": 20,
+  "runs": 3,
+  "seconds": 106,
+  "costUsd": 0.7302,
+  "yardstickQuoted": {
+    "without": false,
+    "with": true,
+    "examples (fold 1)": true,
+    "examples (fold 2)": true
+  },
+  "changedBySkill": [
+    4,
+    1,
+    2
+  ],
+  "changedByExamples": [
+    4,
+    4,
+    3
+  ],
+  "folds": [
+    {
+      "tested": [
+        "s01",
+        "s03",
+        "s05",
+        "s07",
+        "s09",
+        "s11",
+        "s13",
+        "s15",
+        "s17",
+        "s19"
+      ],
+      "examplesFromOtherHalf": 9
+    },
+    {
+      "tested": [
+        "s02",
+        "s04",
+        "s06",
+        "s08",
+        "s10",
+        "s12",
+        "s14",
+        "s16",
+        "s18",
+        "s20"
+      ],
+      "examplesFromOtherHalf": 9
+    }
+  ],
+  "failedBatches": [],
+  "without": {
+    "same": [
+      8,
+      7,
+      8
+    ],
+    "mean": 7.67,
+    "byCategory": {
+      "help": [
+        2,
+        2,
+        2
+      ],
+      "quiet": [
+        1,
+        1,
+        1
+      ],
+      "self": [
+        2,
+        0,
+        0
+      ],
+      "loud": [
+        1,
+        2,
+        1
+      ],
+      "edge": [
+        1,
+        1,
+        2
+      ],
+      "gossip": [
+        1,
+        1,
+        2
+      ]
+    }
+  },
+  "with": {
+    "same": [
+      8,
+      8,
+      8
+    ],
+    "mean": 8,
+    "byCategory": {
+      "help": [
+        2,
+        2,
+        2
+      ],
+      "quiet": [
+        1,
+        1,
+        1
+      ],
+      "self": [
+        0,
+        1,
+        0
+      ],
+      "loud": [
+        2,
+        2,
+        2
+      ],
+      "edge": [
+        2,
+        1,
+        2
+      ],
+      "gossip": [
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "examples": {
+    "same": [
+      9,
+      9,
+      9
+    ],
+    "mean": 9,
+    "byCategory": {
+      "help": [
+        2,
+        2,
+        2
+      ],
+      "quiet": [
+        2,
+        1,
+        0
+      ],
+      "self": [
+        1,
+        2,
+        2
+      ],
+      "loud": [
+        2,
+        2,
+        2
+      ],
+      "edge": [
+        2,
+        2,
+        2
+      ],
+      "gossip": [
+        0,
+        0,
+        1
+      ]
+    }
+  }
+}

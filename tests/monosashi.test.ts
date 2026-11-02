@@ -11,6 +11,8 @@ import { renderSkill } from "../src/lib/monosashi/render.ts";
 import { buildPrompt } from "../src/lib/monosashi/prompt.ts";
 import { characterWordsInAnswers, SkillWriteError, writeSkill, type Generate } from "../src/lib/monosashi/write-skill.ts";
 import { SKILL_NAME } from "../src/lib/shop.ts";
+import { addOwnerExamples, OWNER_EXAMPLES_HEADING } from "../src/lib/monosashi/examples.ts";
+import { firstDontGiveRule } from "../src/lib/facts/prompt.ts";
 
 const root = path.join(import.meta.dirname, "..");
 const demo: Record<string, string> = JSON.parse(readFileSync(path.join(root, "data/seed/owner-answers.json"), "utf8")).answers;
@@ -177,4 +179,37 @@ test("invalid answers stop before Claude is called", async () => {
   };
   await assert.rejects(writeSkill({ q1: "a" }, { generate, root: mkdtempSync(path.join(tmpdir(), "monosashi-")) }), SkillWriteError);
   assert.equal(called, false);
+});
+
+test("the owner's own decisions go into the skill as examples, word for word, and the rest of the skill stays the same", () => {
+  const text = renderSkill(GOOD, { shopName: "テストの店", skillName: SKILL_NAME, date: "2026-11-02" });
+  const examples = [
+    { line: "Aさんが重い箱を半分持ってくれた。", verdict: "付けない" as const },
+    { line: "Bさんが休みの日に代わりに入ってくれた。", verdict: "付ける" as const },
+  ];
+  const out = addOwnerExamples(text, { examples }, SKILL_NAME);
+  assert.ok(out.indexOf(`## ${OWNER_EXAMPLES_HEADING}`) > 0);
+  assert.ok(out.indexOf(`## ${OWNER_EXAMPLES_HEADING}`) < out.indexOf("## 読み方の決まり"));
+  assert.ok(out.includes("店長が実際の行を読んで決めた答えです。"));
+  assert.ok(out.includes("- 「Aさんが重い箱を半分持ってくれた。」→ **付けない**"));
+  assert.equal(lintSkillText(out, SKILL_NAME).ok, true);
+  assert.equal(firstDontGiveRule(out), firstDontGiveRule(text));
+  // nothing else changed: taking the new section out gives the original text back
+  const strip = (t: string) => t.replace(new RegExp(`## ${OWNER_EXAMPLES_HEADING}[\\s\\S]*?(?=## 読み方の決まり)`), "");
+  assert.equal(strip(out), text);
+  // the owner's own words can go in too, with or without examples
+  const note = "小さなことと、基本的に仕事中に出来る事だから";
+  const both = addOwnerExamples(text, { examples, notes: [note] }, SKILL_NAME);
+  assert.ok(both.includes(`店長のことば: 「${note}」`) && both.includes("答えと、店長のことばです。"));
+  assert.equal(strip(both), text);
+  const onlyNote = addOwnerExamples(text, { notes: [note] }, SKILL_NAME);
+  const section = (t: string) => t.slice(t.indexOf(`## ${OWNER_EXAMPLES_HEADING}`), t.indexOf("## 読み方の決まり"));
+  assert.ok(section(onlyNote).includes("店長のことばです。") && !section(onlyNote).includes("- 「"));
+  assert.equal(strip(onlyNote), text);
+  // a line or a note that judges a person never enters the skill; no second section; nothing empty or on two lines
+  assert.throws(() => addOwnerExamples(text, { examples: [{ line: "Cさんはやる気がないけど手伝ってくれた。", verdict: "迷う" }] }, SKILL_NAME), /やる気/);
+  assert.throws(() => addOwnerExamples(text, { notes: ["態度が悪い人には付けない"] }, SKILL_NAME), /態度/);
+  assert.throws(() => addOwnerExamples(out, { examples: [{ line: "Dさんが床をふいた。", verdict: "付ける" }] }, SKILL_NAME), /もう入って/);
+  assert.throws(() => addOwnerExamples(text, {}, SKILL_NAME));
+  assert.throws(() => addOwnerExamples(text, { examples: [{ line: "1行目\n2行目", verdict: "付ける" }] }, SKILL_NAME));
 });

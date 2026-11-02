@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { agreement, CATEGORIES, claudeAnswers, ownerAnswersError, scenarioEntries, scenariosError, type Scenario } from "../src/lib/f8/compare.ts";
+import { agreement, CATEGORIES, claudeAnswers, ownerAnswersError, scenarioEntries, scenariosError, twoFolds, type Scenario } from "../src/lib/f8/compare.ts";
 import { validateExtraction } from "../src/lib/facts/validate.ts";
 import { findCharacterWords } from "../src/lib/monosashi/lint.ts";
 
@@ -48,4 +48,16 @@ test("Claude's answers: a kept fact gives its verdict, a dropped line gets no pl
   assert.deepEqual(a.differ, ["s03"]);
   assert.equal(a.matrix["付ける"]["取り違え"], 1);
   assert.deepEqual(a.byCategory.help, { total: 3, same: 2 });
+});
+
+test("two folds: every scene is tested exactly once, never with its own answer in the skill, and gossip never becomes an example", () => {
+  const folds = twoFolds(scenarios);
+  assert.equal(folds.length, 2);
+  assert.deepEqual(folds.flatMap((f) => f.test.map((s) => s.id)).sort(), scenarios.map((s) => s.id).sort());
+  for (const f of folds) {
+    assert.equal(f.test.length, 10);
+    for (const ex of f.examples) assert.ok(!f.test.some((t) => t.id === ex.id), ex.id);
+    assert.ok(f.examples.every((s) => s.category !== "gossip"));
+    assert.equal(f.examples.length, 9);
+  }
 });

@@ -1,0 +1,17 @@
+{
+  "_note": "F8 ② round 2: twelve new fictional scenes, written after the owner's first answers, to test the updated yardstick (the owner's examples and the owner's own reason) on lines it has never seen. The owner answers 付ける / 付けない / 迷う for each; the answers are kept private and never committed.",
+  "scenarios": [
+    { "id": "t01", "category": "help", "writerId": "lan", "actorId": "miyuki", "text": "洗い物がたまっていたので、みゆきさんが手の空いた時に少し手伝ってくれた。" },
+    { "id": "t02", "category": "help", "writerId": "putri", "actorId": "haruka", "text": "はるかさんが、休みの日なのに、届いた荷物を受け取りにお店まで来てくれた。" },
+    { "id": "t03", "category": "help", "writerId": "minh", "actorId": "ayane", "text": "あやねさんが、ドリンクの作り方を私に何度も見せてくれた。" },
+    { "id": "t04", "category": "help", "writerId": "sota", "actorId": "lan", "text": "閉店後に食洗機が止まって、ランさんが修理の人が来るまで2時間残ってくれた。" },
+    { "id": "t05", "category": "quiet", "writerId": "kenji", "actorId": "putri", "text": "プトリさんが、入口のマットとメニュー立てをきれいに並べ直していた。" },
+    { "id": "t06", "category": "quiet", "writerId": "haruka", "actorId": "kenji", "text": "けんじさんが、休みの日に来て、換気扇の油汚れを落としてくれていた。" },
+    { "id": "t07", "category": "self", "writerId": "miyuki", "actorId": "miyuki", "text": "今日は私が、お店のゴミ出しを全部やりました。" },
+    { "id": "t08", "category": "self", "writerId": "putri", "actorId": "putri", "text": "休みの日に、足りなくなった紙コップを私が買ってお店に届けました。" },
+    { "id": "t09", "category": "loud", "writerId": "kenji", "actorId": "kenji", "text": "今月いちばんお店のためになったのは自分だと思う！" },
+    { "id": "t10", "category": "edge", "writerId": "ayane", "actorId": "minh", "text": "ミンさんが、自分の休憩時間に、新しい人の質問に答えていた。" },
+    { "id": "t11", "category": "help", "writerId": "haruka", "actorId": "sota", "text": "そうたさんが、お店の場所が分からず困っていたお客さんに道を教えてくれた。" },
+    { "id": "t12", "category": "help", "writerId": "kenji", "actorId": "ayane", "text": "家族の用事で休みたい人のために、あやねさんが自分の休みの日と交換してくれた。" }
+  ]
+}

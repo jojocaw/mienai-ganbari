@@ -81,6 +81,18 @@ export function claudeAnswers(extraction: Extraction, scenarios: Scenario[]): Re
   return out;
 }
 
+/**
+ * Two folds for testing the owner's examples fairly: odd-numbered scenes (s01, s03, …) are tested with the even ones as
+ * examples, then the other way round, so a scene is never tested with its own answer in the skill. Scenes that judge a
+ * person (gossip) are tested but never become examples: those words must not enter the skill.
+ */
+export function twoFolds(scenarios: Scenario[]): { test: Scenario[]; examples: Scenario[] }[] {
+  return [0, 1].map((k) => ({
+    test: scenarios.filter((_, i) => i % 2 === k),
+    examples: scenarios.filter((s, i) => i % 2 !== k && s.category !== "gossip"),
+  }));
+}
+
 export interface Agreement {
   total: number;
   same: number;
