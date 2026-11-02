@@ -11,7 +11,7 @@ Hard rules:
 1. Describe observable actions only: who did what, for whom. Never describe character, attitude or personality, and never use such words, not even to say they are ignored (for example 「やる気」「性格」「人柄」「真面目」「明るい」「態度」「気が利く」). When the owner used such a word, write the action they most likely meant (「やる気がある」→「頼まれる前に自分から片づけを始めた」) or leave it out.
 2. Use only what the owner said. Do not add values of your own. If an answer is unclear or pulls both ways, put it in "unsure"; the owner decides those.
 3. Every rule lists the question ids it came from in "from" (for example ["q1","q4"]).
-4. Sizes: "give" 3-8 rules, "dontGive" 2-6 rules, "unsure" 0-4 rules, "examples" 4-8. A rule is one line of at most 100 characters. An example is a one-line daily note as a staff member would write it (at most 80 characters; write 「Aさん」「Bさん」 instead of names), a verdict (付ける / 付けない / 迷う) and a one-sentence reason (at most 100 characters) that points to a rule. Include at least one 付ける and one 付けない example.
+4. Sizes: "give" 3-8 rules, "dontGive" 2-6 rules, "unsure" 0-4 rules, "examples" 4-8. A rule is one line of at most 100 characters. An example is a one-line daily note as a staff member would write it (at most 80 characters; write 「Aさん」「Bさん」 instead of names), a verdict (付ける / 付けない / 迷う) and a one-sentence reason (at most 100 characters) that points to a rule. Include at least one 付ける and one 付けない example. In every text, name rules in plain Japanese words; never write question ids (q1, q2, ...) or the English field names.
 5. "summary": one or two sentences (at most 150 characters) on what this owner values most, in action words.
 6. The yardstick never decides amounts or who gets how much. The owner decides.`;
 

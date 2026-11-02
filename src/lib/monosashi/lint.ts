@@ -132,6 +132,7 @@ export function lintDraft(raw: unknown): DraftLint & { draft: Draft | null } {
     if (text.trim() === "") problems.push(`${where} が空です`);
     if (/[\r\n]/.test(text)) problems.push(`${where} は1行で書いてください`);
     if (chars(text) > max) problems.push(`${where} が長すぎます (${chars(text)} > ${max} 文字)`);
+    if (/\bq\d{1,2}\b|\b(give|dontGive|unsure|examples|summary)\b/i.test(text)) problems.push(`${where} に質問の番号や英語の欄の名前があります (決まりを言葉で書いてください)`);
     for (const h of findCharacterWords(text)) characterWords.push({ ...h, where });
   };
 

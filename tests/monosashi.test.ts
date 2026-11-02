@@ -92,6 +92,10 @@ test("a draft with a character word, a made-up source or a missing example kind 
   fewRules.give = fewRules.give.slice(0, 2);
   assert.equal(lintDraft(fewRules).ok, false);
 
+  const withId = clone(GOOD);
+  withId.examples[3].reason = "q3 の答えにより unsure にした。";
+  assert.ok(lintDraft(withId).problems.some((p) => p.includes("質問の番号")));
+
   const twoLines = clone(GOOD);
   twoLines.examples[0].line = "1行目\n2行目";
   assert.equal(lintDraft(twoLines).ok, false);

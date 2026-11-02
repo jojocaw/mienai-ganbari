@@ -3,7 +3,7 @@
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { query, type AgentDefinition, type Options, type SettingSource } from "@anthropic-ai/claude-agent-sdk";
+import { query, type AgentDefinition, type EffortLevel, type Options, type SettingSource } from "@anthropic-ai/claude-agent-sdk";
 
 export class MissingApiKeyError extends Error {}
 
@@ -27,7 +27,8 @@ function configDir(): string {
 
 /**
  * Environment for the Claude Code process behind the SDK.
- * - `env` replaces the whole environment, so process.env is spread first (PATH, HOME, ...).
+ * - `env` replaces the whole environment, so process.env is copied first (PATH, HOME, ...), without any
+ *   inherited CLAUDE_* / ANTHROPIC_* settings.
  * - An API key is required. A separate CLAUDE_CONFIG_DIR keeps the app away from the developer's own
  *   Claude Code settings, hooks and login, so it can never fall back to a personal subscription.
  * - Subagents may not start further subagents (one level only).
@@ -37,8 +38,11 @@ export async function claudeEnv(): Promise<Record<string, string | undefined>> {
   if (!key) throw new MissingApiKeyError("ANTHROPIC_API_KEY が設定されていません (.env.local に書いてください)");
   const dir = configDir();
   await fs.mkdir(dir, { recursive: true });
+  // Start from a clean environment: drop every CLAUDE_* / ANTHROPIC_* variable inherited from the shell
+  // (for example a developer's own Claude Code session, effort level or login), then set only what the app needs.
+  const base = Object.fromEntries(Object.entries(process.env).filter(([k]) => !/^(CLAUDE|ANTHROPIC)_/.test(k)));
   return {
-    ...process.env,
+    ...base,
     ANTHROPIC_API_KEY: key,
     CLAUDE_CONFIG_DIR: dir,
     CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH: "1",
@@ -57,6 +61,7 @@ export async function runStructured<T>(args: {
   prompt: string;
   schema: Record<string, unknown>;
   model?: string;
+  effort?: EffortLevel;
   maxBudgetUsd: number;
   agent?: string;
   agents?: Record<string, AgentDefinition>;
@@ -65,6 +70,7 @@ export async function runStructured<T>(args: {
   const options: Options = {
     ...(args.system ? { systemPrompt: args.system } : {}),
     ...(args.model ? { model: args.model } : {}),
+    ...(args.effort ? { effort: args.effort } : {}),
     ...(args.agent ? { agent: args.agent, agents: args.agents } : {}),
     tools: [],
     settingSources: args.settingSources ?? [],

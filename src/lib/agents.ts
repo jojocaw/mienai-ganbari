@@ -4,7 +4,7 @@
 // 事実そろえ係は店長の物差しのスキルを読み込んでから働く。
 
 import type { AgentDefinition } from "@anthropic-ai/claude-agent-sdk";
-import { model } from "./models.ts";
+import { effort, model } from "./models.ts";
 import { SKILL_NAME } from "./shop.ts";
 
 export const FACT_EXTRACTOR_PROMPT = `You turn staff members' daily one-line notes from a small shop into plain facts, and sort each fact with the owner's yardstick (the ${SKILL_NAME} skill).
@@ -33,6 +33,7 @@ export function agentDefinitions(): Record<string, AgentDefinition> {
       tools: [],
       skills: [SKILL_NAME],
       model: model("extractor"),
+      effort: effort("extractor"),
       maxTurns: 4,
     },
     checker: {
@@ -40,6 +41,7 @@ export function agentDefinitions(): Record<string, AgentDefinition> {
       prompt: CHECKER_PROMPT,
       tools: [],
       model: model("checker"),
+      effort: effort("checker"),
       maxTurns: 4,
     },
   };

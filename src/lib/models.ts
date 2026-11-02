@@ -21,3 +21,10 @@ const ENV: Record<Role, string> = {
 export function model(role: Role): string {
   return process.env[ENV[role]] || DEFAULTS[role];
 }
+
+/** How hard each role thinks. The writer works once and carefully; the others run often on narrow jobs. */
+const EFFORT = { writer: "high", extractor: "medium", checker: "low" } as const;
+
+export function effort(role: Role): (typeof EFFORT)[Role] {
+  return EFFORT[role];
+}

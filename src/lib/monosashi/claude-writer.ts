@@ -2,7 +2,7 @@
 // F2: 本物の案の書き手 (Agent SDK 経由の Claude)。テストが API を呼ばないよう write-skill.ts と分けておく。
 
 import { runStructured } from "../claude.ts";
-import { model } from "../models.ts";
+import { effort, model } from "../models.ts";
 import { DRAFT_SCHEMA } from "./prompt.ts";
 import type { Generate } from "./write-skill.ts";
 
@@ -12,6 +12,7 @@ export const generateWithClaude: Generate = async ({ system, prompt }) => {
     prompt,
     schema: DRAFT_SCHEMA,
     model: model("writer"),
+    effort: effort("writer"),
     maxBudgetUsd: 1,
   });
   return { draft: data, costUsd };
