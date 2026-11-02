@@ -27,9 +27,9 @@ The builder has run a small business for 18 years and has had to make these mont
 |---|---|---|
 | F1 | Staff write one line a day (phone width, name picked from a list, line saved exactly as written) | ✅ working |
 | — | Fictional month: 180 lines over 30 days with a known mix and an answer key | ✅ generated + tested |
-| F2 | The owner's yardstick → a Claude **Skill** (`.claude/skills/<shop>-monosashi/SKILL.md`): ten questions, Claude writes a draft, plain code checks it (no character words, every rule points back to an answer), one retry, then the file is written | 🔧 built + tested · first real run next |
-| F3 | Fact extractor (subagent, preloads the owner's Skill): line → who did what for whom + the yardstick's verdict; gossip, judgements and vague lines are dropped and only counted. Plain code checks every answer (each line exactly once, people from the list, no character words) | 🔧 built + tested · first real run next |
-| F4 | Checker: plain code groups the same event (same day, same person, same job) and finds self-report-only claims; a small checker subagent may suggest extra groups, accepted only when safe. Scored against the hidden answer key (all 9 duplicates, 36 self-reports, 27 dropped lines) | 🔧 built + tested · first real run next |
+| F2 | The owner's yardstick → a Claude **Skill** (`.claude/skills/<shop>-monosashi/SKILL.md`): ten questions, Claude writes a draft, plain code checks it (no character words, every rule points back to an answer), one retry, then the file is written | ✅ first real run: 6 give / 5 don't give / 3 unsure / 7 examples, 3 character words in the answers → 0 in the skill (Opus, ~$0.08) |
+| F3 | Fact extractor (subagent, preloads the owner's Skill): line → who did what for whom + the yardstick's verdict; gossip, judgements and vague lines are dropped and only counted. Plain code checks every answer (each line exactly once, people from the list, no character words) | ✅ real run on the fictional month: who did it right for 153/153 lines in Japanese, Vietnamese and Indonesian |
+| F4 | Checker: plain code groups the same event (same day, same person, same job) and finds self-report-only claims; a small checker subagent may suggest extra groups, accepted only when safe. Scored against the hidden answer key | ✅ real run: 9/9 duplicates (each written in two different languages), 36/36 self-report-only claims, 27/27 dropped lines, 0 false alarms · 30 days in 131 s for about $0.47 |
 | F5 | Month-end view: green / yellow, every number traceable to its lines | planned |
 | F6 | Allocation to the yen by plain TypeScript (Claude never calculates money) | planned |
 | F7 | Thank-you letters in each person's language (subagent) | planned |
@@ -51,6 +51,8 @@ Calling Claude needs an API key in `.env.local` (never committed):
 ```bash
 echo "ANTHROPIC_API_KEY=sk-ant-..." > .env.local
 npm run monosashi   # writes .claude/skills/demo-cafe-monosashi/SKILL.md from the fictional owner's answers
+npm run facts       # F3 + F4 on the fictional month with the real subagents, scored against the answer key
+                    # → data/derived/month.json (committed, so the results can be read without a key)
 ```
 
 Without a key the app still runs: it shows the skill already in the repository and the write button is disabled.
@@ -63,6 +65,8 @@ The fictional month is in `data/seed/entries.json`; `data/seed/labels.json` is t
 
 - A fictional small café with 8 staff: 5 write in Japanese, 2 in Vietnamese, 1 in Indonesian.
 - 180 lines: 108 "someone helped", 36 self-reports, 18 gossip/judgements, 9 duplicates of an event already reported, 9 vague lines.
+- Every duplicate tells the same event as its original in another language (for example Japanese and Indonesian),
+  so finding it means understanding both lines, not matching words.
 - One **loud** person: 20 self-reports, named by others only 3 times.
 - One **quiet** person (writes in Vietnamese): writes 3 lines all month, but is named by others 30 times.
 

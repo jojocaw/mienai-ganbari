@@ -1,0 +1,2925 @@
+{
+  "_note": "Fictional data. Facts extracted by the fact-extractor subagent and checked by plain code.",
+  "generatedAt": "2026-11-02T06:26:12.480Z",
+  "models": {
+    "extractor": "claude-sonnet-5-5",
+    "checker": "claude-haiku-5-5"
+  },
+  "seconds": 131,
+  "costUsd": 0.4683,
+  "counts": {
+    "facts": 153,
+    "events": 144,
+    "duplicates": 9,
+    "selfOnly": 36,
+    "dropped": {
+      "gossip": 0,
+      "judgement": 18,
+      "vague": 9
+    }
+  },
+  "score": {
+    "duplicates": {
+      "expected": 9,
+      "found": 9,
+      "missed": [],
+      "wrong": []
+    },
+    "selfOnly": {
+      "expected": 36,
+      "found": 36,
+      "missed": [],
+      "wrong": []
+    },
+    "dropped": {
+      "expected": 27,
+      "found": 27,
+      "missed": [],
+      "wrong": []
+    },
+    "actor": {
+      "checked": 153,
+      "correct": 153,
+      "wrong": []
+    },
+    "allFound": true
+  },
+  "retries": [],
+  "rejected": [],
+  "facts": [
+    {
+      "entryId": "seed-001",
+      "date": "2026-10-01",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリが朝早く来て、今日のケーキの準備をすべて終えた",
+      "task": "ケーキの仕込み",
+      "verdict": "迷う",
+      "reason": "同じ仕込みをみゆきも自分でやったと書いており、話が食い違うため確認が必要。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-001"
+      ]
+    },
+    {
+      "entryId": "seed-002",
+      "date": "2026-10-01",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "お客様の忘れ物を追いかけて届けた",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "具体的な行動があり、店のための仕事なので付ける。「いちばん動いた」は評価に使わない。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-002"
+      ]
+    },
+    {
+      "entryId": "seed-004",
+      "date": "2026-10-01",
+      "authorId": "miyuki",
+      "kind": "self",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが朝早く来て、今日のケーキの仕込みをした",
+      "task": "ケーキの仕込み",
+      "verdict": "迷う",
+      "reason": "同じ仕込みをプトリがやったとランが書いており、話が食い違うため確認が必要。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-004"
+      ]
+    },
+    {
+      "entryId": "seed-005",
+      "date": "2026-10-01",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "トイレ掃除をした",
+      "task": "トイレ掃除",
+      "verdict": "付ける",
+      "reason": "目立たないが店に必要な具体的な仕事なので付ける。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-005"
+      ]
+    },
+    {
+      "entryId": "seed-006",
+      "date": "2026-10-01",
+      "authorId": "haruka",
+      "kind": "self",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "ゴミの分別とゴミ出しをした",
+      "task": "ゴミの分別とゴミ出し",
+      "verdict": "付ける",
+      "reason": "目立たないが店に必要な具体的な仕事なので付ける。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-006"
+      ]
+    },
+    {
+      "entryId": "seed-007",
+      "date": "2026-10-02",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんがお客様の忘れ物に気づき、走って追いかけて届けた",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "自分から気づいて動き、お客様のために具体的に行動したため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-007"
+      ]
+    },
+    {
+      "entryId": "seed-008",
+      "date": "2026-10-02",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが閉店後にゴミをすべて捨てた",
+      "task": "閉店後のゴミ捨て",
+      "verdict": "付ける",
+      "reason": "閉店後の見えにくい作業を具体的にやったため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-008"
+      ]
+    },
+    {
+      "entryId": "seed-009",
+      "date": "2026-10-02",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [
+        "haruka"
+      ],
+      "action": "プトリさんがコーヒー豆の補充と在庫数の確認をした",
+      "task": "コーヒー豆の補充と在庫確認",
+      "verdict": "付ける",
+      "reason": "店の準備を支える具体的な作業で、はるかが助かったため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-009"
+      ]
+    },
+    {
+      "entryId": "seed-010",
+      "date": "2026-10-02",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんがお客様の忘れた傘を駅の近くまで届けに行った",
+      "task": "忘れた傘を届ける",
+      "verdict": "付ける",
+      "reason": "店の外まで出向いてお客様のために行動したため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-010"
+      ]
+    },
+    {
+      "entryId": "seed-011",
+      "date": "2026-10-02",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんがトイレ掃除をした",
+      "task": "トイレ掃除",
+      "verdict": "付ける",
+      "reason": "見えにくく負担の大きい作業を続けてやったため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-011"
+      ]
+    },
+    {
+      "entryId": "seed-012",
+      "date": "2026-10-02",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [
+        "haruka"
+      ],
+      "action": "けんじさんが豆が切れそうなことに気づき、早めに補充した",
+      "task": "コーヒー豆の早めの補充",
+      "verdict": "付ける",
+      "reason": "自分で気づいて先回りして動き、はるかが助かったため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-012"
+      ]
+    },
+    {
+      "entryId": "seed-013",
+      "date": "2026-10-03",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねがコーヒー豆の補充と在庫数の確認をした",
+      "task": "豆の補充と在庫確認",
+      "verdict": "迷う",
+      "reason": "通常業務の範囲かもしれず、基準だけでは付けるか判断しにくい。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-013"
+      ]
+    },
+    {
+      "entryId": "seed-014",
+      "date": "2026-10-03",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが閉店後に一人で床のモップがけをした",
+      "task": "床のモップがけ",
+      "verdict": "付ける",
+      "reason": "閉店後に一人で行った、人目につきにくい具体的な手助けのため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-014"
+      ]
+    },
+    {
+      "entryId": "seed-015",
+      "date": "2026-10-03",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが溜まっていたグラスや皿を洗った",
+      "task": "溜まった食器洗い",
+      "verdict": "付ける",
+      "reason": "溜まった作業を黙って片付けた具体的な行動のため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-015"
+      ]
+    },
+    {
+      "entryId": "seed-016",
+      "date": "2026-10-03",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが外のメニュー看板の字を書き直した",
+      "task": "メニュー看板の書き直し",
+      "verdict": "付ける",
+      "reason": "店のために具体的な作業を自分から行ったため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-016"
+      ]
+    },
+    {
+      "entryId": "seed-017",
+      "date": "2026-10-03",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [
+        "minh"
+      ],
+      "action": "プトリがミンのレジ締めに最後まで付き添って教えた",
+      "task": "レジ締めを教える",
+      "verdict": "付ける",
+      "reason": "人に最後まで付き合って教えた具体的な手助けのため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-017"
+      ]
+    },
+    {
+      "entryId": "seed-018",
+      "date": "2026-10-03",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが重い粉の袋を倉庫の奥まで運んだ",
+      "task": "粉の袋を倉庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い物を運ぶ具体的な手助けで、他の人の負担を減らしたため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-018"
+      ]
+    },
+    {
+      "entryId": "seed-019",
+      "date": "2026-10-04",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねがゴミを分別し直して捨てに行った",
+      "task": "ゴミの分別し直しと廃棄",
+      "verdict": "付ける",
+      "reason": "人の見ていない後始末を代わりにやっており、具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-019"
+      ]
+    },
+    {
+      "entryId": "seed-020",
+      "date": "2026-10-04",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたがトイレ掃除をした",
+      "task": "トイレ掃除",
+      "verdict": "迷う",
+      "reason": "自己申告のみで確認できず、いつもの担当かも不明なので迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-020"
+      ]
+    },
+    {
+      "entryId": "seed-021",
+      "date": "2026-10-04",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンがゴミを分別し直して捨てに行った",
+      "task": "ゴミの分別し直しと廃棄",
+      "verdict": "付ける",
+      "reason": "人の見ていない後始末を代わりにやっており、具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [
+        "lan"
+      ],
+      "eventEntryIds": [
+        "seed-021",
+        "seed-023"
+      ]
+    },
+    {
+      "entryId": "seed-022",
+      "date": "2026-10-04",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが豆の補充と在庫の確認をした",
+      "task": "豆の補充と在庫確認",
+      "verdict": "迷う",
+      "reason": "作業は具体的だが自己申告で、自分を高く見せる言い方があるので迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-022"
+      ]
+    },
+    {
+      "entryId": "seed-023",
+      "date": "2026-10-04",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンがゴミを分別し直して捨てに行った",
+      "task": "ゴミの分別し直しと廃棄",
+      "verdict": "付ける",
+      "reason": "人の見ていない後始末を代わりにやっており、具体的な行動なので付ける。",
+      "status": "duplicate",
+      "duplicateOf": "seed-021",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-021",
+        "seed-023"
+      ]
+    },
+    {
+      "entryId": "seed-024",
+      "date": "2026-10-04",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [
+        "ayane"
+      ],
+      "action": "はるかが自分の休みを返上し、人が足りない時間に入った",
+      "task": "休日返上で人手不足の時間に入る",
+      "verdict": "付ける",
+      "reason": "自分の休みを使って人手不足を補った具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-024"
+      ]
+    },
+    {
+      "entryId": "seed-026",
+      "date": "2026-10-05",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが重い小麦粉の袋を裏の倉庫まで運んだ。",
+      "task": "粉の袋を倉庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い物を運ぶ具体的な行動で、他の人の負担を減らしたため。",
+      "status": "ok",
+      "corroboratedBy": [
+        "kenji"
+      ],
+      "eventEntryIds": [
+        "seed-026",
+        "seed-031"
+      ]
+    },
+    {
+      "entryId": "seed-027",
+      "date": "2026-10-05",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきがトイレの紙を補充し、掃除をした。",
+      "task": "トイレの補充と掃除",
+      "verdict": "付ける",
+      "reason": "目立たない共用場所の仕事を、頼まれず具体的にやったため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-027"
+      ]
+    },
+    {
+      "entryId": "seed-028",
+      "date": "2026-10-05",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "急な休みが出たため、そうたが代わりにシフトに入った。",
+      "task": "急な休みのシフト代行",
+      "verdict": "迷う",
+      "reason": "代行は具体的だが、自分でいないと回らないと評価しており事実と分けにくい。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-028"
+      ]
+    },
+    {
+      "entryId": "seed-029",
+      "date": "2026-10-05",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじが閉店後にゴミをすべて捨てた。",
+      "task": "閉店後のゴミ捨て",
+      "verdict": "付ける",
+      "reason": "閉店後の片付けを具体的に行い、みんなの作業を減らしたため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-029"
+      ]
+    },
+    {
+      "entryId": "seed-030",
+      "date": "2026-10-05",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが豆が切れそうなことに気づき、早めに補充した。",
+      "task": "コーヒー豆の補充",
+      "verdict": "付ける",
+      "reason": "不足に先に気づいて具体的に動き、営業の滞りを防いだため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-030"
+      ]
+    },
+    {
+      "entryId": "seed-031",
+      "date": "2026-10-05",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [
+        "kenji"
+      ],
+      "action": "はるかが重い粉の袋を倉庫の奥まで運んだ。",
+      "task": "粉の袋を倉庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い物を運ぶ具体的な行動で、他の人の負担を減らしたため。",
+      "status": "duplicate",
+      "duplicateOf": "seed-026",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-026",
+        "seed-031"
+      ]
+    },
+    {
+      "entryId": "seed-032",
+      "date": "2026-10-06",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじが風で倒れた外の看板を直し、重しを付けた",
+      "task": "倒れた看板の修理",
+      "verdict": "迷う",
+      "reason": "同じ出来事を別の人がやったと書く行があり、誰か確定できないため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-032"
+      ]
+    },
+    {
+      "entryId": "seed-033",
+      "date": "2026-10-06",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきがチーズケーキ作りを手伝い、開店に間に合った",
+      "task": "チーズケーキ作り",
+      "verdict": "付ける",
+      "reason": "開店前に具体的な作業を手伝った事実があるため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-033"
+      ]
+    },
+    {
+      "entryId": "seed-034",
+      "date": "2026-10-06",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリが風で倒れた外の看板を直し、重しを付けた",
+      "task": "倒れた看板の修理",
+      "verdict": "迷う",
+      "reason": "同じ出来事を別の人がやったと書く行があり、誰か確定できないため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-034"
+      ]
+    },
+    {
+      "entryId": "seed-035",
+      "date": "2026-10-06",
+      "authorId": "ayane",
+      "kind": "self",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねが豆の補充と在庫の確認をした",
+      "task": "豆の補充と在庫確認",
+      "verdict": "付けない",
+      "reason": "自分の担当作業を自分でやった報告で、人を助けた話ではないため。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-035"
+      ]
+    },
+    {
+      "entryId": "seed-036",
+      "date": "2026-10-06",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが山になっていた洗い物を洗った",
+      "task": "溜まった洗い物",
+      "verdict": "付ける",
+      "reason": "誰にも頼まれず、具体的な作業を代わりにやっているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-036"
+      ]
+    },
+    {
+      "entryId": "seed-037",
+      "date": "2026-10-06",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが外のメニュー看板の字を書き直した",
+      "task": "メニュー看板の書き直し",
+      "verdict": "付ける",
+      "reason": "店のために具体的な作業をしたことが複数の行で確認できるため。",
+      "status": "ok",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-037",
+        "seed-038"
+      ]
+    },
+    {
+      "entryId": "seed-038",
+      "date": "2026-10-06",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが店の前の看板のメニューを書き直した",
+      "task": "メニュー看板の書き直し",
+      "verdict": "付ける",
+      "reason": "店のために具体的な作業をしたことが複数の行で確認できるため。",
+      "status": "duplicate",
+      "duplicateOf": "seed-037",
+      "corroboratedBy": [
+        "haruka"
+      ],
+      "eventEntryIds": [
+        "seed-037",
+        "seed-038"
+      ]
+    },
+    {
+      "entryId": "seed-040",
+      "date": "2026-10-07",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんがお客様の忘れ物に気づき、走って届けた",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "お客様のために具体的に動いた行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-040",
+        "seed-041"
+      ]
+    },
+    {
+      "entryId": "seed-041",
+      "date": "2026-10-07",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんがお客様の忘れ物に気づき、走って返した",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "お客様のために具体的に動いた行動なので付ける。",
+      "status": "duplicate",
+      "duplicateOf": "seed-040",
+      "corroboratedBy": [
+        "kenji"
+      ],
+      "eventEntryIds": [
+        "seed-040",
+        "seed-041"
+      ]
+    },
+    {
+      "entryId": "seed-043",
+      "date": "2026-10-07",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんが山積みのグラスと皿を静かに洗った",
+      "task": "グラスと皿洗い",
+      "verdict": "付ける",
+      "reason": "目立たない場所での具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-043"
+      ]
+    },
+    {
+      "entryId": "seed-044",
+      "date": "2026-10-07",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリさんが閉店後に一人で床をモップがけした",
+      "task": "床のモップがけ",
+      "verdict": "付ける",
+      "reason": "閉店後に一人でやった具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-044"
+      ]
+    },
+    {
+      "entryId": "seed-045",
+      "date": "2026-10-08",
+      "authorId": "kenji",
+      "kind": "self",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "昼のピークの洗い物をほぼ一人でやった",
+      "task": "ピーク時の洗い物",
+      "verdict": "迷う",
+      "reason": "本人の申告のみで、他の人の確認がないため判断を保留する。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-045"
+      ]
+    },
+    {
+      "entryId": "seed-046",
+      "date": "2026-10-08",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが誰もやりたがらないトイレ掃除を今日もやった",
+      "task": "トイレ掃除",
+      "verdict": "付ける",
+      "reason": "皆がやりたがらない仕事を、他の人が見ていなくても続けているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-046"
+      ]
+    },
+    {
+      "entryId": "seed-047",
+      "date": "2026-10-08",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじさんが客の忘れ物に気づき、走って届けた",
+      "task": "客の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "指示なしで客のために動いた具体的な行動のため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-047"
+      ]
+    },
+    {
+      "entryId": "seed-048",
+      "date": "2026-10-08",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリさんが誰もやりたがらないトイレ掃除を今日もやった",
+      "task": "トイレ掃除",
+      "verdict": "付ける",
+      "reason": "皆がやりたがらない仕事を、続けてやっているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-048"
+      ]
+    },
+    {
+      "entryId": "seed-049",
+      "date": "2026-10-08",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかさんが閉店後に店の床全体をこっそりモップがけした",
+      "task": "床のモップがけ",
+      "verdict": "付ける",
+      "reason": "閉店後に誰にも言わず行った、見えにくい仕事のため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-049"
+      ]
+    },
+    {
+      "entryId": "seed-050",
+      "date": "2026-10-08",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [
+        "sota"
+      ],
+      "action": "けんじさんがそうたさんのレジ締めに最後まで付き合って教えた",
+      "task": "レジ締めを教える",
+      "verdict": "付ける",
+      "reason": "仲間の仕事を最後まで付き添って教えた具体的な助けのため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-050"
+      ]
+    },
+    {
+      "entryId": "seed-051",
+      "date": "2026-10-09",
+      "authorId": "miyuki",
+      "kind": "self",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが、お客様の忘れ物を追いかけて届けた",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "迷う",
+      "reason": "自分で書いた自分の行動なので、他の人から見た評価が確認できず保留にします。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-051"
+      ]
+    },
+    {
+      "entryId": "seed-052",
+      "date": "2026-10-09",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランが、トイレの紙の補充と掃除をした",
+      "task": "トイレの紙補充と掃除",
+      "verdict": "付ける",
+      "reason": "他の人が見ていない共用場所の仕事を、具体的にやってくれたので付けます。",
+      "status": "ok",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-052",
+        "seed-057"
+      ]
+    },
+    {
+      "entryId": "seed-055",
+      "date": "2026-10-09",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランが、閉店後のゴミ出しを全部やった",
+      "task": "閉店後のゴミ出し",
+      "verdict": "付ける",
+      "reason": "閉店後の面倒な仕事を一人で引き受けた、具体的な行動なので付けます。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-055"
+      ]
+    },
+    {
+      "entryId": "seed-056",
+      "date": "2026-10-09",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが、たまっていたコップやカップを洗った",
+      "task": "たまった食器洗い",
+      "verdict": "付ける",
+      "reason": "目立たない後片付けを、具体的にやってくれたので付けます。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-056"
+      ]
+    },
+    {
+      "entryId": "seed-057",
+      "date": "2026-10-09",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランが、トイレを掃除してティッシュを交換した",
+      "task": "トイレの紙補充と掃除",
+      "verdict": "付ける",
+      "reason": "共用場所の掃除と補充を具体的にやっていて、他の人も見ているので付けます。",
+      "status": "duplicate",
+      "duplicateOf": "seed-052",
+      "corroboratedBy": [
+        "miyuki"
+      ],
+      "eventEntryIds": [
+        "seed-052",
+        "seed-057"
+      ]
+    },
+    {
+      "entryId": "seed-058",
+      "date": "2026-10-10",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [
+        "ayane"
+      ],
+      "action": "はるかが重い粉の袋を倉庫の奥まで運び、あやねを助けた。",
+      "task": "重い粉袋の運搬",
+      "verdict": "付ける",
+      "reason": "人に見えにくい力仕事を他の人のために行っており、具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-058"
+      ]
+    },
+    {
+      "entryId": "seed-059",
+      "date": "2026-10-10",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが開店前にテラス席のテーブルを拭いた。",
+      "task": "テラス席のテーブル拭き",
+      "verdict": "付ける",
+      "reason": "開店前の目立たない準備を自分から行った具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-059"
+      ]
+    },
+    {
+      "entryId": "seed-060",
+      "date": "2026-10-10",
+      "authorId": "sota",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [
+        "sota"
+      ],
+      "action": "けんじが閉店後のゴミ出しを全部行った。",
+      "task": "閉店後のゴミ出し",
+      "verdict": "付ける",
+      "reason": "閉店後の手間のかかる作業を最後までやった具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-060"
+      ]
+    },
+    {
+      "entryId": "seed-061",
+      "date": "2026-10-10",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [
+        "ayane"
+      ],
+      "action": "みゆきがトイレの紙の補充と掃除をした。",
+      "task": "トイレの補充と掃除",
+      "verdict": "付ける",
+      "reason": "人目につきにくい裏方の仕事を行った具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-061"
+      ]
+    },
+    {
+      "entryId": "seed-062",
+      "date": "2026-10-10",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが倒れていた外の看板を自分で直した。",
+      "task": "倒れた看板を直す",
+      "verdict": "迷う",
+      "reason": "看板を直した事実は具体的だが、自分で価値を主張しており、行動だけで判断すると迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-062"
+      ]
+    },
+    {
+      "entryId": "seed-063",
+      "date": "2026-10-11",
+      "authorId": "kenji",
+      "kind": "self",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじが昼のピーク時の洗い物をほとんど一人でやった",
+      "task": "ピーク時の洗い物",
+      "verdict": "迷う",
+      "reason": "自己申告で第三者の確認がなく、「ほとんど一人」の程度が確かめられないため。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-063"
+      ]
+    },
+    {
+      "entryId": "seed-064",
+      "date": "2026-10-11",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [
+        "lan"
+      ],
+      "action": "みゆきがランのレジ締めに最後まで付き添って教えた",
+      "task": "レジ締めを教える",
+      "verdict": "付ける",
+      "reason": "他の人が見ていた、人のための具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-064"
+      ]
+    },
+    {
+      "entryId": "seed-065",
+      "date": "2026-10-11",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが店の前の黒板のメニューを書き直した",
+      "task": "メニュー黒板の書き直し",
+      "verdict": "付ける",
+      "reason": "他の人が見ていた、店のための具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-065"
+      ]
+    },
+    {
+      "entryId": "seed-066",
+      "date": "2026-10-11",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが朝早く来てケーキの仕込みをした",
+      "task": "ケーキの仕込み",
+      "verdict": "迷う",
+      "reason": "仕込みは具体的だが自己申告で、「いちばん動いた」は自己評価のため確認が必要。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-066"
+      ]
+    },
+    {
+      "entryId": "seed-067",
+      "date": "2026-10-11",
+      "authorId": "haruka",
+      "kind": "self",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが豆の補充と在庫の確認をした",
+      "task": "豆の補充と在庫確認",
+      "verdict": "迷う",
+      "reason": "具体的な作業だが自己申告で、確認する人がいないため。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-067"
+      ]
+    },
+    {
+      "entryId": "seed-068",
+      "date": "2026-10-11",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [
+        "miyuki"
+      ],
+      "action": "プトリがみゆきのために重い粉の袋を倉庫の奥まで運んだ",
+      "task": "重い粉の袋を運ぶ",
+      "verdict": "付ける",
+      "reason": "他の人が見ていた、人を助ける具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-068"
+      ]
+    },
+    {
+      "entryId": "seed-069",
+      "date": "2026-10-12",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが朝早く来て、今日のケーキの仕込みを終わらせた",
+      "task": "ケーキの仕込み",
+      "verdict": "付ける",
+      "reason": "早く来て具体的な仕事を終わらせており、他の人の助けになった行動だから。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-069"
+      ]
+    },
+    {
+      "entryId": "seed-070",
+      "date": "2026-10-12",
+      "authorId": "lan",
+      "kind": "self",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランが重い荷物を倉庫に運び入れた",
+      "task": "重い荷物を倉庫へ運ぶ",
+      "verdict": "迷う",
+      "reason": "本人の自己申告のみで、誰を助けたか分からず確認が必要。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-070"
+      ]
+    },
+    {
+      "entryId": "seed-071",
+      "date": "2026-10-12",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランが開店前にテラス席まで拭いてくれた",
+      "task": "テラス席の拭き掃除",
+      "verdict": "付ける",
+      "reason": "頼まれていない範囲まで具体的に手を動かしており、他の人が見て記録した行動だから。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-071"
+      ]
+    },
+    {
+      "entryId": "seed-072",
+      "date": "2026-10-12",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが新人にレジの打ち方を教えた",
+      "task": "レジの打ち方を教える",
+      "verdict": "迷う",
+      "reason": "教えた事実は具体的だが、自己評価が混じる自己申告なので確認が必要。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-072"
+      ]
+    },
+    {
+      "entryId": "seed-073",
+      "date": "2026-10-12",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねがゴミの分別をやり直し、まとめて出した",
+      "task": "ゴミの分別と搬出",
+      "verdict": "付ける",
+      "reason": "やり直しとゴミ出しという具体的な行動を他の人が見ているから。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-073"
+      ]
+    },
+    {
+      "entryId": "seed-074",
+      "date": "2026-10-12",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじがチーズケーキの仕込みを手伝い、開店に間に合わせた",
+      "task": "チーズケーキの仕込み",
+      "verdict": "付ける",
+      "reason": "具体的な手伝いで開店に間に合うという成果があったから。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-074"
+      ]
+    },
+    {
+      "entryId": "seed-075",
+      "date": "2026-10-13",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [
+        "miyuki"
+      ],
+      "action": "ランがみゆきにレジの打ち方をていねいに教えた",
+      "task": "レジの打ち方を教える",
+      "verdict": "付ける",
+      "reason": "人に仕事を教えた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-075"
+      ]
+    },
+    {
+      "entryId": "seed-076",
+      "date": "2026-10-13",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "閉店後にプトリが一人で床をきれいに拭いた",
+      "task": "閉店後の床掃除",
+      "verdict": "付ける",
+      "reason": "閉店後に一人でやった具体的な作業なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-076"
+      ]
+    },
+    {
+      "entryId": "seed-077",
+      "date": "2026-10-13",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "急な休みが出たため、そうたが代わりにシフトに入った",
+      "task": "急な休みの代わりにシフト",
+      "verdict": "付ける",
+      "reason": "急な欠員を自分で埋めた具体的な行動なので付ける。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-077"
+      ]
+    },
+    {
+      "entryId": "seed-078",
+      "date": "2026-10-13",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたがトイレを掃除した",
+      "task": "トイレ掃除",
+      "verdict": "付ける",
+      "reason": "みんなが避けがちな掃除を実際にした行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-078"
+      ]
+    },
+    {
+      "entryId": "seed-079",
+      "date": "2026-10-13",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじがお客様の忘れ物に気づき、走って追いかけて届けた",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "お客様のために自分から動いた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-079"
+      ]
+    },
+    {
+      "entryId": "seed-080",
+      "date": "2026-10-13",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが重い牛乳の箱をすべて冷蔵庫に運んだ",
+      "task": "牛乳の箱を冷蔵庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い荷物を運んだ具体的な作業なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-080"
+      ]
+    },
+    {
+      "entryId": "seed-081",
+      "date": "2026-10-14",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんがトイレを掃除した",
+      "task": "トイレ掃除",
+      "verdict": "付ける",
+      "reason": "みんなが避けがちな見えにくい仕事を実際にやっているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-081"
+      ]
+    },
+    {
+      "entryId": "seed-082",
+      "date": "2026-10-14",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきさんがチーズケーキ作りを手伝い、開店前に間に合った",
+      "task": "チーズケーキ作り",
+      "verdict": "付ける",
+      "reason": "開店前に間に合わせた具体的な手伝いで、結果もはっきりしている。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-082"
+      ]
+    },
+    {
+      "entryId": "seed-083",
+      "date": "2026-10-14",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたさんが昼のピークの洗い物をほとんど一人でやった",
+      "task": "昼ピークの洗い物",
+      "verdict": "迷う",
+      "reason": "行動は具体的だが、本人の申告のみで「自分がいないと」は自己評価のため確認が要る。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-083"
+      ]
+    },
+    {
+      "entryId": "seed-084",
+      "date": "2026-10-14",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリさんがお客様の忘れ傘を駅の近くまで届けに行った",
+      "task": "忘れ傘を届ける",
+      "verdict": "付ける",
+      "reason": "仕事の範囲外でも店とお客様のために動いた、具体的な行動のため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-084"
+      ]
+    },
+    {
+      "entryId": "seed-085",
+      "date": "2026-10-14",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたさんが急な休みの代わりにシフトに入った",
+      "task": "急な休みのシフト代行",
+      "verdict": "迷う",
+      "reason": "シフト代行は具体的だが、「いちばん動いた」は自己申告で、確認が要る。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-085"
+      ]
+    },
+    {
+      "entryId": "seed-086",
+      "date": "2026-10-15",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが豆が切れそうなのに気づき、早めに補充した",
+      "task": "コーヒー豆の補充",
+      "verdict": "付ける",
+      "reason": "言われる前に気づいて動いた、店全体のための具体的な行動。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-086"
+      ]
+    },
+    {
+      "entryId": "seed-087",
+      "date": "2026-10-15",
+      "authorId": "lan",
+      "kind": "self",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランが忘れ物をした客を追いかけて届けた",
+      "task": "客の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "お客さんのために自分から動いた具体的な行動。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-087"
+      ]
+    },
+    {
+      "entryId": "seed-088",
+      "date": "2026-10-15",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじが朝一番に来てテーブルとイスを全部並べた",
+      "task": "テーブルとイスを並べる",
+      "verdict": "付ける",
+      "reason": "開店準備を皆のために先にやった具体的な行動。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-088"
+      ]
+    },
+    {
+      "entryId": "seed-089",
+      "date": "2026-10-15",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが昼のピークの洗い物をほとんど一人でやった",
+      "task": "昼ピークの洗い物",
+      "verdict": "迷う",
+      "reason": "洗い物は事実だが、回らなかったという自己評価は含めず判断が分かれる。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-089"
+      ]
+    },
+    {
+      "entryId": "seed-090",
+      "date": "2026-10-15",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねが閉店後のゴミ出しを全部やった",
+      "task": "閉店後のゴミ出し",
+      "verdict": "付ける",
+      "reason": "閉店後の片付けを皆のために引き受けた具体的な行動。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-090"
+      ]
+    },
+    {
+      "entryId": "seed-091",
+      "date": "2026-10-15",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが風で倒れた看板を立て直し、重しを置いた",
+      "task": "倒れた看板を直す",
+      "verdict": "付ける",
+      "reason": "店のために気づいて動いた具体的な行動。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-091"
+      ]
+    },
+    {
+      "entryId": "seed-092",
+      "date": "2026-10-16",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじさんが開店前にテラス席まで拭いた",
+      "task": "テラス席の拭き掃除",
+      "verdict": "付ける",
+      "reason": "開店前に具体的な作業を人のために行っているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-092"
+      ]
+    },
+    {
+      "entryId": "seed-093",
+      "date": "2026-10-16",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが朝早く来て、今日のケーキの仕込みを全部終わらせた",
+      "task": "ケーキの仕込み",
+      "verdict": "付ける",
+      "reason": "早出して店の準備を具体的に終わらせているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-093"
+      ]
+    },
+    {
+      "entryId": "seed-095",
+      "date": "2026-10-16",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんが一番早く来て、開店前にテーブルと椅子を全部並べた",
+      "task": "開店前のテーブルと椅子並べ",
+      "verdict": "付ける",
+      "reason": "開店前に具体的な準備作業を行っているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-095"
+      ]
+    },
+    {
+      "entryId": "seed-096",
+      "date": "2026-10-16",
+      "authorId": "putri",
+      "kind": "self",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリさんが閉店後に床をモップがけした",
+      "task": "床のモップがけ",
+      "verdict": "迷う",
+      "reason": "自己申告のため、他の人の確認がなく判断できない。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-096"
+      ]
+    },
+    {
+      "entryId": "seed-097",
+      "date": "2026-10-16",
+      "authorId": "minh",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリさんが客の忘れ物の傘を駅の近くまで届けて返した",
+      "task": "忘れ物の傘を届ける",
+      "verdict": "付ける",
+      "reason": "業務外の手間をかけて客のために具体的に動いているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-097"
+      ]
+    },
+    {
+      "entryId": "seed-098",
+      "date": "2026-10-17",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが、お客さんの忘れ傘を駅の近くまで届けた。",
+      "task": "忘れ傘を届ける",
+      "verdict": "迷う",
+      "reason": "お客さん向けの具体的な行動だが、仕事の範囲かどうか基準で決めきれない。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-098"
+      ]
+    },
+    {
+      "entryId": "seed-099",
+      "date": "2026-10-17",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [
+        "haruka"
+      ],
+      "action": "あやねが閉店後のゴミ出しを全部やった。",
+      "task": "閉店後のゴミ出し",
+      "verdict": "付ける",
+      "reason": "他の人の負担になる作業を、最後まで具体的にやってくれたため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-099"
+      ]
+    },
+    {
+      "entryId": "seed-100",
+      "date": "2026-10-17",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [
+        "haruka"
+      ],
+      "action": "プトリが朝早く来て、今日のケーキの仕込みを全部終わらせた。",
+      "task": "朝のケーキの仕込み",
+      "verdict": "迷う",
+      "reason": "同じ仕込みを別の人がしたとする記述が2件あり、事実が確認できない。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-100"
+      ]
+    },
+    {
+      "entryId": "seed-101",
+      "date": "2026-10-17",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが朝早く来て、今日のケーキの仕込みを全部終わらせた。",
+      "task": "朝のケーキの仕込み",
+      "verdict": "迷う",
+      "reason": "同じ仕込みを別の人がしたとする記述が複数あり、事実が確認できない。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-101"
+      ]
+    },
+    {
+      "entryId": "seed-102",
+      "date": "2026-10-17",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが朝早く来て、今日のケーキの仕込みを全部終わらせた。",
+      "task": "朝のケーキの仕込み",
+      "verdict": "迷う",
+      "reason": "同じ仕込みを別の人がしたとする記述が複数あり、事実が確認できない。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-102"
+      ]
+    },
+    {
+      "entryId": "seed-103",
+      "date": "2026-10-18",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [
+        "putri"
+      ],
+      "action": "はるかさんが残って、プトリさんに終業時のレジ締めのやり方を教えた。",
+      "task": "レジ締めのやり方を教える",
+      "verdict": "付ける",
+      "reason": "時間を使って仕事を教えており、具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-103"
+      ]
+    },
+    {
+      "entryId": "seed-104",
+      "date": "2026-10-18",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが急な欠勤の代わりに、予定外でシフトに入った。",
+      "task": "急な欠勤の代わりにシフト",
+      "verdict": "付ける",
+      "reason": "予定外で急な穴を埋めた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-104",
+        "seed-109"
+      ]
+    },
+    {
+      "entryId": "seed-106",
+      "date": "2026-10-18",
+      "authorId": "miyuki",
+      "kind": "self",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきさんが新人さんにレジの打ち方を教えた。",
+      "task": "レジの打ち方を教える",
+      "verdict": "付ける",
+      "reason": "新人に仕事を教えた具体的な行動なので付ける。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-106"
+      ]
+    },
+    {
+      "entryId": "seed-107",
+      "date": "2026-10-18",
+      "authorId": "sota",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんがコーヒー豆の補充と在庫の数の確認をした。",
+      "task": "コーヒー豆補充と在庫確認",
+      "verdict": "迷う",
+      "reason": "通常業務の範囲か頼まれたかが不明なので迷う。",
+      "status": "ok",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-107",
+        "seed-110"
+      ]
+    },
+    {
+      "entryId": "seed-108",
+      "date": "2026-10-18",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが重い粉の袋を倉庫の奥まで運んだ。",
+      "task": "重い粉袋を倉庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い物を運ぶ具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-108"
+      ]
+    },
+    {
+      "entryId": "seed-109",
+      "date": "2026-10-18",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが急に休んだ人の代わりにシフトに入った。",
+      "task": "急な欠勤の代わりにシフト",
+      "verdict": "付ける",
+      "reason": "急な穴を埋めた具体的な行動なので付ける。",
+      "status": "duplicate",
+      "duplicateOf": "seed-104",
+      "corroboratedBy": [
+        "ayane"
+      ],
+      "eventEntryIds": [
+        "seed-104",
+        "seed-109"
+      ]
+    },
+    {
+      "entryId": "seed-110",
+      "date": "2026-10-18",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんがコーヒー豆の補充と在庫の確認をした。",
+      "task": "コーヒー豆補充と在庫確認",
+      "verdict": "迷う",
+      "reason": "通常業務の範囲か頼まれたかが不明なので迷う。",
+      "status": "duplicate",
+      "duplicateOf": "seed-107",
+      "corroboratedBy": [
+        "sota"
+      ],
+      "eventEntryIds": [
+        "seed-107",
+        "seed-110"
+      ]
+    },
+    {
+      "entryId": "seed-112",
+      "date": "2026-10-19",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきさんが外のメニュー看板の字を書き直した",
+      "task": "メニュー看板の書き直し",
+      "verdict": "付ける",
+      "reason": "店のために具体的な作業を他の人がしており、見て分かる行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-112"
+      ]
+    },
+    {
+      "entryId": "seed-113",
+      "date": "2026-10-19",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [
+        "sota"
+      ],
+      "action": "ミンさんがそうたさんのレジ締めに最後まで付き合って教えた",
+      "task": "レジ締めを教える",
+      "verdict": "付ける",
+      "reason": "仲間に仕事を教えて最後まで付き添った、具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-113"
+      ]
+    },
+    {
+      "entryId": "seed-114",
+      "date": "2026-10-19",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたさんが豆の補充と在庫の確認を自分で行った",
+      "task": "豆の補充と在庫確認",
+      "verdict": "迷う",
+      "reason": "自己申告で他の人の確認がなく、自慢の言葉も混じるため迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-114"
+      ]
+    },
+    {
+      "entryId": "seed-115",
+      "date": "2026-10-19",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたさんがゴミの分別とゴミ出しを自分で行った",
+      "task": "ゴミの分別とゴミ出し",
+      "verdict": "迷う",
+      "reason": "自己申告のみで他の人の確認がないため迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-115"
+      ]
+    },
+    {
+      "entryId": "seed-116",
+      "date": "2026-10-19",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが開店前にテラス席まで拭いた",
+      "task": "テラス席の拭き掃除",
+      "verdict": "付ける",
+      "reason": "開店前に頼まれず範囲を広げて掃除した、具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-116"
+      ]
+    },
+    {
+      "entryId": "seed-117",
+      "date": "2026-10-20",
+      "authorId": "sota",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんがゴミの分別をやり直し、まとめてゴミ出しをした",
+      "task": "ゴミの分別とゴミ出し",
+      "verdict": "迷う",
+      "reason": "オーナーの物差しの資料を確認できず、判断できないため迷うにしました。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-117"
+      ]
+    },
+    {
+      "entryId": "seed-118",
+      "date": "2026-10-20",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんが閉店後に一人で床のモップがけをした",
+      "task": "床のモップがけ",
+      "verdict": "迷う",
+      "reason": "オーナーの物差しの資料を確認できず、判断できないため迷うにしました。",
+      "status": "ok",
+      "corroboratedBy": [
+        "putri"
+      ],
+      "eventEntryIds": [
+        "seed-118",
+        "seed-121"
+      ]
+    },
+    {
+      "entryId": "seed-120",
+      "date": "2026-10-20",
+      "authorId": "ayane",
+      "kind": "self",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんがゴミの分別とゴミ出しを自分でした",
+      "task": "ゴミの分別とゴミ出し",
+      "verdict": "迷う",
+      "reason": "オーナーの物差しの資料を確認できず、判断できないため迷うにしました。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-120"
+      ]
+    },
+    {
+      "entryId": "seed-121",
+      "date": "2026-10-20",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんが閉店後に一人で床のモップがけをした",
+      "task": "床のモップがけ",
+      "verdict": "迷う",
+      "reason": "オーナーの物差しの資料を確認できず、判断できないため迷うにしました。",
+      "status": "duplicate",
+      "duplicateOf": "seed-118",
+      "corroboratedBy": [
+        "haruka"
+      ],
+      "eventEntryIds": [
+        "seed-118",
+        "seed-121"
+      ]
+    },
+    {
+      "entryId": "seed-124",
+      "date": "2026-10-21",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんが急な欠勤の代わりに、予定外でシフトに入った。",
+      "task": "急な欠勤の代わりに出勤",
+      "verdict": "付ける",
+      "reason": "予定外で穴を埋めた、はっきりした行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-124"
+      ]
+    },
+    {
+      "entryId": "seed-125",
+      "date": "2026-10-21",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが客の忘れ物の傘を駅の近くまで届けて返した。",
+      "task": "忘れ物の傘を届ける",
+      "verdict": "迷う",
+      "reason": "お客さん向けの行動で、仲間を助けたかは判断が分かれるため迷う。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-125"
+      ]
+    },
+    {
+      "entryId": "seed-126",
+      "date": "2026-10-21",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリさんが山になっていた洗い物を黙って洗った。",
+      "task": "山になった洗い物を洗う",
+      "verdict": "付ける",
+      "reason": "溜まった仕事を見えないところで片付けた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-126"
+      ]
+    },
+    {
+      "entryId": "seed-127",
+      "date": "2026-10-21",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんが山になっていた洗い物を黙って洗った。",
+      "task": "山になった洗い物を洗う",
+      "verdict": "付ける",
+      "reason": "溜まった仕事を見えないところで片付けた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-127"
+      ]
+    },
+    {
+      "entryId": "seed-129",
+      "date": "2026-10-22",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンがコーヒー豆を補充し、在庫の数を確認した。",
+      "task": "豆の補充と在庫確認",
+      "verdict": "付ける",
+      "reason": "店のために具体的な作業を頼まれず行っており、目立たない働きなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-129"
+      ]
+    },
+    {
+      "entryId": "seed-130",
+      "date": "2026-10-22",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが閉店後、何も言わずに床を全部拭いた。",
+      "task": "閉店後の床拭き",
+      "verdict": "付ける",
+      "reason": "閉店後に声をかけず行った、人に見えにくい作業なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-130"
+      ]
+    },
+    {
+      "entryId": "seed-132",
+      "date": "2026-10-22",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじが閉店後に一人で床のモップがけをした。",
+      "task": "床のモップがけ",
+      "verdict": "付ける",
+      "reason": "閉店後に一人で行った、人に見えにくい作業なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-132"
+      ]
+    },
+    {
+      "entryId": "seed-133",
+      "date": "2026-10-22",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが豆が切れそうなのに気づき、早めに補充した。",
+      "task": "コーヒー豆の補充",
+      "verdict": "付ける",
+      "reason": "自分から気づいて先回りして動いた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-133"
+      ]
+    },
+    {
+      "entryId": "seed-134",
+      "date": "2026-10-22",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが自分の休みを返上し、人手が足りない時に出勤した。",
+      "task": "休日返上で出勤",
+      "verdict": "付ける",
+      "reason": "人手不足の店のために自分の休みを使った具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-134"
+      ]
+    },
+    {
+      "entryId": "seed-136",
+      "date": "2026-10-23",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが新人にレジの打ち方を教えた",
+      "task": "レジの打ち方を教える",
+      "verdict": "迷う",
+      "reason": "行動は具体的だが「自分がいないと回らない」は本人の自己評価で確認できないため。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-136"
+      ]
+    },
+    {
+      "entryId": "seed-138",
+      "date": "2026-10-23",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたが急な休みの代わりにシフトに入った",
+      "task": "急な休みの代わりにシフト",
+      "verdict": "迷う",
+      "reason": "行動は具体的だが「自分がいないと回らない」は自己評価で確認できないため。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-138"
+      ]
+    },
+    {
+      "entryId": "seed-140",
+      "date": "2026-10-23",
+      "authorId": "haruka",
+      "kind": "self",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかが急な休みの代わりにシフトに入った",
+      "task": "急な休みの代わりにシフト",
+      "verdict": "付ける",
+      "reason": "急な欠員を埋める具体的な行動で、店の助けになったため。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-140"
+      ]
+    },
+    {
+      "entryId": "seed-141",
+      "date": "2026-10-24",
+      "authorId": "haruka",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんが閉店後のゴミ出しを全部once行った",
+      "task": "閉店後のゴミ出し",
+      "verdict": "付ける",
+      "reason": "人目につきにくい閉店後の仕事を最後までやったので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-141"
+      ]
+    },
+    {
+      "entryId": "seed-142",
+      "date": "2026-10-24",
+      "authorId": "kenji",
+      "kind": "self",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじさんが今日もトイレ掃除をした",
+      "task": "トイレ掃除",
+      "verdict": "迷う",
+      "reason": "自己申告で、いつもの担当かどうか分からないため迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-142"
+      ]
+    },
+    {
+      "entryId": "seed-143",
+      "date": "2026-10-24",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [],
+      "action": "はるかさんが自分の休みを返上し、人が足りない時間に出勤した",
+      "task": "休みを返上して穴埋め",
+      "verdict": "付ける",
+      "reason": "自分の休みを使って人手不足を埋めた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-143"
+      ]
+    },
+    {
+      "entryId": "seed-144",
+      "date": "2026-10-24",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [
+        "lan"
+      ],
+      "action": "ミンさんがランさんのレジ締めに最後まで付き添って教えた",
+      "task": "レジ締めを教える",
+      "verdict": "付ける",
+      "reason": "仲間の仕事を最後まで教えた具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-144"
+      ]
+    },
+    {
+      "entryId": "seed-145",
+      "date": "2026-10-24",
+      "authorId": "ayane",
+      "kind": "self",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんが急な休みの代わりにシフトに入った",
+      "task": "急な休みの代理出勤",
+      "verdict": "迷う",
+      "reason": "助けにはなるが自己申告のため、確認が要るので迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-145"
+      ]
+    },
+    {
+      "entryId": "seed-146",
+      "date": "2026-10-25",
+      "authorId": "putri",
+      "kind": "self",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリが閉店後に床をモップがけした",
+      "task": "閉店後の床のモップがけ",
+      "verdict": "迷う",
+      "reason": "自分で書いた自己申告で、誰かを助けた記録ではないため確認が必要。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-146"
+      ]
+    },
+    {
+      "entryId": "seed-148",
+      "date": "2026-10-25",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "putri",
+      "forIds": [],
+      "action": "プトリが早朝に来て、今日のケーキの準備を全部終えた",
+      "task": "朝のケーキの準備",
+      "verdict": "付ける",
+      "reason": "他の人が見て書いた、具体的で店のためになる行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-148"
+      ]
+    },
+    {
+      "entryId": "seed-150",
+      "date": "2026-10-25",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねがお客様の忘れ物に気づき、走って追いかけて届けた",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "付ける",
+      "reason": "他の人が見た具体的な行動で、お客様のためになっているので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-150"
+      ]
+    },
+    {
+      "entryId": "seed-151",
+      "date": "2026-10-25",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [
+        "miyuki"
+      ],
+      "action": "ランがみゆきのチーズケーキの仕込みを手伝い、開店に間に合わせた",
+      "task": "チーズケーキの仕込み",
+      "verdict": "付ける",
+      "reason": "助けられた本人が書いた、具体的で結果もある手伝いなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-151"
+      ]
+    },
+    {
+      "entryId": "seed-152",
+      "date": "2026-10-26",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが閉店後に一人で床のモップがけをした",
+      "task": "床のモップがけ",
+      "verdict": "付ける",
+      "reason": "閉店後に一人で行った具体的な作業で、他の人の手間を減らしたため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-152"
+      ]
+    },
+    {
+      "entryId": "seed-154",
+      "date": "2026-10-26",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが豆が切れそうなのに気づき、早めに補充した",
+      "task": "豆の補充",
+      "verdict": "付ける",
+      "reason": "気づいて先回りで補充した具体的な行動で、店の損失を防いだため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-154"
+      ]
+    },
+    {
+      "entryId": "seed-155",
+      "date": "2026-10-26",
+      "authorId": "sota",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [
+        "ayane"
+      ],
+      "action": "ランがあやねにレジの打ち方をていねいに教えた",
+      "task": "レジの打ち方を教える",
+      "verdict": "付ける",
+      "reason": "仲間に仕事を教えた具体的な行動で、チームの力になったため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-155"
+      ]
+    },
+    {
+      "entryId": "seed-156",
+      "date": "2026-10-26",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたがゴミの分別とゴミ出しを自分で行った",
+      "task": "ゴミの分別とゴミ出し",
+      "verdict": "迷う",
+      "reason": "自己申告で確認できず、「いちばん動いた」という自己評価は数えない。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-156"
+      ]
+    },
+    {
+      "entryId": "seed-158",
+      "date": "2026-10-27",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [],
+      "action": "ランさんが外のメニュー看板の字を書き直した",
+      "task": "メニュー看板の書き直し",
+      "verdict": "付ける",
+      "reason": "他の人のために具体的な作業をしており、見えにくい頑張りなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-158"
+      ]
+    },
+    {
+      "entryId": "seed-159",
+      "date": "2026-10-27",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "閉店後の床のモップがけを一人でやった",
+      "task": "床のモップがけ",
+      "verdict": "迷う",
+      "reason": "自己申告のみで、誰かを助けたか確認できないため迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-159"
+      ]
+    },
+    {
+      "entryId": "seed-160",
+      "date": "2026-10-27",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "トイレ掃除をやった",
+      "task": "トイレ掃除",
+      "verdict": "迷う",
+      "reason": "自己申告のみで、他の人を助けた事実が確認できないため迷う。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-160"
+      ]
+    },
+    {
+      "entryId": "seed-162",
+      "date": "2026-10-27",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [
+        "lan"
+      ],
+      "action": "あやねさんがランさんにレジの打ち方をていねいに教えた",
+      "task": "レジの打ち方を教える",
+      "verdict": "付ける",
+      "reason": "仲間に仕事を教えるという具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-162"
+      ]
+    },
+    {
+      "entryId": "seed-163",
+      "date": "2026-10-28",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "miyuki",
+      "forIds": [],
+      "action": "みゆきが閉店後に店のゴミをすべて捨てた",
+      "task": "閉店後のゴミ捨て",
+      "verdict": "付ける",
+      "reason": "店全体のための具体的な作業を、本人以外がやったと書かれているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-163"
+      ]
+    },
+    {
+      "entryId": "seed-164",
+      "date": "2026-10-28",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねが開店前にテラス席のテーブルをすべて拭いた",
+      "task": "テラス席のテーブル拭き",
+      "verdict": "付ける",
+      "reason": "開店前に店のための具体的な作業をした事実が書かれているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-164"
+      ]
+    },
+    {
+      "entryId": "seed-166",
+      "date": "2026-10-28",
+      "authorId": "putri",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンが山積みのコップと皿を洗った",
+      "task": "食器洗い",
+      "verdict": "付ける",
+      "reason": "目立たない場所でも、具体的な作業をした事実が書かれているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-166"
+      ]
+    },
+    {
+      "entryId": "seed-169",
+      "date": "2026-10-29",
+      "authorId": "ayane",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [],
+      "action": "けんじさんが閉店後のゴミ出しを全部行った",
+      "task": "閉店後のゴミ出し",
+      "verdict": "付ける",
+      "reason": "他の人のために具体的な作業を最後までやっているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-169"
+      ]
+    },
+    {
+      "entryId": "seed-170",
+      "date": "2026-10-29",
+      "authorId": "sota",
+      "kind": "self",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたさんがお客様の忘れ物を追いかけて届けた",
+      "task": "お客様の忘れ物を届ける",
+      "verdict": "迷う",
+      "reason": "自己申告のみで、他の人の確認がないため判断を保留する。",
+      "status": "self-only",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-170"
+      ]
+    },
+    {
+      "entryId": "seed-171",
+      "date": "2026-10-29",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "minh",
+      "forIds": [],
+      "action": "ミンさんがお客様の忘れた傘を駅の近くまで届けた",
+      "task": "忘れた傘を届ける",
+      "verdict": "付ける",
+      "reason": "他の人が見ていた、具体的な行動のため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-171"
+      ]
+    },
+    {
+      "entryId": "seed-172",
+      "date": "2026-10-29",
+      "authorId": "lan",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんが重い粉の袋を倉庫の中まで運んだ",
+      "task": "粉の袋を倉庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い物を運ぶ具体的な手助けで、複数の人が同じ内容を書いているため。",
+      "status": "ok",
+      "corroboratedBy": [
+        "miyuki"
+      ],
+      "eventEntryIds": [
+        "seed-172",
+        "seed-175"
+      ]
+    },
+    {
+      "entryId": "seed-173",
+      "date": "2026-10-29",
+      "authorId": "minh",
+      "kind": "help",
+      "actorId": "kenji",
+      "forIds": [
+        "lan"
+      ],
+      "action": "けんじさんがランさんにレジの使い方を丁寧に教えた",
+      "task": "レジの打ち方を教える",
+      "verdict": "付ける",
+      "reason": "人に仕事を教える具体的な行動のため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-173"
+      ]
+    },
+    {
+      "entryId": "seed-174",
+      "date": "2026-10-29",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんがピーク時にたまった洗い物を全部片づけた",
+      "task": "ピーク時の洗い物",
+      "verdict": "付ける",
+      "reason": "忙しい時間に具体的な作業を代わりにやっているため。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-174"
+      ]
+    },
+    {
+      "entryId": "seed-175",
+      "date": "2026-10-29",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "ayane",
+      "forIds": [],
+      "action": "あやねさんが重い粉の袋を倉庫の奥まで運んだ",
+      "task": "粉の袋を倉庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い物を運ぶ具体的な手助けで、複数の人が同じ内容を書いているため。",
+      "status": "duplicate",
+      "duplicateOf": "seed-172",
+      "corroboratedBy": [
+        "lan"
+      ],
+      "eventEntryIds": [
+        "seed-172",
+        "seed-175"
+      ]
+    },
+    {
+      "entryId": "seed-177",
+      "date": "2026-10-30",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "sota",
+      "forIds": [],
+      "action": "そうたさんが、皆がやりたがらないトイレ掃除をした",
+      "task": "トイレ掃除",
+      "verdict": "付ける",
+      "reason": "誰もやりたがらない仕事を進んで引き受けた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-177"
+      ]
+    },
+    {
+      "entryId": "seed-178",
+      "date": "2026-10-30",
+      "authorId": "kenji",
+      "kind": "help",
+      "actorId": "lan",
+      "forIds": [
+        "haruka"
+      ],
+      "action": "ランさんが、はるかさんのレジ締めに最後まで付き添って教えた",
+      "task": "レジ締めを教える",
+      "verdict": "付ける",
+      "reason": "他の人の仕事を最後まで時間をかけて教えた具体的な行動なので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-178"
+      ]
+    },
+    {
+      "entryId": "seed-179",
+      "date": "2026-10-30",
+      "authorId": "miyuki",
+      "kind": "help",
+      "actorId": "haruka",
+      "forIds": [
+        "miyuki"
+      ],
+      "action": "はるかさんが、重い粉の袋を倉庫の奥まで運んだ",
+      "task": "粉の袋を倉庫へ運ぶ",
+      "verdict": "付ける",
+      "reason": "重い荷物を代わりに運んだ具体的な手助けなので付ける。",
+      "status": "ok",
+      "corroboratedBy": [],
+      "eventEntryIds": [
+        "seed-179"
+      ]
+    }
+  ],
+  "dropped": [
+    {
+      "entryId": "seed-003",
+      "date": "2026-10-01",
+      "authorId": "haruka",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-025",
+      "date": "2026-10-05",
+      "authorId": "kenji",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-039",
+      "date": "2026-10-07",
+      "authorId": "ayane",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-042",
+      "date": "2026-10-07",
+      "authorId": "sota",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-053",
+      "date": "2026-10-09",
+      "authorId": "sota",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-054",
+      "date": "2026-10-09",
+      "authorId": "sota",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-094",
+      "date": "2026-10-16",
+      "authorId": "sota",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-105",
+      "date": "2026-10-18",
+      "authorId": "kenji",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-111",
+      "date": "2026-10-19",
+      "authorId": "haruka",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-119",
+      "date": "2026-10-20",
+      "authorId": "miyuki",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-122",
+      "date": "2026-10-20",
+      "authorId": "lan",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-123",
+      "date": "2026-10-21",
+      "authorId": "miyuki",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-128",
+      "date": "2026-10-21",
+      "authorId": "putri",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-131",
+      "date": "2026-10-22",
+      "authorId": "ayane",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-135",
+      "date": "2026-10-23",
+      "authorId": "minh",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-137",
+      "date": "2026-10-23",
+      "authorId": "ayane",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-139",
+      "date": "2026-10-23",
+      "authorId": "kenji",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-147",
+      "date": "2026-10-25",
+      "authorId": "sota",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-149",
+      "date": "2026-10-25",
+      "authorId": "sota",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-153",
+      "date": "2026-10-26",
+      "authorId": "miyuki",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-157",
+      "date": "2026-10-26",
+      "authorId": "putri",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-161",
+      "date": "2026-10-27",
+      "authorId": "lan",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-165",
+      "date": "2026-10-28",
+      "authorId": "kenji",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-167",
+      "date": "2026-10-28",
+      "authorId": "ayane",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-168",
+      "date": "2026-10-28",
+      "authorId": "haruka",
+      "reason": "vague"
+    },
+    {
+      "entryId": "seed-176",
+      "date": "2026-10-30",
+      "authorId": "sota",
+      "reason": "judgement"
+    },
+    {
+      "entryId": "seed-180",
+      "date": "2026-10-30",
+      "authorId": "sota",
+      "reason": "judgement"
+    }
+  ]
+}

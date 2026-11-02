@@ -73,6 +73,7 @@ export async function runStructured<T>(args: {
     ...(args.effort ? { effort: args.effort } : {}),
     ...(args.agent ? { agent: args.agent, agents: args.agents } : {}),
     tools: [],
+    strictMcpConfig: true,
     settingSources: args.settingSources ?? [],
     persistSession: false,
     permissionMode: "dontAsk",

@@ -51,6 +51,10 @@ test("every duplicate points at an earlier line about the same person, task and 
     assert.ok(orig, `${d.id} has no original`);
     assert.equal(orig.kind, "help");
     assert.equal(orig.eventKey, d.eventKey);
+    assert.equal((orig as { variant?: number }).variant, d.variant, `${d.id} tells a different version of the event`);
+    assert.equal((orig as { helpedId?: string }).helpedId, d.helpedId, `${d.id} names a different person helped`);
+    assert.notEqual(d.authorId, d.helpedId);
+    assert.notEqual((entryById.get(d.dupOf) as { text: string }).text, (entryById.get(d.id) as { text: string }).text, `${d.id} is word for word the same as its original`);
     assert.notEqual(orig.authorId, d.authorId);
     const [a, b] = [entryById.get(d.dupOf) as { date: string; createdAt: string }, entryById.get(d.id) as { date: string; createdAt: string }];
     assert.equal(a.date, b.date);

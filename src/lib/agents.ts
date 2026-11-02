@@ -1,4 +1,6 @@
-// The app's subagents (Claude Agent SDK). Each one has a narrow job, its own model and no tools.
+// The app's subagents (Claude Agent SDK). Each one has a narrow job and its own model.
+// They get no tools: runStructured() turns every built-in tool off for the session and the agents inherit that
+// (only the SDK's own StructuredOutput tool remains, which returns the JSON answer).
 // The fact extractor preloads the owner's yardstick skill, so the owner's rules are applied to every line.
 // アプリの手伝い役 (サブエージェント)。役は狭く、モデルは役ごと、道具は持たせない。
 // 事実そろえ係は店長の物差しのスキルを読み込んでから働く。
@@ -30,7 +32,6 @@ export function agentDefinitions(): Record<string, AgentDefinition> {
     "fact-extractor": {
       description: "Turns daily one-line notes into plain facts and applies the owner's yardstick skill.",
       prompt: FACT_EXTRACTOR_PROMPT,
-      tools: [],
       skills: [SKILL_NAME],
       model: model("extractor"),
       effort: effort("extractor"),
@@ -39,7 +40,6 @@ export function agentDefinitions(): Record<string, AgentDefinition> {
     checker: {
       description: "Suggests which facts of one day describe the same event.",
       prompt: CHECKER_PROMPT,
-      tools: [],
       model: model("checker"),
       effort: effort("checker"),
       maxTurns: 4,

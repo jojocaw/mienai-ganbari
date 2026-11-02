@@ -56,7 +56,10 @@ test("the same event under a different job name is caught only through a safe ch
   const checker: Ask = async ({ prompt }) => {
     const ids = new Set(idsIn(prompt));
     const groups = labels.filter((l) => l.kind === "dup" && ids.has(l.id)).map((l) => [l.dupOf!, l.id]);
-    if (ids.has("seed-001") && ids.has("seed-003")) groups.push(["seed-001", "seed-003"]); // different people: must be refused
+    // one unsafe suggestion per day: two facts by different people must be refused
+    const actors = [...prompt.matchAll(/entryId: (\S+) \| writer: \S+ \| actorId: (\S+)/g)].map((m) => ({ id: m[1], actor: m[2] }));
+    const other = actors.find((a) => a.actor !== actors[0]?.actor);
+    if (other) groups.push([actors[0].id, other.id]);
     return { raw: { groups }, costUsd: 0.0005 };
   };
   const run = await runMonth(entries, { extract: idealAsk(true), check: checker });
@@ -138,11 +141,12 @@ test("the extractor's prompt lists every staff member and every line, as written
   for (const e of day) assert.ok(p.includes(e.text) && p.includes(e.id));
 });
 
-test("each subagent has a narrow job: no tools, its own model, and the extractor preloads the owner's skill", () => {
+test("each subagent has a narrow job: no tools of its own, its own model, and the extractor preloads the owner's skill", () => {
   const a = agentDefinitions();
-  assert.deepEqual(a["fact-extractor"].tools, []);
+  // No tools are granted here; the session turns all built-in tools off and the agents inherit that.
+  assert.equal(a["fact-extractor"].tools, undefined);
+  assert.equal(a.checker.tools, undefined);
   assert.deepEqual(a["fact-extractor"].skills, [SKILL_NAME]);
-  assert.deepEqual(a.checker.tools, []);
   assert.equal(a["fact-extractor"].model, model("extractor"));
   assert.equal(a.checker.model, model("checker"));
   assert.equal(new Set([model("writer"), model("extractor"), model("checker")]).size, 3);

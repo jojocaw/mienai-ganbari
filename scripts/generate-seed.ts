@@ -23,6 +23,10 @@ export interface Label {
   /** Same real-world event → same key. Duplicates share the key of the original. */
   eventKey?: string;
   dupOf?: string;
+  /** Sentence variant (help/dup): a duplicate uses the same variant as its original, so it tells the same event. */
+  variant?: number;
+  /** The person who was helped, when the sentence names one. */
+  helpedId?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -262,11 +266,16 @@ interface Row {
   text: string;
   day?: number;
   ref?: Row;
+  /** Which sentence variant was used (the variants are the same event in every language). */
+  variant?: number;
+  /** The person who was helped, for tasks that name one ({U}). */
+  uId?: string;
 }
 
-function helpLine(author: Staff, subj: Staff, task: Task): string {
+function helpLine(author: Staff, subj: Staff, task: Task): { text: string; variant: number; uId?: string } {
   const u = task.needsU ? pick(STAFF.filter((x) => x.id !== subj.id && x.id !== author.id)) : undefined;
-  return fill(pick(task.other[author.lang]), author, subj, u);
+  const variant = Math.floor(rand() * task.other[author.lang].length);
+  return { text: fill(task.other[author.lang][variant], author, subj, u), variant, uId: u?.id };
 }
 
 function selfLine(author: Staff, task: Task): string {
@@ -286,7 +295,7 @@ function build(): Row[] {
   const helpAuthors = repeat({ sota: 4, minh: 2, haruka: 18, miyuki: 17, kenji: 17, ayane: 17, lan: 17, putri: 16 });
   for (const [a, s] of pairAuthors(helpSubjects, helpAuthors)) {
     const task = pick(TASKS);
-    rows.push({ kind: "help", authorId: a, subjectIds: [s], task: task.key, text: helpLine(byId.get(a)!, byId.get(s)!, task) });
+    rows.push({ kind: "help", authorId: a, subjectIds: [s], task: task.key, ...helpLine(byId.get(a)!, byId.get(s)!, task) });
   }
 
   // self-reports: 36 lines. Sota writes 20 of them; Minh writes none.
@@ -323,7 +332,8 @@ function build(): Row[] {
     if (taken.has(`${r.day}|${subj.id}|${r.task}`)) {
       const task = pick(TASKS.filter((t) => !taken.has(`${r.day}|${subj.id}|${t.key}`)));
       r.task = task.key;
-      r.text = r.kind === "help" ? helpLine(author, subj, task) : selfLine(author, task);
+      if (r.kind === "help") Object.assign(r, helpLine(author, subj, task));
+      else r.text = selfLine(author, task);
     }
     taken.add(`${r.day}|${subj.id}|${r.task}`);
   }
@@ -333,18 +343,23 @@ function build(): Row[] {
   const aboutMinh = shuffle(helps.filter((r) => r.subjectIds[0] === "minh")).slice(0, 4);
   const others = shuffle(helps.filter((r) => r.subjectIds[0] !== "minh" && !TASKS.find((t) => t.key === r.task)?.needsU)).slice(0, 5);
   for (const orig of [...aboutMinh, ...others]) {
-    const candidates = STAFF.filter((x) => x.id !== orig.authorId && x.id !== orig.subjectIds[0] && x.id !== "minh");
-    const author = pick(candidates);
+    // The second writer describes the very same event: same sentence variant (in their own language), same person helped.
+    // Prefer a writer in another language, so the two lines are never word for word the same.
+    const candidates = STAFF.filter((x) => x.id !== orig.authorId && x.id !== orig.subjectIds[0] && x.id !== orig.uId && x.id !== "minh");
+    const otherLang = candidates.filter((x) => x.lang !== byId.get(orig.authorId)!.lang);
+    const author = pick(otherLang.length ? otherLang : candidates);
     const task = TASKS.find((t) => t.key === orig.task)!;
-    const u = task.needsU ? pick(STAFF.filter((x) => x.id !== orig.subjectIds[0] && x.id !== author.id)) : undefined;
+    const u = orig.uId ? byId.get(orig.uId) : undefined;
     rows.push({
       kind: "dup",
       authorId: author.id,
       subjectIds: [...orig.subjectIds],
       task: orig.task,
-      text: fill(pick(task.other[author.lang]), author, byId.get(orig.subjectIds[0])!, u),
+      text: fill(task.other[author.lang][orig.variant!], author, byId.get(orig.subjectIds[0])!, u),
       day: orig.day,
       ref: orig,
+      variant: orig.variant,
+      uId: orig.uId,
     });
   }
   return rows;
@@ -390,6 +405,8 @@ function main() {
       ...(r.task ? { task: r.task } : {}),
       ...(eventKey ? { eventKey } : {}),
       ...(r.ref ? { dupOf: idOf.get(r.ref)! } : {}),
+      ...(r.variant !== undefined ? { variant: r.variant } : {}),
+      ...(r.uId ? { helpedId: r.uId } : {}),
     };
   });
 
