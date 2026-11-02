@@ -178,6 +178,14 @@ function shuffled<T>(items: T[], seed: number): T[] {
   return out;
 }
 
+// At most 8 model calls at a time: each one runs as its own Claude Code process.
+async function inPool(tasks: (() => Promise<void>)[], size = 8): Promise<void> {
+  let next = 0;
+  await Promise.all(Array.from({ length: Math.min(size, tasks.length) }, async () => {
+    while (next < tasks.length) await tasks[next++]();
+  }));
+}
+
 const answers = Object.fromEntries(ARMS.map((a) => [a, []])) as unknown as Record<Arm, Record<string, ClaudeAnswer>[]>;
 const reasons = Object.fromEntries(ARMS.map((a) => [a, []])) as unknown as Record<Arm, Record<string, string>[]>;
 let costUsd = 0;
@@ -190,9 +198,9 @@ for (let r = 0; r < RUNS; r++) {
     const order = shuffled(scenarioEntries(fold.test), 20261120 + r + 100 * k + (mode === "round2" ? 1000 : 0));
     const batches: Entry[][] = [];
     for (let i = 0; i < order.length; i += BATCH) batches.push(order.slice(i, i + BATCH));
-    await Promise.all(
+    await inPool(
       ARMS.flatMap((arm) =>
-        batches.map(async (b) => {
+        batches.map((b) => async () => {
           // A batch that still fails the code checks after 3 tries is not dropped from the score: its scenes count as
           // not agreeing with the owner (claudeAnswers marks them 取り違え), so a failure can never help either side.
           try {
