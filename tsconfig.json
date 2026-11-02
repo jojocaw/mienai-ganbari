@@ -27,7 +27,9 @@
         "./src/*"
       ]
     },
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true
   },
   "include": [
     "next-env.d.ts",
