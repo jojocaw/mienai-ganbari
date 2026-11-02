@@ -39,6 +39,10 @@ export const CHARACTER_WORDS = [
   "向上心", "意識が高い", "意欲", "前向き", "人当たり", "センス",
 ];
 
+/** How a word stem is shown to the owner ("気が利" is matched, "気が利く" is shown). */
+export const WORD_LABEL: Record<string, string> = { 気が利: "気が利く", だらしな: "だらしない", 怠け: "怠ける" };
+export const wordLabel = (word: string) => WORD_LABEL[word] ?? word;
+
 export interface WordHit {
   word: string;
   index: number;

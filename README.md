@@ -21,13 +21,13 @@ The builder has run a small business for 18 years and has had to make these mont
 
 ---
 
-## Status (Day 1 — 2026-11-02)
+## Status (2026-11-02)
 
 | | Feature | Status |
 |---|---|---|
 | F1 | Staff write one line a day (phone width, name picked from a list, line saved exactly as written) | ✅ working |
 | — | Fictional month: 180 lines over 30 days with a known mix and an answer key | ✅ generated + tested |
-| F2 | The owner's yardstick → a Claude **Skill** (`.claude/skills/<shop>-monosashi/SKILL.md`) | planned |
+| F2 | The owner's yardstick → a Claude **Skill** (`.claude/skills/<shop>-monosashi/SKILL.md`): ten questions, Claude writes a draft, plain code checks it (no character words, every rule points back to an answer), one retry, then the file is written | 🔧 built + tested · first real run next |
 | F3 | Fact extractor (subagent): line → who / whom / what, gossip removed and counted | planned |
 | F4 | Checker (subagent): finds duplicates and self-report-only claims | planned |
 | F5 | Month-end view: green / yellow, every number traceable to its lines | planned |
@@ -42,8 +42,19 @@ Requires Node.js 22.18+ (TypeScript files run directly with Node).
 npm install
 npm run seed     # (re)generate the fictional month → data/seed/
 npm run dev      # http://localhost:3000  — pick a name, write one line, save
-npm test         # F1 + fictional-data tests
+                 # http://localhost:3000/monosashi — the owner's ten questions → the yardstick skill
+npm test         # F1 + F2 + fictional-data tests (no API calls)
 ```
+
+Calling Claude needs an API key in `.env.local` (never committed):
+
+```bash
+echo "ANTHROPIC_API_KEY=sk-ant-..." > .env.local
+npm run monosashi   # writes .claude/skills/demo-cafe-monosashi/SKILL.md from the fictional owner's answers
+```
+
+Without a key the app still runs: it shows the skill already in the repository and the write button is disabled.
+Set `MIENAI_ALLOW_LIVE=0` to switch off Claude calls even when a key is present (for a public demo).
 
 Lines written in the app are stored in `data/local/entries.json` (ignored by git).
 The fictional month is in `data/seed/entries.json`; `data/seed/labels.json` is the hidden answer key used only by tests.
@@ -58,8 +69,13 @@ The fictional month is in `data/seed/entries.json`; `data/seed/labels.json` is t
 ## Where Claude is used
 
 - **Claude Code** is the main development tool for this project (planning, code, tests).
-- In the app (from F2 on): the **Claude Agent SDK** with a project Skill for the owner's yardstick and three subagents
-  (fact extractor, checker, letter writer). Money is never calculated by Claude.
+- In the app: the **Claude Agent SDK** (TypeScript).
+  - F2: Claude turns the owner's answers into a structured draft (JSON schema output, no tools, a spending cap per call).
+    Plain code checks the draft and renders the Skill file, so the rules stay readable and reviewable on GitHub.
+  - F3–F7 (next): the Skill is loaded from the project (`settingSources: ["project"]`) by three subagents
+    (fact extractor, checker, letter writer). Subagents cannot start further subagents.
+  - The SDK runs with its own config directory and an API key only, so it never falls back to a personal Claude login.
+- Money is never calculated by Claude.
 
 ## Principles
 
@@ -74,5 +90,5 @@ The fictional month is in `data/seed/entries.json`; `data/seed/labels.json` is t
 小さなお店の月末の「プラス（賞与・手当・ありがとう）」を、声の大きい人ではなく、本当に頑張った人に届けるための道具です。
 スタッフは毎日1行を母語で書くだけ。Claude が事実だけにそろえ、月末に「周りが何度も名前を書いた見えない頑張り（緑）」と「本人の申告だけ（黄）」を分けて店長に見せます。**決めるのは店長**で、AI は配分を決めません。金額の計算はプログラムで1円まで行います。
 
-- 今日できたこと: F1（毎日の1行・元の文のまま保存）と、架空の1か月分 180行（答えつき・テストつき）
+- できたこと: F1（毎日の1行・元の文のまま保存）・架空の1か月分 180行（答えつき・テストつき）・F2 の仕組み（店長の10問 → Claude の案 → コードの確かめ → スキルのファイル。人柄の言葉は入らない）
 - 動かし方: 上の「Try it」のとおり
