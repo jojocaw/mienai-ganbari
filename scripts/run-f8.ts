@@ -19,7 +19,7 @@ import { agentDefinitions } from "../src/lib/agents.ts";
 import { runStructured } from "../src/lib/claude.ts";
 import { agreement, claudeAnswers, ownerAnswersError, scenarioEntries, scenariosError, type ClaudeAnswer, type Scenario } from "../src/lib/f8/compare.ts";
 import type { Entry } from "../src/lib/entries.ts";
-import { extractBatch, type Ask } from "../src/lib/facts/extract.ts";
+import { extractBatch, ExtractError, type Ask } from "../src/lib/facts/extract.ts";
 import { EXTRACT_SCHEMA, quotesYardstick, SKILL_QUOTE_PROMPT, SKILL_QUOTE_SCHEMA, withYardstick } from "../src/lib/facts/prompt.ts";
 import { model } from "../src/lib/models.ts";
 import type { Verdict } from "../src/lib/monosashi/lint.ts";
@@ -127,16 +127,30 @@ const entries = scenarioEntries(scenarios);
 const answers: Record<Cond, Record<string, ClaudeAnswer>[]> = { without: [], with: [] };
 const reasons: Record<Cond, Record<string, string>[]> = { without: [], with: [] };
 let costUsd = 0;
+const failedBatches: { run: number; cond: Cond; scenes: string[]; problems: string[] }[] = [];
 const t0 = Date.now();
 for (let r = 0; r < RUNS; r++) {
   const order = shuffled(entries, 20261120 + r);
   const batches: Entry[][] = [];
   for (let i = 0; i < order.length; i += BATCH) batches.push(order.slice(i, i + BATCH));
   for (const cond of CONDS) {
-    const outs = await Promise.all(batches.map((b) => extractBatch(b, askFor(cond))));
-    const facts = outs.flatMap((o) => o.extraction.facts);
-    const dropped = outs.flatMap((o) => o.extraction.dropped);
-    costUsd += outs.reduce((n, o) => n + o.costUsd, 0);
+    // A batch that still fails the code checks after 3 tries is not dropped from the score: its scenes count as
+    // not agreeing with the owner (claudeAnswers marks them 取り違え), so a failure can never help either side.
+    const outs = await Promise.all(
+      batches.map(async (b) => {
+        try {
+          return await extractBatch(b, askFor(cond), 3);
+        } catch (e) {
+          if (!(e instanceof ExtractError)) throw e;
+          failedBatches.push({ run: r + 1, cond, scenes: b.map((x) => x.id), problems: e.problems });
+          return null;
+        }
+      }),
+    );
+    const ok = outs.filter((o) => o !== null);
+    const facts = ok.flatMap((o) => o.extraction.facts);
+    const dropped = ok.flatMap((o) => o.extraction.dropped);
+    costUsd += ok.reduce((n, o) => n + o.costUsd, 0);
     answers[cond].push(claudeAnswers({ facts, dropped }, scenarios));
     reasons[cond].push(Object.fromEntries([...facts.map((f) => [f.entryId, f.reason]), ...dropped.map((d) => [d.entryId, `(捨てた: ${d.reason})`])]));
     console.log(`run ${r + 1}/${RUNS} ${cond}: done`);
@@ -147,7 +161,7 @@ const seconds = Math.round((Date.now() - t0) / 1000);
 
 // How often the skill changed Claude's answer (same run, same order)
 const changed = answers.with.map((w, r) => scenarios.filter((s) => w[s.id] !== answers.without[r][s.id]).length);
-const base = { generatedAt: new Date().toISOString(), model: model("extractor"), scenes: scenarios.length, runs: RUNS, seconds, costUsd: Number(costUsd.toFixed(4)), yardstickQuoted: { with: true, without: false }, changedBySkill: changed };
+const base = { generatedAt: new Date().toISOString(), model: model("extractor"), scenes: scenarios.length, runs: RUNS, seconds, costUsd: Number(costUsd.toFixed(4)), yardstickQuoted: { with: true, without: false }, changedBySkill: changed, failedBatches: failedBatches.map((f) => ({ run: f.run, cond: f.cond, scenes: f.scenes.length })) };
 
 mkdirSync(local, { recursive: true });
 if (!owner) {
@@ -167,8 +181,8 @@ if (!owner) {
       },
     ]),
   );
-  writeFileSync(path.join(local, "result.json"), JSON.stringify({ ...base, owner, answers, reasons, agreement: per }, null, 2) + "\n");
+  writeFileSync(path.join(local, "result.json"), JSON.stringify({ ...base, owner, answers, reasons, agreement: per, failedBatchDetails: failedBatches }, null, 2) + "\n");
   const pub = { _note: "F8 ②: how often the fact extractor gave the owner's own answer on twenty made-up scenes, without and with the owner's yardstick skill. The owner's answers and the skill are private; only the counts are published.", ...base, ...numbers };
   writeFileSync(path.join(root, "data/derived/f8.json"), JSON.stringify(pub, null, 2) + "\n");
-  console.log(JSON.stringify({ seconds, costUsd: base.costUsd, without: numbers.without.same, with: numbers.with.same, changedBySkill: changed }));
+  console.log(JSON.stringify({ seconds, costUsd: base.costUsd, without: numbers.without.same, with: numbers.with.same, changedBySkill: changed, failedBatches: base.failedBatches }));
 }

@@ -1,0 +1,99 @@
+{
+  "_note": "F8 ②: how often the fact extractor gave the owner's own answer on twenty made-up scenes, without and with the owner's yardstick skill. The owner's answers and the skill are private; only the counts are published.",
+  "generatedAt": "2026-11-02T08:13:44.396Z",
+  "model": "claude-sonnet-5-5",
+  "scenes": 20,
+  "runs": 3,
+  "seconds": 86,
+  "costUsd": 0.3595,
+  "yardstickQuoted": {
+    "with": true,
+    "without": false
+  },
+  "changedBySkill": [
+    3,
+    2,
+    3
+  ],
+  "failedBatches": [],
+  "without": {
+    "same": [
+      7,
+      7,
+      8
+    ],
+    "mean": 7.33,
+    "byCategory": {
+      "help": [
+        2,
+        2,
+        2
+      ],
+      "quiet": [
+        1,
+        1,
+        1
+      ],
+      "self": [
+        0,
+        0,
+        1
+      ],
+      "loud": [
+        1,
+        2,
+        1
+      ],
+      "edge": [
+        2,
+        1,
+        2
+      ],
+      "gossip": [
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "with": {
+    "same": [
+      9,
+      9,
+      9
+    ],
+    "mean": 9,
+    "byCategory": {
+      "help": [
+        2,
+        2,
+        2
+      ],
+      "quiet": [
+        1,
+        1,
+        1
+      ],
+      "self": [
+        1,
+        1,
+        1
+      ],
+      "loud": [
+        2,
+        2,
+        2
+      ],
+      "edge": [
+        2,
+        2,
+        2
+      ],
+      "gossip": [
+        1,
+        1,
+        1
+      ]
+    }
+  }
+}
