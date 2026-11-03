@@ -1,5 +1,6 @@
 // F6: the month-end plus, split to the yen by plain code. Claude never calculates money.
-// Rule (shown to the owner as written here):
+// On the screen the owner sets each person's yen with + and − (splitFromAmounts turns that into shares that
+// split back to exactly those amounts). A decision kept as shares (like the fictional owner's file) splits by:
 //   1. The owner decides the total and each person's share (a whole number, 0 = no plus this month).
 //   2. Everyone first gets total × share ÷ (sum of shares), rounded down to the unit (1, 10, 100 or 1000 yen).
 //   3. The units left over go one by one to the largest remainders; on a tie, the larger share first,
@@ -11,13 +12,14 @@ export const UNITS = [1, 10, 100, 1000] as const;
 export type Unit = (typeof UNITS)[number];
 
 export const MAX_TOTAL = 10_000_000;
-export const MAX_SHARE = 10;
+// A share can be a count of units: when the owner sets each person's yen directly, 7,900 yen = 79 shares of 100 yen.
+export const MAX_SHARE = MAX_TOTAL;
 
+// The rule as the owner sees it on the month-end screen (the owner sets each person's yen with + and −).
 export const RULE_TEXT = [
-  "店長が決めた割合 (0〜10 の整数・0 は今月はなし) で分けます。",
-  "まず一人ずつ「合計 × その人の割合 ÷ 割合の合計」を、えらんだ単位で切り捨てます。",
-  "余った分は、切り捨てた端数の大きい人から1単位ずつ足します (同じなら割合の大きい人、それも同じなら名簿の順)。",
-  "1単位に満たない残りは、お店に残します。",
+  "店長が一人ずつ金額を決めます (＋−は1回で選んだ金額ずつ・0円の人は今月はなし)。",
+  "配る合計は、プログラムが一人ずつの金額を足して出します。",
+  "手紙の金額は、プログラムがこの金額をそのまま入れ、1通ずつ確かめます。",
   "計算はプログラムが行い、Claude には計算させていません。",
 ];
 
@@ -65,6 +67,18 @@ export function allocate(total: number, shares: Record<string, number>, unit: Un
   for (const id of ids) amounts[id] = base.get(id)! * unit;
   const distributed = Object.values(amounts).reduce((a, b) => a + b, 0);
   return { total, unit, amounts, distributed, leftover: total - distributed };
+}
+
+/**
+ * The owner's own yen per person → the same decision in shares: the largest unit that divides every amount,
+ * one share per unit. allocate() on the result gives back exactly these amounts, with nothing left over.
+ */
+export function splitFromAmounts(amounts: Record<string, number>): { total: number; unit: Unit; shares: Record<string, number> } {
+  for (const [id, a] of Object.entries(amounts)) if (!Number.isSafeInteger(a) || a < 0) throw new AllocationError(`金額は 0 以上の整数にしてください (${id})`);
+  const values = Object.values(amounts);
+  const unit = [...UNITS].reverse().find((u) => values.every((a) => a % u === 0)) ?? 1;
+  const shares = Object.fromEntries(Object.entries(amounts).map(([id, a]) => [id, a / unit]));
+  return { total: values.reduce((n, a) => n + a, 0), unit, shares };
 }
 
 /** "12,500円" — the exact text the letters must use. */

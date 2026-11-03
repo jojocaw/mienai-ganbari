@@ -1,7 +1,7 @@
 // F6: the split matches hand calculation to the yen, and the totals always add up.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { allocate, AllocationError, UNITS, yen, type Unit } from "../src/lib/pay/allocate.ts";
+import { allocate, AllocationError, splitFromAmounts, UNITS, yen, type Unit } from "../src/lib/pay/allocate.ts";
 
 const ORDER = ["a", "b", "c", "d"];
 
@@ -62,4 +62,25 @@ test("bad input is refused, never silently fixed", () => {
 test("the amount text used in letters", () => {
   assert.equal(yen(12500), "12,500円");
   assert.equal(yen(0), "0円");
+});
+
+test("the owner's own yen per person (+ and − on the screen) split back to exactly those amounts", () => {
+  // the fictional month as the owner left it: everything in hundreds → unit 100, one share per 100 yen
+  const owner = { a: 7900, b: 6400, c: 0, d: 5600 };
+  const s = splitFromAmounts(owner);
+  assert.deepEqual(s, { total: 19900, unit: 100, shares: { a: 79, b: 64, c: 0, d: 56 } });
+  const r = allocate(s.total, s.shares, s.unit, ORDER);
+  assert.deepEqual(r.amounts, owner);
+  assert.equal(r.leftover, 0);
+  // the largest unit that divides every amount
+  assert.equal(splitFromAmounts({ a: 5000, b: 12000 }).unit, 1000);
+  assert.equal(splitFromAmounts({ a: 5000, b: 1250 }).unit, 10);
+  assert.equal(splitFromAmounts({ a: 3333, b: 1 }).unit, 1);
+  // odd amounts still come back to the yen
+  const odd = { a: 3333, b: 1, c: 10_000_000 - 3334 };
+  const so = splitFromAmounts(odd);
+  assert.deepEqual(allocate(so.total, so.shares, so.unit, ORDER).amounts, odd);
+  // nothing that is not a whole, non-negative number of yen
+  assert.throws(() => splitFromAmounts({ a: -100 }), AllocationError);
+  assert.throws(() => splitFromAmounts({ a: 100.5 }), AllocationError);
 });

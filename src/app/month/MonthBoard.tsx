@@ -8,8 +8,26 @@ import type { Verdict } from "@/lib/monosashi/lint";
 import type { LetterRow, LettersRun } from "@/lib/letters/run";
 import type { FactsRun } from "@/lib/month/load";
 import type { EventView, MonthView, PersonView } from "@/lib/month/summary";
-import { allocate, MAX_SHARE, MAX_TOTAL, RULE_TEXT, UNITS, yen, type Unit } from "@/lib/pay/allocate";
+import { allocate, MAX_TOTAL, RULE_TEXT, splitFromAmounts, yen } from "@/lib/pay/allocate";
 import { LANG_LABEL, type Staff } from "@/lib/staff";
+
+// how much one press of + or − moves a person's yen
+const STEPS = [100, 500, 1000, 5000] as const;
+
+/** Each person's yen for a decision (0 for everyone when it does not split yet, e.g. a new month of a real shop). */
+function amountsOf(decision: Decision, order: string[]): Record<string, number> {
+  const zero = Object.fromEntries(order.map((id) => [id, 0]));
+  try {
+    return { ...zero, ...allocate(decision.total, decision.shares, decision.unit, order).amounts };
+  } catch {
+    return zero;
+  }
+}
+
+function sameAmounts(a: Record<string, number>, b: Record<string, number>): boolean {
+  for (const id of new Set([...Object.keys(a), ...Object.keys(b)])) if ((a[id] ?? 0) !== (b[id] ?? 0)) return false;
+  return true;
+}
 
 type Data = {
   view: MonthView;
@@ -57,9 +75,8 @@ const VERDICT_STYLE: Record<string, string> = {
 export default function MonthBoard() {
   const [data, setData] = useState<Data | null>(null);
   const [loadError, setLoadError] = useState("");
-  const [totalText, setTotalText] = useState("");
-  const [unit, setUnit] = useState<Unit>(100);
-  const [shares, setShares] = useState<Record<string, number>>({});
+  const [amounts, setAmounts] = useState<Record<string, number>>({});
+  const [step, setStep] = useState<number>(1000);
   const [liveRun, setLiveRun] = useState<LettersRun | null>(null);
   const [busy, setBusy] = useState(false);
   const [letterError, setLetterError] = useState("");
@@ -70,16 +87,23 @@ export default function MonthBoard() {
       .then((r) => r.json())
       .then((d: Data) => {
         setData(d);
-        setTotalText(String(d.decision.total));
-        setUnit(d.decision.unit);
-        setShares(d.decision.shares);
+        setAmounts(amountsOf(d.decision, d.staff.map((s) => s.id)));
       })
       .catch(() => setLoadError("読み込めませんでした"));
   }, []);
 
   const month = data?.decision.month ?? "";
   const order = useMemo(() => (data?.staff ?? []).map((s) => s.id), [data]);
-  const decision: Decision = useMemo(() => ({ month, total: Number(totalText), unit, shares }), [month, totalText, unit, shares]);
+  const seedAmounts = useMemo(() => (data ? amountsOf(data.decision, order) : {}), [data, order]);
+  // unchanged = the saved decision itself (so the saved letters still match); changed = the owner's own yen, as shares
+  const decision: Decision = useMemo(() => {
+    if (data && sameAmounts(amounts, seedAmounts)) return data.decision;
+    try {
+      return { month, ...splitFromAmounts(amounts) };
+    } catch {
+      return { month, total: 0, unit: 1, shares: {} };
+    }
+  }, [data, month, amounts, seedAmounts]);
   const split = useMemo(() => {
     try {
       return { allocation: allocate(decision.total, decision.shares, decision.unit, order), error: "" };
@@ -107,11 +131,15 @@ export default function MonthBoard() {
 
   function reset() {
     if (!data) return;
-    setTotalText(String(data.decision.total));
-    setUnit(data.decision.unit);
-    setShares(data.decision.shares);
+    setAmounts(seedAmounts);
     setLetterError("");
   }
+
+  function setAmount(id: string, v: number) {
+    const n = Number.isFinite(v) ? Math.max(0, Math.min(MAX_TOTAL, Math.floor(v))) : 0;
+    setAmounts({ ...amounts, [id]: n });
+  }
+  const total = Object.values(amounts).reduce((a, b) => a + b, 0);
 
   async function writeLetters() {
     setBusy(true);
@@ -168,44 +196,31 @@ export default function MonthBoard() {
         <section className="flex flex-col gap-3 rounded-xl border border-stone-300 bg-white p-4">
           <h2 className="text-lg font-bold text-stone-900">店長が決める</h2>
           <p className="text-xs leading-relaxed text-stone-600">
-            だれにどれだけ届けるか（割合）を決めるのは店長です。AI は配分を決めません。1円までの計算はプログラムが行います。
+            だれにいくら届けるかを決めるのは店長です。AI は金額を決めません。合計の計算はプログラムが行います。
           </p>
           <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
-            {data.real ? "割合を入れると、1円まで分けた金額がすぐに出ます。" : "架空の店長の決めが入っています。変えて試せます。"}
+            {data.real ? "＋を押して一人ずつ金額を決めると、いちばん下に配る合計が出ます。" : "架空の店長の決めが入っています。変えて試せます。"}
           </p>
-          <div className="flex flex-wrap items-end gap-3">
-            <label className="flex flex-col gap-1 text-xs font-semibold text-stone-700">
-              今月のプラスの合計（円）
-              <input
-                type="number"
-                inputMode="numeric"
-                min={0}
-                max={MAX_TOTAL}
-                step={unit}
-                value={totalText}
-                onChange={(e) => setTotalText(e.target.value)}
-                className="w-36 rounded-lg border border-stone-300 bg-white px-3 py-2 text-base tabular-nums text-stone-900 focus:border-emerald-600 focus:outline-none"
-              />
-            </label>
-            <label className="flex flex-col gap-1 text-xs font-semibold text-stone-700">
-              単位
-              <select
-                value={unit}
-                onChange={(e) => setUnit(Number(e.target.value) as Unit)}
-                className="rounded-lg border border-stone-300 bg-white px-3 py-2 text-base text-stone-900"
-              >
-                {UNITS.map((u) => (
-                  <option key={u} value={u}>
-                    {u.toLocaleString("ja-JP")}円
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <ul className="flex flex-col divide-y divide-stone-100">
+          <label className="flex flex-wrap items-center gap-2 text-xs font-semibold text-stone-700">
+            ＋−1回で動く金額
+            <select
+              value={step}
+              onChange={(e) => setStep(Number(e.target.value))}
+              className="rounded-lg border border-stone-300 bg-white px-2 py-1.5 text-sm text-stone-900"
+            >
+              {STEPS.map((s) => (
+                <option key={s} value={s}>
+                  {yen(s)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <p className="text-xs leading-relaxed text-stone-600">
+            ＋で増やす、−で減らす。金額の数字を押して、直接入れることもできます。0円の人には、今月は手紙を書きません。
+          </p>
+          <ul className="flex flex-col divide-y divide-stone-100 border-t border-stone-200">
             {data.view.persons.map((p) => {
-              const amount = split.allocation?.amounts[p.id];
-              const value = shares[p.id] ?? 0;
+              const value = amounts[p.id] ?? 0;
               return (
                 <li key={p.id} className="flex items-center gap-2 py-2">
                   <div className="min-w-0 flex-1">
@@ -217,43 +232,40 @@ export default function MonthBoard() {
                   <div className="flex items-center gap-1">
                     <button
                       type="button"
-                      aria-label={`${p.name}の割合を1減らす`}
+                      aria-label={`${p.name}を${yen(step)}減らす`}
                       disabled={value <= 0}
-                      onClick={() => setShares({ ...shares, [p.id]: value - 1 })}
-                      className="h-8 w-8 rounded-lg border border-stone-300 text-lg leading-none text-stone-700 disabled:opacity-30"
+                      onClick={() => setAmount(p.id, value - step)}
+                      className="h-9 w-9 rounded-lg border border-stone-300 text-lg leading-none text-stone-700 disabled:opacity-30"
                     >
                       −
                     </button>
-                    <span className="w-6 text-center text-base font-bold tabular-nums" aria-label={`${p.name}の割合`}>
-                      {value}
-                    </span>
+                    <label className="flex items-baseline gap-0.5">
+                      <AmountInput value={value} label={`${p.name}の金額（円）`} onChange={(v) => setAmount(p.id, v)} />
+                      <span className="text-xs text-stone-600">円</span>
+                    </label>
                     <button
                       type="button"
-                      aria-label={`${p.name}の割合を1増やす`}
-                      disabled={value >= MAX_SHARE}
-                      onClick={() => setShares({ ...shares, [p.id]: value + 1 })}
-                      className="h-8 w-8 rounded-lg border border-stone-300 text-lg leading-none text-stone-700 disabled:opacity-30"
+                      aria-label={`${p.name}を${yen(step)}増やす`}
+                      onClick={() => setAmount(p.id, value + step)}
+                      className="h-9 w-9 rounded-lg border border-stone-300 text-lg leading-none text-stone-700"
                     >
                       +
                     </button>
                   </div>
-                  <span className="w-20 shrink-0 text-right text-sm font-bold tabular-nums text-stone-900">
-                    {amount === undefined ? "—" : yen(amount)}
-                  </span>
                 </li>
               );
             })}
           </ul>
-          {split.allocation ? (
-            <p className="text-sm text-stone-800">
-              配る合計 <b className="tabular-nums">{yen(split.allocation.distributed)}</b>・お店に残る{" "}
-              <b className="tabular-nums">{yen(split.allocation.leftover)}</b>
+          {split.allocation && total > 0 ? (
+            <p className="flex items-baseline justify-between rounded-lg bg-emerald-50 px-3 py-2 text-emerald-950">
+              <span className="text-sm font-semibold">配る合計</span>
+              <b className="text-xl tabular-nums">{yen(total)}</b>
             </p>
           ) : (
-            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">{split.error}</p>
+            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">{total === 0 ? "だれかに金額を付けると、合計が出て手紙を書けます。" : split.error}</p>
           )}
           <details className="text-xs leading-relaxed text-stone-700">
-            <summary className="cursor-pointer font-semibold">分け方の決まり（プログラムが行う計算）</summary>
+            <summary className="cursor-pointer font-semibold">お金の決まり（プログラムが行う計算）</summary>
             <ol className="mt-1 list-decimal pl-5">
               {RULE_TEXT.map((t) => (
                 <li key={t}>{t}</li>
@@ -312,6 +324,30 @@ export default function MonthBoard() {
         <BehindTheScenes run={data.run} letters={shown ?? data.letters} lines={data.view.totals.lines} />
       </div>
     </StaffContext>
+  );
+}
+
+/** Yen with commas while you read it, plain digits while you type it (the total below follows every key). */
+function AmountInput({ value, label, onChange }: { value: number; label: string; onChange: (v: number) => void }) {
+  const [text, setText] = useState<string | null>(null);
+  return (
+    <input
+      type="text"
+      inputMode="numeric"
+      aria-label={label}
+      value={text ?? value.toLocaleString("ja-JP")}
+      onFocus={(e) => {
+        setText(String(value));
+        e.currentTarget.select();
+      }}
+      onChange={(e) => {
+        const digits = e.target.value.replace(/[^0-9]/g, "").slice(0, 8);
+        setText(digits);
+        onChange(digits === "" ? 0 : Number(digits));
+      }}
+      onBlur={() => setText(null)}
+      className="w-[5.5rem] rounded-lg border border-stone-200 px-1.5 py-1 text-right text-base font-bold tabular-nums text-stone-900 focus:border-emerald-600 focus:outline-none"
+    />
   );
 }
 
@@ -512,7 +548,7 @@ function BehindTheScenes({ run, letters, lines }: { run: FactsRun; letters: Lett
   const rows = [
     { who: "事実の係（サブエージェント）", model: modelLabel(run.models.extractor ?? ""), what: "店長の物差しのスキルを読み、1日ずつ1行を事実に直す", cost: `${lines}行・${run.seconds}秒・${usd(run.costUsd)}（確かめの係と合わせて）` },
     { who: "確かめの係（サブエージェント）", model: modelLabel(run.models.checker ?? ""), what: "同じ出来事らしい組を出すだけ。まとめるかはプログラムが決める", cost: "" },
-    { who: "お金の計算", model: "プログラム", what: "割合から1円まで分ける。Claude には計算させない", cost: "" },
+    { who: "お金の計算", model: "プログラム", what: "店長が決めた一人ずつの金額を足して合計を出し、手紙の金額を確かめる。Claude には計算させない", cost: "" },
     ...(letters
       ? [{ who: "手紙の係（サブエージェント）", model: modelLabel(letters.model), what: "確かめた事実だけで母語の手紙。プログラムが確かめ、通らなければ1回だけ書き直し", cost: `${letters.letters.length}通・${letters.seconds}秒・${usd(letters.costUsd)}` }]
       : []),
