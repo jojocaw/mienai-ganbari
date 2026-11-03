@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { currentShop } from "@/lib/current-shop";
 import { STAFF } from "@/lib/staff";
-import { DEMO_EXPORT } from "../DemoNote";
+import { DEMO_EXPORT, DemoMonthGuide } from "../DemoNote";
 import ShopFooter from "../ShopFooter";
 import DemoExample from "./DemoExample";
 import DemoYourLines from "./DemoYourLines";
@@ -34,9 +34,10 @@ export default function MonthPage() {
           </Suspense>
         </p>
       </header>
+      <DemoMonthGuide />
       {DEMO_EXPORT && <DemoYourLines names={Object.fromEntries(STAFF.map((s) => [s.id, s.name]))} />}
       <DemoExample />
-      <MonthBoard />
+      <MonthBoard demo={DEMO_EXPORT} />
       <ShopFooter />
     </main>
   );

@@ -72,7 +72,8 @@ const VERDICT_STYLE: Record<string, string> = {
   付けない: "bg-stone-200 text-stone-700",
 };
 
-export default function MonthBoard() {
+/** demo: the static phone demo folds the detailed parts (numbers, corrections, how Claude is used) and adds a "next" button. */
+export default function MonthBoard({ demo = false }: { demo?: boolean }) {
   const [data, setData] = useState<Data | null>(null);
   const [loadError, setLoadError] = useState("");
   const [amounts, setAmounts] = useState<Record<string, number>>({});
@@ -175,9 +176,11 @@ export default function MonthBoard() {
   return (
     <StaffContext value={data.staff}>
       <div className="flex flex-col gap-8">
-        <Summary view={data.view} run={data.run} month={month} />
+        <Fold demo={demo} title="数字で見る（10月の1行から・くわしく）">
+          <Summary view={data.view} run={data.run} month={month} />
+        </Fold>
 
-        <section className="flex flex-col gap-3">
+        <section id="people" className="flex scroll-mt-4 flex-col gap-3">
           <h2 className="text-lg font-bold text-stone-900">みんなの{monthLabel(month)}</h2>
           <p className="text-xs leading-relaxed text-stone-600">
             <span className="font-semibold text-emerald-800">緑</span> = ほかの人が書いた頑張り。
@@ -191,9 +194,11 @@ export default function MonthBoard() {
           </div>
         </section>
 
-        <TeachSkill corrected={corrected} owner={owner} />
+        <Fold demo={demo} title="Claude の答えを店長が直す（くわしく）">
+          <TeachSkill corrected={corrected} owner={owner} />
+        </Fold>
 
-        <section className="flex flex-col gap-3 rounded-xl border border-stone-300 bg-white p-4">
+        <section id="decide" className="flex scroll-mt-4 flex-col gap-3 rounded-xl border border-stone-300 bg-white p-4">
           <h2 className="text-lg font-bold text-stone-900">店長が決める</h2>
           <p className="text-xs leading-relaxed text-stone-600">
             だれにいくら届けるかを決めるのは店長です。AI は金額を決めません。合計の計算はプログラムが行います。
@@ -279,7 +284,13 @@ export default function MonthBoard() {
           )}
         </section>
 
-        <section className="flex flex-col gap-3">
+        {demo && (
+          <a href="#letters" className="rounded-xl bg-emerald-700 py-3.5 text-center text-base font-bold text-white shadow-sm">
+            次へ：③ 一人ひとりへの手紙を見る ↓
+          </a>
+        )}
+
+        <section id="letters" className="flex scroll-mt-4 flex-col gap-3">
           <h2 className="text-lg font-bold text-stone-900">一人ずつの「ありがとう」</h2>
           <p className="text-xs leading-relaxed text-stone-600">
             手紙の係（Claude）が、確かめた事実だけから本人の母語で書きます。金額は上の計算の数をそのまま入れます。プログラムが1通ずつ確かめます: 金額がちょうど1回・ほかのお金の数なし・使った事実が本物・人柄の言葉なし・言語が合っている。
@@ -321,7 +332,9 @@ export default function MonthBoard() {
           )}
         </section>
 
-        <BehindTheScenes run={data.run} letters={shown ?? data.letters} lines={data.view.totals.lines} />
+        <Fold demo={demo} title="この画面の裏側：Claude の使い方（くわしく）">
+          <BehindTheScenes run={data.run} letters={shown ?? data.letters} lines={data.view.totals.lines} />
+        </Fold>
       </div>
     </StaffContext>
   );
@@ -348,6 +361,17 @@ function AmountInput({ value, label, onChange }: { value: number; label: string;
       onBlur={() => setText(null)}
       className="w-[5.5rem] rounded-lg border border-stone-200 px-1.5 py-1 text-right text-base font-bold tabular-nums text-stone-900 focus:border-emerald-600 focus:outline-none"
     />
+  );
+}
+
+/** In the phone demo, a detailed part is folded under one line so a first-time visitor sees the main path first. */
+function Fold({ demo, title, children }: { demo: boolean; title: string; children: React.ReactNode }) {
+  if (!demo) return <>{children}</>;
+  return (
+    <details className="rounded-xl border border-stone-200 bg-white px-4 py-3">
+      <summary className="cursor-pointer text-sm font-semibold text-stone-700">{title}</summary>
+      <div className="mt-3">{children}</div>
+    </details>
   );
 }
 
