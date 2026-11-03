@@ -6,7 +6,7 @@
 
 import type { OwnerExample } from "../monosashi/examples.ts";
 import { VERDICTS, type Verdict } from "../monosashi/lint.ts";
-import { STAFF } from "../staff.ts";
+import { STAFF, type Staff } from "../staff.ts";
 import type { EventView, MonthView } from "./summary.ts";
 
 export interface OwnerCorrection {
@@ -18,8 +18,8 @@ export interface OwnerCorrection {
 export const MAX_CORRECTIONS = 40;
 
 /** "ミンさんが閉店後に床をふいた" → "閉店後に床をふいた". The person's card (or the skill) does not need the name. */
-export function actionWithoutActor(action: string, actorId: string): string {
-  const ja = STAFF.find((s) => s.id === actorId)?.ja;
+export function actionWithoutActor(action: string, actorId: string, staff: readonly Staff[] = STAFF): string {
+  const ja = staff.find((s) => s.id === actorId)?.ja;
   return ja ? action.replace(new RegExp(`^${ja}(さん)?(が|は)、?`), "") : action;
 }
 
@@ -48,7 +48,7 @@ export interface CorrectionExample extends OwnerExample {
  * Turns the owner's corrections into example lines. A "correction" that repeats Claude's own verdict is skipped
  * (it teaches nothing new); an unknown event is reported, not guessed.
  */
-export function correctionsToExamples(view: MonthView, corrections: OwnerCorrection[]): { examples: CorrectionExample[]; skipped: number; problems: string[] } {
+export function correctionsToExamples(view: MonthView, corrections: OwnerCorrection[], staff: readonly Staff[] = STAFF): { examples: CorrectionExample[]; skipped: number; problems: string[] } {
   const events = new Map<string, EventView>();
   for (const p of view.persons) for (const e of [...p.green, ...p.yellow]) events.set(e.id, e);
   const examples: CorrectionExample[] = [];
@@ -64,7 +64,7 @@ export function correctionsToExamples(view: MonthView, corrections: OwnerCorrect
       skipped++;
       continue;
     }
-    const line = actionWithoutActor(e.action, e.actorId).trim();
+    const line = actionWithoutActor(e.action, e.actorId, staff).trim();
     if (!line) {
       problems.push(`${c.eventId} の「何をしたか」が空です`);
       continue;

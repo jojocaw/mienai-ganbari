@@ -5,12 +5,14 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { SKILL_NAME } from "../shop.ts";
+import { shopDir } from "../shop-config.ts";
 import { mergeOwnerExamples, OWNER_EXAMPLES_HEADING, type MergeResult, type OwnerExample } from "./examples.ts";
 import { lintSkillText } from "./lint.ts";
 import { SKILL_REL_PATH, skillFile, skillsRoot } from "./write-skill.ts";
 
 export function historyRoot(): string {
-  return process.env.MIENAI_SKILL_HISTORY_DIR || path.join(process.cwd(), "data", "local", "skill-history");
+  const shop = shopDir();
+  return process.env.MIENAI_SKILL_HISTORY_DIR || (shop ? path.join(shop, "skill-history") : path.join(process.cwd(), "data", "local", "skill-history"));
 }
 
 export class OwnerLoopError extends Error {

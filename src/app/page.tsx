@@ -1,5 +1,14 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { currentShop } from "@/lib/current-shop";
 import EntryForm from "./EntryForm";
+import ShopFooter from "./ShopFooter";
+
+/** The names to pick from: the fictional café's 8, or the real shop's staff from its shop file. */
+async function Entry() {
+  const { staff, real } = await currentShop();
+  return <EntryForm staff={staff} real={real} />;
+}
 
 export default function Home() {
   return (
@@ -11,7 +20,9 @@ export default function Home() {
           今日、だれかに助けられたこと・だれかが黙ってやってくれたことを、1行だけ。母語で大丈夫です。
         </p>
       </header>
-      <EntryForm />
+      <Suspense fallback={<p className="text-sm text-stone-500">読み込み中…</p>}>
+        <Entry />
+      </Suspense>
       <div className="flex flex-col items-center gap-2">
         <Link href="/monosashi" className="text-sm font-semibold text-emerald-700 underline underline-offset-4">
           店長の方へ: 物差しをつくる →
@@ -20,9 +31,7 @@ export default function Home() {
           店長の方へ: 月末のふりかえり →
         </Link>
       </div>
-      <footer className="mt-auto text-center text-xs leading-relaxed text-stone-400">
-        すべてのデータは架空です。決めるのは店長で、AI は配分を決めません。
-      </footer>
+      <ShopFooter />
     </main>
   );
 }

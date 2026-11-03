@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LANG_LABEL, PLACEHOLDER, STAFF } from "@/lib/staff";
+import { LANG_LABEL, PLACEHOLDER, type Staff } from "@/lib/staff";
 
 type Saved = { text: string; date: string; lang: keyof typeof LANG_LABEL };
 
-export default function EntryForm() {
+/** staff: the names to pick from (the fictional café's or the real shop's). real: a real shop, so no fictional lines are counted. */
+export default function EntryForm({ staff, real }: { staff: readonly Staff[]; real: boolean }) {
   const [authorId, setAuthorId] = useState("");
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -13,7 +14,7 @@ export default function EntryForm() {
   const [saved, setSaved] = useState<Saved | null>(null);
   const [total, setTotal] = useState<number | null>(null);
 
-  const me = STAFF.find((s) => s.id === authorId);
+  const me = staff.find((s) => s.id === authorId);
 
   useEffect(() => {
     fetch("/api/entries?limit=1")
@@ -51,7 +52,7 @@ export default function EntryForm() {
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 text-sm font-semibold text-stone-600">あなたの名前（一覧から選ぶだけ）</legend>
         <div className="grid grid-cols-2 gap-2">
-          {STAFF.map((s) => (
+          {staff.map((s) => (
             <button
               key={s.id}
               type="button"
@@ -101,7 +102,7 @@ export default function EntryForm() {
         </div>
       )}
 
-      {total !== null && <p className="text-center text-xs text-stone-500">これまでの記録: {total} 行（架空のデータを含む）</p>}
+      {total !== null && <p className="text-center text-xs text-stone-500">これまでの記録: {total} 行{real ? "" : "（架空のデータを含む）"}</p>}
     </form>
   );
 }

@@ -4,7 +4,7 @@
 
 import type { Entry } from "../entries.ts";
 import { findCharacterWords, VERDICTS, type Verdict } from "../monosashi/lint.ts";
-import { findStaff } from "../staff.ts";
+import { findPerson } from "../shop-config.ts";
 import { DROP_REASONS, type DropReason, type Extraction } from "./types.ts";
 
 export const FACT_LIMITS = { actionChars: 60, taskChars: 20, reasonChars: 80 } as const;
@@ -46,11 +46,11 @@ export function validateExtraction(raw: unknown, entries: Entry[]): { extraction
       return;
     }
     const actorId = isStr(r.actorId) ? r.actorId : "";
-    if (!findStaff(actorId)) problems.push(`${where} (${entry.id}) の actorId (${actorId}) はスタッフの一覧にいません`);
+    if (!findPerson(actorId)) problems.push(`${where} (${entry.id}) の actorId (${actorId}) はスタッフの一覧にいません`);
     if (r.kind === "help" && actorId === entry.authorId) problems.push(`${where} (${entry.id}) は help なのに、した人が書いた本人です (self にしてください)`);
     if (r.kind === "self" && actorId !== entry.authorId) problems.push(`${where} (${entry.id}) は self なのに、した人が書いた本人ではありません`);
     const forIds = Array.isArray(r.forIds) ? r.forIds.filter(isStr) : [];
-    for (const id of forIds) if (!findStaff(id)) problems.push(`${where} (${entry.id}) の forIds に一覧にいない人 (${id}) がいます`);
+    for (const id of forIds) if (!findPerson(id)) problems.push(`${where} (${entry.id}) の forIds に一覧にいない人 (${id}) がいます`);
 
     const text = (key: "action" | "task" | "reason", max: number): string => {
       const v = r[key];

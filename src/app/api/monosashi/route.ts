@@ -3,15 +3,17 @@ import path from "node:path";
 import { live } from "@/lib/live";
 import { validateAnswers } from "@/lib/monosashi/questions";
 import { readSkill, SkillWriteError, writeSkill } from "@/lib/monosashi/write-skill";
+import { shopConfig } from "@/lib/shop-config";
 
 async function demoAnswers(): Promise<Record<string, string>> {
   const raw = await readFile(path.join(process.cwd(), "data", "seed", "owner-answers.json"), "utf8");
   return JSON.parse(raw).answers;
 }
 
-// GET /api/monosashi → the fictional owner's answers, the skill on disk (with its check result), and whether Claude can be called here
+// GET /api/monosashi → the fictional owner's answers (none for a real shop), the skill on disk (with its check result), and whether Claude can be called here
 export async function GET() {
-  return Response.json({ demoAnswers: await demoAnswers(), skill: await readSkill(), live: live() });
+  const { real } = shopConfig();
+  return Response.json({ demoAnswers: real ? {} : await demoAnswers(), skill: await readSkill(), live: live(), real });
 }
 
 // POST /api/monosashi { answers } → Claude writes a draft, plain code checks it, SKILL.md is saved

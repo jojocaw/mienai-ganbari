@@ -15,10 +15,10 @@ export async function POST(request: Request) {
   }
   const invalid = decisionShapeError(body.decision);
   if (invalid) return Response.json({ error: invalid }, { status: 400 });
-  const { view } = await loadMonth();
+  const { view, staff, shopName } = await loadMonth();
   try {
     const { askLetterWriter } = await import("@/lib/letters/claude-letter");
-    const run = await runLetters(view, body.decision as Decision, askLetterWriter, 3);
+    const run = await runLetters(view, body.decision as Decision, askLetterWriter, 3, { staff, shopName });
     return Response.json({ run }, { status: 201 });
   } catch (e) {
     if (e instanceof AllocationError) return Response.json({ error: e.message }, { status: 400 });

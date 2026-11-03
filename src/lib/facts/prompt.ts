@@ -3,7 +3,7 @@
 
 import type { Entry } from "../entries.ts";
 import { SKILL_NAME } from "../shop.ts";
-import { STAFF } from "../staff.ts";
+import { staffList as shopStaff } from "../shop-config.ts";
 import type { Fact } from "./types.ts";
 
 export const EXTRACT_SCHEMA = {
@@ -42,7 +42,7 @@ export const CHECK_SCHEMA = {
   },
 };
 
-const staffList = () => STAFF.map((s) => `- ${s.id}: ${s.name}${s.roman ? ` (${s.roman})` : ""}, writes in ${s.lang}`).join("\n");
+const staffList = () => shopStaff().map((s) => `- ${s.id}: ${s.name}${s.roman ? ` (${s.roman})` : ""}, writes in ${s.lang}`).join("\n");
 
 /** One batch (usually one day) of lines for the fact extractor. */
 export function buildExtractPrompt(entries: Entry[], problems: string[] = []): string {

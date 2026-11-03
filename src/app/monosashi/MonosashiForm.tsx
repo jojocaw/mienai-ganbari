@@ -10,6 +10,7 @@ type Written = Skill & { attempts: number; answerWords: { word: string; question
 export default function MonosashiForm() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [live, setLive] = useState(false);
+  const [real, setReal] = useState(false);
   const [skill, setSkill] = useState<Skill | null>(null);
   const [written, setWritten] = useState<Written | null>(null);
   const [busy, setBusy] = useState(false);
@@ -23,6 +24,7 @@ export default function MonosashiForm() {
         setAnswers(d.demoAnswers ?? {});
         setSkill(d.skill);
         setLive(Boolean(d.live));
+        setReal(Boolean(d.real));
       })
       .catch(() => setError("読み込めませんでした"));
   }, []);
@@ -65,7 +67,7 @@ export default function MonosashiForm() {
     <div className="flex flex-col gap-6">
       <form onSubmit={submit} className="flex flex-col gap-5">
         <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
-          架空の店長の答えが入っています。書きかえて試せます。
+          {real ? "あなたのお店の決まりで、10問に答えてください。" : "架空の店長の答えが入っています。書きかえて試せます。"}
         </p>
         {QUESTIONS.map((q) => (
           <label key={q.id} className="flex flex-col gap-1.5">

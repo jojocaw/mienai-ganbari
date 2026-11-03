@@ -6,7 +6,8 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { todayJst } from "../entries.ts";
-import { SHOP, SKILL_NAME } from "../shop.ts";
+import { SKILL_NAME } from "../shop.ts";
+import { shopConfig, shopDir } from "../shop-config.ts";
 import { findCharacterWords, lintDraft, lintSkillText, type Draft, type SkillLint, type WordHit } from "./lint.ts";
 import { buildPrompt, SYSTEM_PROMPT } from "./prompt.ts";
 import { QUESTIONS, validateAnswers, type OwnerAnswers } from "./questions.ts";
@@ -20,8 +21,10 @@ export type Generate = (input: { system: string; prompt: string }) => Promise<Ge
 
 export const SKILL_REL_PATH = `.claude/skills/${SKILL_NAME}/SKILL.md`;
 
+/** Where the yardstick skill lives: the committed .claude/skills for the fictional café, the shop folder for a real shop. */
 export function skillsRoot(): string {
-  return process.env.MIENAI_SKILLS_DIR || path.join(process.cwd(), ".claude", "skills");
+  const shop = shopDir();
+  return process.env.MIENAI_SKILLS_DIR || path.join(shop ?? process.cwd(), ".claude", "skills");
 }
 
 export function skillFile(root: string = skillsRoot()): string {
@@ -65,14 +68,14 @@ export async function writeSkill(
   let problems: string[] = [];
   let costUsd = 0;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const out = await opts.generate({ system: SYSTEM_PROMPT, prompt: buildPrompt(SHOP.name, answers, problems) });
+    const out = await opts.generate({ system: SYSTEM_PROMPT, prompt: buildPrompt(shopConfig().name, answers, problems) });
     costUsd += out.costUsd;
     const checked = lintDraft(out.draft);
     if (!checked.ok || !checked.draft) {
       problems = checked.problems;
       continue;
     }
-    const text = renderSkill(checked.draft, { shopName: SHOP.name, skillName: SKILL_NAME, date: todayJst(opts.now) });
+    const text = renderSkill(checked.draft, { shopName: shopConfig().name, skillName: SKILL_NAME, date: todayJst(opts.now) });
     const lint = lintSkillText(text, SKILL_NAME);
     if (!lint.ok) {
       problems = lint.problems;

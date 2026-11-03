@@ -4,7 +4,7 @@
 import { allocate, UNITS, yen, type Allocation, type Unit } from "../pay/allocate.ts";
 import type { MonthView } from "../month/summary.ts";
 import { SHOP } from "../shop.ts";
-import { STAFF } from "../staff.ts";
+import { STAFF, type Staff } from "../staff.ts";
 import { pickReasons, type LetterInput } from "./letters.ts";
 
 export interface Decision {
@@ -15,23 +15,31 @@ export interface Decision {
 }
 
 /** The name each person is called by in their own language. */
-export function nameFor(personId: string): string {
-  const s = STAFF.find((x) => x.id === personId)!;
+/** Who the letters are for and which shop they come from (default = the fictional café). */
+export interface LetterShop {
+  staff: readonly Staff[];
+  shopName: string;
+}
+
+export const DEMO_SHOP: LetterShop = { staff: STAFF, shopName: SHOP.name };
+
+export function nameFor(personId: string, staff: readonly Staff[] = STAFF): string {
+  const s = staff.find((x) => x.id === personId)!;
   return s.lang === "ja" ? s.name : s.roman || s.name;
 }
 
-export function planLetters(view: MonthView, decision: Decision): { allocation: Allocation; inputs: LetterInput[] } {
-  const allocation = allocate(decision.total, decision.shares, decision.unit, STAFF.map((s) => s.id));
+export function planLetters(view: MonthView, decision: Decision, shop: LetterShop = DEMO_SHOP): { allocation: Allocation; inputs: LetterInput[] } {
+  const allocation = allocate(decision.total, decision.shares, decision.unit, shop.staff.map((s) => s.id));
   const [y, m] = decision.month.split("-");
   const inputs = view.persons
     .filter((p) => (allocation.amounts[p.id] ?? 0) > 0)
     .map((p) => ({
       personId: p.id,
-      name: nameFor(p.id),
+      name: nameFor(p.id, shop.staff),
       lang: p.lang,
       amountText: yen(allocation.amounts[p.id]),
       month: `${y}年${Number(m)}月`,
-      shopName: SHOP.name,
+      shopName: shop.shopName,
       reasons: pickReasons(p),
     }));
   return { allocation, inputs };

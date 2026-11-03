@@ -7,7 +7,7 @@ import type { MonthView } from "../month/summary.ts";
 import type { Allocation } from "../pay/allocate.ts";
 import type { Lang } from "../staff.ts";
 import { writeLetters, type AskLetter, type LetterReason } from "./letters.ts";
-import { nameFor, planLetters, type Decision } from "./plan.ts";
+import { DEMO_SHOP, nameFor, planLetters, type Decision, type LetterShop } from "./plan.ts";
 
 export interface LetterRow {
   personId: string;
@@ -32,8 +32,8 @@ export interface LettersRun {
   letters: LetterRow[];
 }
 
-export async function runLetters(view: MonthView, decision: Decision, ask: AskLetter, concurrency = 3): Promise<LettersRun> {
-  const { allocation, inputs } = planLetters(view, decision);
+export async function runLetters(view: MonthView, decision: Decision, ask: AskLetter, concurrency = 3, shop: LetterShop = DEMO_SHOP): Promise<LettersRun> {
+  const { allocation, inputs } = planLetters(view, decision, shop);
   const t0 = Date.now();
   const results = await writeLetters(inputs, ask, concurrency);
   return {
@@ -44,7 +44,7 @@ export async function runLetters(view: MonthView, decision: Decision, ask: AskLe
     allocation,
     letters: results.map((r, i) => ({
       personId: r.personId,
-      name: nameFor(r.personId),
+      name: nameFor(r.personId, shop.staff),
       lang: inputs[i].lang,
       amountText: inputs[i].amountText,
       reasons: inputs[i].reasons,

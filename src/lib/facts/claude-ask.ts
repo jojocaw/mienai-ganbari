@@ -5,6 +5,7 @@ import { agentDefinitions } from "../agents.ts";
 import { runStructured } from "../claude.ts";
 import type { Ask } from "./extract.ts";
 import { SKILL_NAME } from "../shop.ts";
+import { shopDir } from "../shop-config.ts";
 import { CHECK_SCHEMA, EXTRACT_SCHEMA, SKILL_QUOTE_PROMPT, SKILL_QUOTE_SCHEMA, withYardstick } from "./prompt.ts";
 
 /** The fact extractor with the owner's yardstick: the skill is turned on and invoked at the top of every prompt. */
@@ -16,6 +17,7 @@ export const askExtractor: Ask = async ({ prompt }) => {
     agents: agentDefinitions(),
     settingSources: ["project"],
     skills: [SKILL_NAME],
+    ...(shopDir() ? { cwd: shopDir()! } : {}),
     maxBudgetUsd: 0.5,
   });
   return { raw: data, costUsd };
@@ -30,7 +32,7 @@ export async function askYardstickQuote(opts: { cwd?: string } = {}): Promise<{ 
     agents: agentDefinitions(),
     settingSources: ["project"],
     skills: [SKILL_NAME],
-    ...(opts.cwd ? { cwd: opts.cwd } : {}),
+    ...(opts.cwd ?? shopDir() ? { cwd: (opts.cwd ?? shopDir())! } : {}),
     maxBudgetUsd: 0.2,
   });
   return { quote: data.quote, costUsd };

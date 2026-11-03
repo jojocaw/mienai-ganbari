@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ShopFooter from "../ShopFooter";
 import MonosashiForm from "./MonosashiForm";
 
 export const metadata: Metadata = {
@@ -19,9 +20,7 @@ export default function MonosashiPage() {
         </p>
       </header>
       <MonosashiForm />
-      <footer className="mt-auto text-center text-xs leading-relaxed text-stone-400">
-        すべてのデータは架空です。決めるのは店長で、AI は配分を決めません。
-      </footer>
+      <ShopFooter />
     </main>
   );
 }

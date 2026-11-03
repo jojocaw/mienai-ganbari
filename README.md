@@ -61,6 +61,7 @@ Claude reads and writes; plain code checks every answer and does every calculati
 | F7 | Thank-you letters in each person's language: the letter-writer subagent uses only the checked facts and the amount from F6; plain code checks every letter (amount exactly once, no other money, every fact it uses is real, no character words, the right language) and sends it back once with the problems | ✅ real run: 8/8 letters passed (one after a retry), Japanese / Vietnamese / Indonesian, 26 s for about $0.20 |
 | F8 | Two numbers for the video: ① the time to make the month-end decision, by hand vs with this tool; ② on twenty made-up scenes the owner answers (付ける / 付けない / 迷う), how often the fact extractor gives the owner's answer **without and with the owner's yardstick skill** — the only difference between the two runs is the skill, and every run first proves the skill is (or is not) in context with a word-for-word quote (`npm run f8`; the owner's answers and skill stay private, only the counts are published in `data/derived/f8.json`) | ② measured with a real shop owner's answers (Sonnet, 3 runs each). **Twenty scenes: without the skill 7, 7, 8 → with the owner's skill 9, 9, 9.** Most misses were small everyday help the owner does not reward (付けない) but Claude does (付ける): the owner's ten written answers say teaching and helping count. **Twelve new scenes the owner answered afterwards** (`npm run f8 -- --round2`, `data/derived/f8-round2.json`): no skill 6, 6, 7 · the skill 5, 5, 5 · **the skill plus the owner's twenty earlier answers as examples 9, 7, 8** · the skill plus the owner's own one-line reason 5, 5, 5 · both 7, 7, 8. The owner's past decisions carried over to new lines (three small everyday scenes, help and tidying, went from 0 of 3 runs to 3 of 3); the one-line reason alone did not move the count. (Inside the twenty, examples from one half tested on the other: 8, 8, 8 → 9, 9, 9, `--examples`.) ① to be measured |
 | F9 | The owner corrects the month-end verdicts on `/month` (open an event → 店長の答え: 付ける / 迷う / 付けない), and one tap adds those decisions to the yardstick Skill as examples (「店長が実際に決めた例」): word for word, without people's names, by plain code (no Claude). Month after month the section grows; a new decision on the same line replaces the old one; past 60 the oldest leave first; the version before each save is kept in `data/local/skill-history/` and one tap puts it back. Why examples: in F8 ② the owner's past decisions carried over to new lines (5 → 9, 7, 8 of 12) while a one-line reason did not | ✅ working (6 tests; not yet measured on a second month) |
+| — | **Your own shop:** a shop file (shop name + staff list) switches every screen from the fictional café to the real shop; its lines, its yardstick skill and its month-end result stay in folders that are never committed; `npm run month` takes the shop's own month through F3 + F4 (no answer key, so no score) | ✅ working (12 tests; built and checked in the browser with a test shop: the shop's names only, no fictional line mixed in, the fictional demo unchanged) — not yet run on a real shop's month |
 
 ## Try it
 
@@ -95,6 +96,38 @@ Set `MIENAI_ALLOW_LIVE=0` to switch off Claude calls even when a key is present 
 
 Lines written in the app are stored in `data/local/entries.json` (ignored by git).
 The fictional month is in `data/seed/entries.json`; `data/seed/labels.json` is the hidden answer key used only by tests.
+
+## Use it in your own shop
+
+The demo is the fictional café. For a real shop, make a shop file **outside this repository**, so nothing about the shop can be committed:
+
+```json
+{
+  "name": "Your shop",
+  "staff": [
+    { "id": "aoi", "name": "あおい", "lang": "ja" },
+    { "id": "tuan", "name": "トゥアン (Tuan)", "roman": "Tuan", "ja": "トゥアン", "lang": "vi" }
+  ]
+}
+```
+
+- `id`: lowercase letters, numbers and `-`, used inside the files (never shown) · `name`: shown on the screens · `lang`: `ja`, `vi` or `id`, the language the person writes in and gets the letter in
+- optional `roman`: the name in Latin letters (the fact extractor sees it next to the name, and Vietnamese / Indonesian letters use it) · optional `ja`: the name in Japanese without さん (default: `name`), so 「トゥアンさんが」 is left out on the person's own card
+
+Point the app at it in `.env.local` (read by `npm run dev`, `npm run build` and the scripts):
+
+```bash
+MIENAI_SHOP_FILE=/path/to/my-shop/shop.json
+```
+
+Then every screen is the shop instead of the fictional café:
+
+1. `/monosashi` — the owner answers the ten questions (empty, no fictional answers). The yardstick skill is written next to the shop file (`/path/to/my-shop/.claude/skills/…/SKILL.md`, earlier versions in `/path/to/my-shop/skill-history/`), not into this repository.
+2. `/` — each person picks their name and writes one line a day → `data/local/entries.json`.
+3. At the end of the month: `npm run month` (or `npm run month -- --month 2026-11`). It first makes the fact extractor quote the shop's own yardstick word for word, then goes through the shop's lines → `data/local/month.json`. A real month has no answer key, so there is no score.
+4. `/month` — the shop's month: green / yellow per person, the owner's corrections (added to the shop's own skill), the owner's decision and the letters. Before `npm run month` it says how many lines are waiting.
+
+A broken shop file stops with the problem in plain Japanese; it never falls back to the fictional café. Without `MIENAI_SHOP_FILE` everything is the fictional demo, exactly as before.
 
 ## The fictional month
 
@@ -160,6 +193,7 @@ What the real runs caught, and how each was fixed (each fix has a test):
 
 - **What goes to Claude:** the daily lines (to turn them into facts), the checked facts and the amounts (to write the letters), and the owner's ten answers (to write the yardstick). The subagents have no tools and no MCP, so they cannot touch files, the network or money.
 - **What stays on the machine:** lines written in the app (`data/local/entries.json`) and the earlier versions of the yardstick (`data/local/skill-history/`) are never committed.
+- **A real shop stays outside the repository:** the shop file, the shop's yardstick skill and its earlier versions live in the shop file's folder; the lines and the month-end result live in `data/local/`. Neither is ever committed.
 - **The yardstick keeps actions, not people:** names are taken out of the owner's examples, and plain code refuses any word that judges a person's character.
 - **Gossip and judgements are dropped and only counted** — they are never shown on anyone's page.
 
@@ -174,3 +208,4 @@ What the real runs caught, and how each was fixed (each fix has a test):
 - 仕組みの図: 上の「How it works」(1回だけ = 店長の10問 → 物差しのスキル / 毎日 = 1人1行 / 月末 = 事実の係 → 確かめ → 月末の画面 → 店長が決める → 金額はプログラム → 母語の手紙)
 - 費用: 架空の1か月 (8人・180行) で 事実と確かめ 0.70ドル＋手紙 0.20ドル = 1か月 約0.9ドル (物差しのスキルはお店ごとに1回 約0.08ドル)
 - 動かし方: 上の「Try it」のとおり
+- 自分のお店で使う: 店名とスタッフの名簿のファイルを作り、`.env.local` に `MIENAI_SHOP_FILE` を書くと、どの画面も架空のカフェから自分のお店に切り替わる。物差し・毎日の1行・月末の結果は手元のフォルダだけに置き、公開しない。月末は `npm run month`（本物の月には答えが無いので、答え合わせの点数は出さない）。詳しくは「Use it in your own shop」

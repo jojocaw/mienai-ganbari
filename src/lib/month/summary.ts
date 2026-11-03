@@ -8,7 +8,7 @@ import type { Entry } from "../entries.ts";
 import type { CheckedFact } from "../facts/check.ts";
 import type { Dropped } from "../facts/types.ts";
 import type { Verdict } from "../monosashi/lint.ts";
-import { STAFF, type Lang } from "../staff.ts";
+import { STAFF, type Lang, type Staff } from "../staff.ts";
 
 export interface LineRef {
   entryId: string;
@@ -54,7 +54,7 @@ export interface MonthView {
   };
 }
 
-export function buildMonthView(month: { facts: CheckedFact[]; dropped: Dropped[] }, entries: Entry[]): MonthView {
+export function buildMonthView(month: { facts: CheckedFact[]; dropped: Dropped[] }, entries: Entry[], staff: readonly Staff[] = STAFF): MonthView {
   const entryById = new Map(entries.map((e) => [e.id, e]));
   const order = new Map(entries.map((e, i) => [e.id, i]));
   const byEvent = new Map<string, CheckedFact[]>();
@@ -88,7 +88,7 @@ export function buildMonthView(month: { facts: CheckedFact[]; dropped: Dropped[]
   }
   events.sort((a, b) => a.date.localeCompare(b.date) || (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
 
-  const persons: PersonView[] = STAFF.map((s) => ({
+  const persons: PersonView[] = staff.map((s) => ({
     id: s.id,
     name: s.name,
     lang: s.lang,
@@ -96,7 +96,7 @@ export function buildMonthView(month: { facts: CheckedFact[]; dropped: Dropped[]
     yellow: events.filter((e) => e.actorId === s.id && e.color === "yellow"),
     wrote: entries.filter((e) => e.authorId === s.id).length,
   }));
-  const staffOrder = STAFF.map((s) => s.id);
+  const staffOrder = staff.map((s) => s.id);
   persons.sort((a, b) => b.green.length - a.green.length || staffOrder.indexOf(a.id) - staffOrder.indexOf(b.id));
 
   const dropped = { gossip: 0, judgement: 0, vague: 0 };

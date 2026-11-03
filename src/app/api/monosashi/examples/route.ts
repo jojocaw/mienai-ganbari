@@ -32,8 +32,8 @@ export async function POST(request: Request) {
   }
   const parsed = parseCorrections(body.corrections);
   if ("problem" in parsed) return Response.json({ error: parsed.problem }, { status: 400 });
-  const { view } = await loadMonth();
-  const { examples, skipped, problems } = correctionsToExamples(view, parsed.corrections);
+  const { view, staff } = await loadMonth();
+  const { examples, skipped, problems } = correctionsToExamples(view, parsed.corrections, staff);
   if (problems.length) return Response.json({ error: problems.join(" / ") }, { status: 400 });
   if (examples.length === 0) return Response.json({ error: "Claude の答えと同じなので、足す例はありません" }, { status: 400 });
   try {

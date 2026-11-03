@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
+import { currentShop } from "@/lib/current-shop";
+import ShopFooter from "../ShopFooter";
 import MonthBoard from "./MonthBoard";
 
 export const metadata: Metadata = {
   title: "月末のふりかえり (mienai-ganbari)",
 };
+
+async function Intro() {
+  const shop = await currentShop();
+  return shop.real
+    ? `${shop.name}の1か月。スタッフが毎日書いた1行から、Claude が事実だけを取り出し、店長の物差しを当てます。だれにいくら届けるかを決めるのは店長です。`
+    : "架空のカフェの10月。スタッフ8人が毎日書いた1行から、Claude が事実だけを取り出し、店長の物差しを当てました。だれにいくら届けるかを決めるのは店長です。";
+}
 
 export default function MonthPage() {
   return (
@@ -15,13 +25,13 @@ export default function MonthPage() {
         </Link>
         <h1 className="text-2xl font-bold text-stone-900">月末のふりかえり</h1>
         <p className="text-sm leading-relaxed text-stone-600">
-          架空のカフェの10月。スタッフ8人が毎日書いた1行から、Claude が事実だけを取り出し、店長の物差しを当てました。だれにいくら届けるかを決めるのは店長です。
+          <Suspense fallback={null}>
+            <Intro />
+          </Suspense>
         </p>
       </header>
       <MonthBoard />
-      <footer className="mt-auto text-center text-xs leading-relaxed text-stone-400">
-        すべてのデータは架空です。決めるのは店長で、AI は配分を決めません。
-      </footer>
+      <ShopFooter />
     </main>
   );
 }
