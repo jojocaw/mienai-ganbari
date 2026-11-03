@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { currentShop } from "@/lib/current-shop";
+import { DemoGuide } from "./DemoNote";
 import EntryForm from "./EntryForm";
 import ShopFooter from "./ShopFooter";
 
@@ -13,7 +14,8 @@ async function Entry() {
 export default function Home() {
   return (
     <main className="mx-auto flex w-full max-w-sm flex-1 flex-col gap-6 px-4 py-8">
-      <header className="flex flex-col gap-1">
+      <DemoGuide />
+      <header id="write" className="flex scroll-mt-4 flex-col gap-1">
         <p className="text-xs font-semibold tracking-wide text-emerald-700">見えない頑張りを拾う</p>
         <h1 className="text-2xl font-bold text-stone-900">今日の1行</h1>
         <p className="text-sm leading-relaxed text-stone-600">
