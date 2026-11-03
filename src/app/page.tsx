@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { currentShop } from "@/lib/current-shop";
-import { DemoGuide } from "./DemoNote";
+import { DEMO_EXPORT, DemoGuide } from "./DemoNote";
 import EntryForm from "./EntryForm";
 import ShopFooter from "./ShopFooter";
 
 /** The names to pick from: the fictional café's 8, or the real shop's staff from its shop file. */
 async function Entry() {
   const { staff, real } = await currentShop();
-  return <EntryForm staff={staff} real={real} />;
+  return <EntryForm staff={staff} real={real} demo={DEMO_EXPORT} />;
 }
 
 export default function Home() {

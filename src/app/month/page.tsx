@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { currentShop } from "@/lib/current-shop";
+import { STAFF } from "@/lib/staff";
+import { DEMO_EXPORT } from "../DemoNote";
 import ShopFooter from "../ShopFooter";
+import DemoExample from "./DemoExample";
+import DemoYourLines from "./DemoYourLines";
 import MonthBoard from "./MonthBoard";
 
 export const metadata: Metadata = {
@@ -30,6 +34,8 @@ export default function MonthPage() {
           </Suspense>
         </p>
       </header>
+      {DEMO_EXPORT && <DemoYourLines names={Object.fromEntries(STAFF.map((s) => [s.id, s.name]))} />}
+      <DemoExample />
       <MonthBoard />
       <ShopFooter />
     </main>

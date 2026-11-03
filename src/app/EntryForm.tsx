@@ -1,12 +1,23 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LANG_LABEL, PLACEHOLDER, type Staff } from "@/lib/staff";
 
 type Saved = { text: string; date: string; lang: keyof typeof LANG_LABEL };
 
-/** staff: the names to pick from (the fictional café's or the real shop's). real: a real shop, so no fictional lines are counted. */
-export default function EntryForm({ staff, real }: { staff: readonly Staff[]; real: boolean }) {
+/** One example line per language for first-time visitors of the demo (names from the fictional café). */
+function exampleLine(me: Staff): string {
+  if (me.lang === "vi") return "Hôm nay Haruka đã ở lại sau giờ làm để lau sàn bếp giúp mọi người.";
+  if (me.lang === "id") return "Hari ini Kenji membantu saya mengangkat kotak berat dari gudang.";
+  return `閉店後、${me.id === "miyuki" ? "けんじ" : "みゆき"}さんが黙って冷蔵庫の中を全部ふいてくれた。`;
+}
+
+/**
+ * staff: the names to pick from (the fictional café's or the real shop's). real: a real shop, so no fictional lines are counted.
+ * demo: the static phone demo, which adds a how-to line, an example button and a big "next" button after saving.
+ */
+export default function EntryForm({ staff, real, demo = false }: { staff: readonly Staff[]; real: boolean; demo?: boolean }) {
   const [authorId, setAuthorId] = useState("");
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -49,6 +60,11 @@ export default function EntryForm({ staff, real }: { staff: readonly Staff[]; re
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-5">
+      {demo && (
+        <p className="rounded-xl bg-emerald-50 px-3 py-2 text-sm leading-relaxed text-emerald-900">
+          <span className="font-bold">① スタッフの画面</span>　スタッフのだれか1人になったつもりで名前を選び、1行書いてみてください。迷ったら「例を入れる」を押すだけで大丈夫です。
+        </p>
+      )}
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 text-sm font-semibold text-stone-600">あなたの名前（一覧から選ぶだけ）</legend>
         <div className="grid grid-cols-2 gap-2">
@@ -70,7 +86,18 @@ export default function EntryForm({ staff, real }: { staff: readonly Staff[]; re
       </fieldset>
 
       <label className="flex flex-col gap-2">
-        <span className="text-sm font-semibold text-stone-600">今日の1行（母語で大丈夫です）</span>
+        <span className="flex items-center justify-between gap-2 text-sm font-semibold text-stone-600">
+          今日の1行（母語で大丈夫です）
+          {demo && me && (
+            <button
+              type="button"
+              onClick={() => setText(exampleLine(me))}
+              className="shrink-0 rounded-lg border border-emerald-600 px-2.5 py-1 text-xs font-bold text-emerald-700"
+            >
+              例を入れる
+            </button>
+          )}
+        </span>
         <input
           type="text"
           value={text}
@@ -99,6 +126,17 @@ export default function EntryForm({ staff, real }: { staff: readonly Staff[]; re
             {saved.text}
           </p>
           <p className="mt-1 text-xs text-stone-500">書いたままの文で保存されます。訳や書き直しはしません。</p>
+          {demo && (
+            <div className="mt-3 flex flex-col gap-3 border-t border-emerald-200 pt-3">
+              <p className="leading-relaxed text-stone-800">
+                月末に Claude がこの1行を読み、「だれが・だれのために・何をしたか」を拾って、店長の画面に並べます。
+                <span className="block text-xs text-stone-500">（試し版では Claude を止めているので、架空の10月の180行を読んだ結果を見せます）</span>
+              </p>
+              <Link href="/month" className="rounded-xl bg-emerald-700 py-3.5 text-center text-base font-bold text-white shadow-sm">
+                次へ：② 店長として月末を見る →
+              </Link>
+            </div>
+          )}
         </div>
       )}
 
