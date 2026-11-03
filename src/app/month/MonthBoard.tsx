@@ -128,6 +128,9 @@ export default function MonthBoard({ demo = false }: { demo?: boolean }) {
 
   const isSaved = sameDecision(data.decision, decision);
   const shown = [liveRun, data.letters].find((r): r is LettersRun => Boolean(r && sameDecision(r.decision, decision))) ?? null;
+  // the phone demo cannot call Claude, so it keeps showing the saved letters (with a note) when the yen were changed
+  const letterRun = shown ?? (demo ? data.letters : null);
+  const demoOtherDecision = demo && !shown && Boolean(data.letters);
   const scale = Math.max(1, ...data.view.persons.map((p) => p.green.length + p.yellow.length));
 
   function reset() {
@@ -292,17 +295,32 @@ export default function MonthBoard({ demo = false }: { demo?: boolean }) {
 
         <section id="letters" className="flex scroll-mt-4 flex-col gap-3">
           <h2 className="text-lg font-bold text-stone-900">一人ずつの「ありがとう」</h2>
+          {demo && (
+            <p className="rounded-xl bg-emerald-50 px-3 py-2 text-sm leading-relaxed text-emerald-900">
+              <span className="font-bold">③ 手紙</span>　一人ひとりに、その人の母語で届きます。外国語の手紙には、日本語の訳も付けています。
+            </p>
+          )}
           <p className="text-xs leading-relaxed text-stone-600">
             手紙の係（Claude）が、確かめた事実だけから本人の母語で書きます。金額は上の計算の数をそのまま入れます。プログラムが1通ずつ確かめます: 金額がちょうど1回・ほかのお金の数なし・使った事実が本物・人柄の言葉なし・言語が合っている。
           </p>
-          {shown ? (
+          {letterRun ? (
             <>
+              {demoOtherDecision && (
+                <div className="flex flex-col gap-2 rounded-xl bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
+                  <p>
+                    あなたが決めた金額とはちがいます。これは、架空の店長の決め（合計 {yen(data.decision.total)}）で Claude が書いた手紙です。本物では、あなたが決めた金額で Claude が書き直します。
+                  </p>
+                  <button type="button" onClick={reset} className="self-start font-semibold underline underline-offset-4">
+                    架空の店長の決めに戻す
+                  </button>
+                </div>
+              )}
               <p className="text-[11px] text-stone-500">
-                {shown.letters.length}通・{shown.seconds}秒・{usd(shown.costUsd)}・{modelLabel(shown.model)}
-                {shown === data.letters ? "（保存した結果）" : "（今書いた結果）"}
+                {letterRun.letters.length}通・{letterRun.seconds}秒・{usd(letterRun.costUsd)}・{modelLabel(letterRun.model)}
+                {letterRun === data.letters ? "（保存した結果）" : "（今書いた結果）"}
               </p>
-              {shown.letters.map((l) => (
-                <LetterCard key={l.personId} row={l} />
+              {letterRun.letters.map((l) => (
+                <LetterCard key={l.personId} row={l} openJapanese={demo} />
               ))}
             </>
           ) : (
@@ -331,6 +349,25 @@ export default function MonthBoard({ demo = false }: { demo?: boolean }) {
             </div>
           )}
         </section>
+
+        {demo && (
+          <section className="flex flex-col gap-3 rounded-2xl bg-emerald-800 p-5 text-white shadow-sm">
+            <p className="text-xs font-semibold tracking-wide text-emerald-100">体験はここまでです</p>
+            <p className="text-2xl font-bold leading-snug">君の努力は、必ず届く。</p>
+            <p className="text-sm leading-relaxed text-emerald-50">
+              スタッフは毎日1行を母語で書くだけ。月末に店長が決めて、一人ひとりに母語の手紙が届きます。だれにいくら届けるかを決めるのは、いつも店長です。
+            </p>
+            <a
+              href="https://github.com/jojocaw/mienai-ganbari"
+              className="rounded-xl bg-white py-3.5 text-center text-base font-bold text-emerald-900 shadow-sm"
+            >
+              作品の説明を見る（GitHub）
+            </a>
+            <Link href="/" className="text-center text-sm text-emerald-50 underline underline-offset-4">
+              最初からもう一度
+            </Link>
+          </section>
+        )}
 
         <Fold demo={demo} title="この画面の裏側：Claude の使い方（くわしく）">
           <BehindTheScenes run={data.run} letters={shown ?? data.letters} lines={data.view.totals.lines} />
@@ -521,7 +558,7 @@ function EventItem({ event, ownerVerdict, onDecide }: { event: EventView; ownerV
   );
 }
 
-function LetterCard({ row }: { row: LetterRow }) {
+function LetterCard({ row, openJapanese = false }: { row: LetterRow; openJapanese?: boolean }) {
   const { staffName, withoutActor } = useStaff();
   const used = row.usedEntryIds.map((id) => row.reasons.find((r) => r.entryId === id)).filter((r) => r !== undefined);
   return (
@@ -537,7 +574,7 @@ function LetterCard({ row }: { row: LetterRow }) {
           </p>
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-stone-800">{row.letter}</p>
           {row.lang !== "ja" && row.japanese && (
-            <details className="text-xs">
+            <details className="text-xs" open={openJapanese}>
               <summary className="cursor-pointer font-semibold text-stone-600">日本語（店長の確認用）</summary>
               <p className="mt-1 whitespace-pre-wrap leading-relaxed text-stone-700">{row.japanese}</p>
             </details>
