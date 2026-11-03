@@ -17,8 +17,6 @@ or taught the new hire goes unnoticed — especially when Japanese is not their 
 4. **The owner decides.** The AI never decides who gets what. Amounts are calculated by plain code to the last yen.
 5. Each person receives a short thank-you in their own language, with the concrete reasons.
 
-The habit already exists: many Japanese workplaces use **thank-you cards (サンクスカード)**, short notes of thanks between coworkers ([what they are, in Japanese](https://www.kaonavi.jp/dictionary/thanks-card/)). mienai-ganbari keeps that habit, in each person's own language and on their phone, and carries it all the way to the month-end thank-you.
-
 The builder has run a small business for 18 years and has had to make these month-end calls by hand.
 By hand it takes the builder about 30 minutes per person; with this tool, the fictional month for 8 people took 18 minutes from start to the finished letters — about 2 min 15 s per person (F8 ①).
 
@@ -215,7 +213,6 @@ What the real runs caught, and how each was fixed (each fix has a test):
 スタッフは毎日1行を母語で書くだけ。Claude が事実だけにそろえ、月末に「周りが何度も名前を書いた見えない頑張り（緑）」と「本人の申告だけ（黄）」を分けて店長に見せます。**決めるのは店長**で、AI は配分を決めません。金額の計算はプログラムで1円まで行います。
 
 - 試し版 (スマホで開くだけ・架空のデータ・Claude は止めてある): https://jojocaw.github.io/mienai-ganbari/
-- 書く習慣はもうある: 日本の職場には、仲間に感謝を伝えるサンクスカードの習慣がある。この道具は、それを母語とスマホで続け、月末のお礼まで届ける
 - できたこと: F1（毎日の1行・元の文のまま保存）・架空の1か月分 180行（答えつき・テストつき）・F2（店長の10問 → Claude が書くスキル。人柄の言葉は入らない）・F3/F4（事実の係 = Sonnet・確かめの係 = Haiku・隠した答えと比べて全問正解）・F5（月末の画面 `/month`）・F6（店長が＋−で一人ずつ金額を決め、合計と手紙の金額はプログラム。11/3 に店長が使って分かりにくかった「合計と割合」の形から直した）・F7（手紙の係 = Opus が母語で手紙・コードが確かめる・8通とも通った）・F8 ②（店長と同じ答えになった数。架空の20場面: 物差しなし 7・7・8 → 物差しあり 9・9・9 / 20。後から店長が答えた新しい12場面: 物差しだけ 5・5・5 → 店長の前の20の答えを例に足すと 9・7・8 / 12（小さな手伝い・片づけの3場面が 0回 → 3回とも一致）。店長の理由の1行だけでは、合う数は変わらなかった（5・5・5）。物差しが本当に読まれているかは、決まりの1行を一字一句引用させて確かめる）・F9（店長が月末に Claude の答えを直すと、その答えが物差しのスキルの「店長が実際に決めた例」に入る。名前は外し、行動だけ・プログラムで足す・1回で元に戻せる）
 - 前と後の時間 (F8 ①): 店長が手で決めると 1人30分 (月末の3日前から・10人で約5時間)。この道具では、架空の8人の月末が「はじめる」から8通の手紙の完成まで 18分07秒 (1人 約2分15秒)。11/3 に本物の店長が1回測った (お金の画面でまごついた時間も入れたまま。その画面は同じ日に作り直した・Claude の下ごしらえ 150秒は前もって済んでいて入れていない)
 - 使う人と場面: パートのスタッフで回す小さなお店の店長 (ベトナム語やインドネシア語で書くスタッフがいてもよい)。スタッフは毎日スマホで1行・月末の数日に店長が `/month` を開いて決め、手紙ができる。8人で1か月 約0.9ドル。作った本人のお店では、スタッフが毎日開く自前のアプリをもう使っている。大会の後は、この1行をその中に入れる。
