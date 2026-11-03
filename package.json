@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "demo:build": "MIENAI_DEMO_EXPORT=1 MIENAI_ALLOW_LIVE=0 next build && node scripts/build-demo.ts",
     "lint": "eslint",
     "seed": "node scripts/generate-seed.ts",
     "monosashi": "node --env-file-if-exists=.env.local scripts/write-monosashi.ts",

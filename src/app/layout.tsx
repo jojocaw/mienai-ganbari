@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { DemoNote, DemoShim } from "./DemoNote";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ja" className="h-full antialiased">
-      <body className="flex min-h-full flex-col bg-stone-50 text-stone-900">{children}</body>
+      <body className="flex min-h-full flex-col bg-stone-50 text-stone-900">
+        <DemoNote />
+        {children}
+        <DemoShim />
+      </body>
     </html>
   );
 }
