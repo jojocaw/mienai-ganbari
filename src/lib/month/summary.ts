@@ -16,6 +16,8 @@ export interface LineRef {
   date: string;
   lang: Lang;
   text: string;
+  /** F10: the question asked right after the line was saved, and the writer's answer (only when answered). */
+  asked?: { question: string; answer: string };
 }
 
 export interface EventView {
@@ -71,7 +73,9 @@ export function buildMonthView(month: { facts: CheckedFact[]; dropped: Dropped[]
     const view = witness ?? first;
     const lines = members.flatMap((m) => {
       const e = entryById.get(m.entryId);
-      return e ? [{ entryId: e.id, authorId: e.authorId, date: e.date, lang: e.lang, text: e.text }] : [];
+      if (!e) return [];
+      const c = e.clarification;
+      return [{ entryId: e.id, authorId: e.authorId, date: e.date, lang: e.lang, text: e.text, ...(c?.answer !== undefined ? { asked: { question: c.question, answer: c.answer } } : {}) }];
     });
     events.push({
       id,

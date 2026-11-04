@@ -18,6 +18,16 @@ export interface Entry {
   text: string;
   createdAt: string;
   source: "seed" | "app";
+  /** F10: the one question asked right after a vague line was saved, and the writer's answer. The line itself never changes. */
+  clarification?: Clarification;
+}
+
+/** F10: one question back about a line, in the writer's language, and the answer exactly as typed (absent when not answered). */
+export interface Clarification {
+  question: string;
+  askedAt: string;
+  answer?: string;
+  answeredAt?: string;
 }
 
 export const MAX_CHARS = 200;
@@ -100,4 +110,58 @@ export async function addEntry(authorId: unknown, text: unknown, now: Date = new
   writing = job.catch(() => {});
   await job;
   return entry;
+}
+
+/** F10: same rules as the line itself: one line, not empty, at most MAX_CHARS characters. */
+export function validateAnswer(answer: unknown): string | null {
+  if (typeof answer !== "string") return "答えを1行で書いてください";
+  if (/[\r\n\u2028\u2029]/.test(answer)) return "1行で書いてください（改行は入れられません）";
+  if (answer.trim().length === 0) return "答えを1行で書いてください";
+  if ([...answer].length > MAX_CHARS) return `${MAX_CHARS}文字までにしてください`;
+  return null;
+}
+
+/** One line written in the app, by id. */
+export async function findLocalEntry(id: unknown): Promise<Entry | undefined> {
+  if (typeof id !== "string") return undefined;
+  return (await readLocalEntries()).find((e) => e.id === id);
+}
+
+/** Changes one line written in the app, in the same queue as addEntry, so writes never overwrite each other. */
+async function updateLocalEntry(id: string, change: (e: Entry) => Entry): Promise<Entry> {
+  let updated: Entry | undefined;
+  const job = writing.then(async () => {
+    const file = path.join(localDataDir(), "entries.json");
+    const current = await readJson(file);
+    const i = current.findIndex((e) => e.id === id);
+    if (i < 0) throw new EntryError("その1行が見つかりません");
+    updated = change(current[i]);
+    current[i] = updated;
+    const tmp = `${file}.${process.pid}.tmp`;
+    await fs.writeFile(tmp, JSON.stringify(current, null, 2) + "\n", "utf8");
+    await fs.rename(tmp, file);
+  });
+  writing = job.catch(() => {});
+  await job;
+  return updated!;
+}
+
+/** F10: keeps the question that was shown for this line. A line is asked about at most once. */
+export async function setQuestion(entryId: string, question: string, now: Date = new Date()): Promise<Entry> {
+  return updateLocalEntry(entryId, (e) => {
+    if (e.clarification) throw new EntryError("この1行には、もう聞き返しています");
+    return { ...e, clarification: { question, askedAt: now.toISOString() } };
+  });
+}
+
+/** F10: adds the writer's answer next to the line, exactly as typed. The line itself stays as it was written. */
+export async function addAnswer(entryId: unknown, answer: unknown, now: Date = new Date()): Promise<Entry> {
+  const err = validateAnswer(answer);
+  if (err) throw new EntryError(err);
+  if (typeof entryId !== "string") throw new EntryError("その1行が見つかりません");
+  return updateLocalEntry(entryId, (e) => {
+    if (!e.clarification) throw new EntryError("この1行には聞き返していません");
+    if (e.clarification.answer !== undefined) throw new EntryError("答えはもう足してあります");
+    return { ...e, clarification: { ...e.clarification, answer: answer as string, answeredAt: now.toISOString() } };
+  });
 }

@@ -1,0 +1,364 @@
+{
+  "measuredAt": "2026-11-04T12:06:42.454Z",
+  "models": {
+    "asker": "claude-haiku-5-5",
+    "extractor": "claude-sonnet-5-5"
+  },
+  "askedBack": {
+    "vague": {
+      "lines": 9,
+      "asked": 9
+    },
+    "gossip": {
+      "lines": 18,
+      "asked": 0
+    },
+    "clear": {
+      "lines": 18,
+      "asked": 0
+    },
+    "seconds": 26,
+    "costUsd": 0.0087,
+    "costPerLineUsd": 0.00019
+  },
+  "vagueLines": {
+    "withoutAnswers": {
+      "facts": 0,
+      "dropped": 9
+    },
+    "withFictionalAnswers": {
+      "facts": 9,
+      "dropped": 0
+    },
+    "facts": [
+      {
+        "entryId": "seed-053",
+        "kind": "self",
+        "actorId": "sota",
+        "forIds": [
+          "minh"
+        ],
+        "action": "そうたがミンの倉庫の片付けを手伝った",
+        "verdict": "付けない"
+      },
+      {
+        "entryId": "seed-105",
+        "kind": "help",
+        "actorId": "lan",
+        "forIds": [],
+        "action": "ランがランチの時に皿洗いを全部やった",
+        "verdict": "迷う"
+      },
+      {
+        "entryId": "seed-119",
+        "kind": "help",
+        "actorId": "putri",
+        "forIds": [],
+        "action": "プトリが開店前に窓をふいた",
+        "verdict": "迷う"
+      },
+      {
+        "entryId": "seed-131",
+        "kind": "help",
+        "actorId": "minh",
+        "forIds": [],
+        "action": "ミンがレジが混んだ時に袋づめを手伝った",
+        "verdict": "迷う"
+      },
+      {
+        "entryId": "seed-135",
+        "kind": "help",
+        "actorId": "haruka",
+        "forIds": [
+          "lan"
+        ],
+        "action": "はるかがランにコーヒーの淹れ方を教えた",
+        "verdict": "付ける"
+      },
+      {
+        "entryId": "seed-147",
+        "kind": "help",
+        "actorId": "kenji",
+        "forIds": [],
+        "action": "けんじが冷蔵庫の中を整理した",
+        "verdict": "迷う"
+      },
+      {
+        "entryId": "seed-157",
+        "kind": "help",
+        "actorId": "minh",
+        "forIds": [],
+        "action": "ミンが閉店後に厨房を掃除した",
+        "verdict": "迷う"
+      },
+      {
+        "entryId": "seed-161",
+        "kind": "help",
+        "actorId": "ayane",
+        "forIds": [
+          "lan"
+        ],
+        "action": "あやねがランの皿洗いを手伝った",
+        "verdict": "迷う"
+      },
+      {
+        "entryId": "seed-168",
+        "kind": "self",
+        "actorId": "haruka",
+        "forIds": [
+          "sota"
+        ],
+        "action": "はるかがそうたの床のモップがけを手伝った",
+        "verdict": "付けない"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": "seed-053",
+      "lang": "ja",
+      "line": "いろいろ手伝いました。",
+      "question": "だれの、どんな仕事を手伝いましたか？",
+      "answer": "ミンさんの、倉庫の片付けです。"
+    },
+    {
+      "id": "seed-105",
+      "lang": "ja",
+      "line": "今日は忙しかったけど、なんとか回った。",
+      "question": "今日、だれのどんな作業をしましたか？",
+      "answer": "ランさんが、ランチの時に皿洗いを全部やってくれた。"
+    },
+    {
+      "id": "seed-119",
+      "lang": "ja",
+      "line": "今日もみんなよく頑張っていた。",
+      "question": "今日は、だれのどんな作業を見かけましたか？",
+      "answer": "プトリさんが、開店前に窓をふいてくれた。"
+    },
+    {
+      "id": "seed-131",
+      "lang": "ja",
+      "line": "今日は忙しかったけど、なんとか回った。",
+      "question": "今日は、だれがどんな仕事をしましたか？",
+      "answer": "ミンさんが、レジが混んだ時に袋づめを手伝ってくれた。"
+    },
+    {
+      "id": "seed-135",
+      "lang": "vi",
+      "line": "Hôm nay mọi người đều cố gắng.",
+      "question": "Ai đã làm việc gì cụ thể hôm nay?",
+      "answer": "Haruka đã dạy Lan cách pha cà phê."
+    },
+    {
+      "id": "seed-147",
+      "lang": "ja",
+      "line": "今日もみんなよく頑張っていた。",
+      "question": "だれが、どんな仕事をしていましたか？",
+      "answer": "けんじさんが、冷蔵庫の中を整理していた。"
+    },
+    {
+      "id": "seed-157",
+      "lang": "id",
+      "line": "Semua orang bekerja keras hari ini.",
+      "question": "Siapa saja yang bekerja, dan mengerjakan apa hari ini?",
+      "answer": "Minh membersihkan dapur setelah tutup."
+    },
+    {
+      "id": "seed-161",
+      "lang": "vi",
+      "line": "Hôm nay bận nhưng mọi việc vẫn ổn.",
+      "question": "Hôm nay bạn đã giúp ai làm việc gì?",
+      "answer": "Ayane đã giúp tôi rửa chén."
+    },
+    {
+      "id": "seed-168",
+      "lang": "ja",
+      "line": "いろいろ手伝いました。",
+      "question": "だれの、どんな仕事を手伝いましたか？",
+      "answer": "そうたさんの、床のモップがけです。"
+    }
+  ],
+  "notAsked": [
+    {
+      "id": "seed-001",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-002",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-003",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-004",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-005",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-006",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-007",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-008",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-009",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-010",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-011",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-012",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-013",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-014",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-020",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-022",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-025",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-028",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-035",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-039",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-042",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-045",
+      "group": "clear",
+      "why": "clear"
+    },
+    {
+      "id": "seed-054",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-094",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-111",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-122",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-123",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-128",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-137",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-139",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-149",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-153",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-165",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-167",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-176",
+      "group": "gossip",
+      "why": "judgement"
+    },
+    {
+      "id": "seed-180",
+      "group": "gossip",
+      "why": "judgement"
+    }
+  ],
+  "totalCostUsd": 0.0691
+}

@@ -535,6 +535,14 @@ function EventItem({ event, ownerVerdict, onDecide }: { event: EventView; ownerV
                 {staffName(l.authorId)} が書いた（{LANG_LABEL[l.lang]}）
               </span>
               {l.text}
+              {l.asked && (
+                <span className="mt-1 block border-l-2 border-sky-300 pl-2 text-stone-700">
+                  <span className="block text-[11px] text-stone-500" lang={l.lang}>
+                    書いた直後の聞き返し: {l.asked.question}
+                  </span>
+                  <span lang={l.lang}>{l.asked.answer}</span>
+                </span>
+              )}
             </blockquote>
           ))}
           <p className="text-[11px] leading-relaxed text-stone-500">物差し（Claude）: {event.reason}</p>

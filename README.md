@@ -33,7 +33,8 @@ flowchart TB
     Q["The owner answers<br/>ten questions"] --> W["Yardstick writer<br/>Opus"] --> K[("The owner's yardstick<br/>Claude Skill: SKILL.md<br/>grows with the owner's<br/>month-end corrections (F9)")]
   end
   subgraph daily["Every day"]
-    S["Each staff member writes one line<br/>in their own language"]
+    direction LR
+    S["Each staff member writes one line<br/>in their own language"] --> B["Only when the line is too vague:<br/>one question back (F10)<br/>Haiku subagent, same language"]
   end
   subgraph facts["End of the month"]
     direction LR
@@ -66,6 +67,7 @@ Claude reads and writes; plain code checks every answer and does every calculati
 | F7 | Thank-you letters in each person's language: the letter-writer subagent uses only the checked facts and the amount from F6; plain code checks every letter (amount exactly once, no other money, every fact it uses is real, no character words, the right language) and sends it back once with the problems | ✅ real run: 8/8 letters passed (one after a retry), Japanese / Vietnamese / Indonesian, 26 s for about $0.20 |
 | F8 | Two numbers for the video: ① the time to make the month-end decision, by hand vs with this tool; ② on twenty made-up scenes the owner answers (付ける / 付けない / 迷う), how often the fact extractor gives the owner's answer **without and with the owner's yardstick skill** — the only difference between the two runs is the skill, and every run first proves the skill is (or is not) in context with a word-for-word quote (`npm run f8`; the owner's answers and skill stay private, only the counts are published in `data/derived/f8.json`) | ② measured with a real shop owner's answers (Sonnet, 3 runs each). **Twenty scenes: without the skill 7, 7, 8 → with the owner's skill 9, 9, 9.** Most misses were small everyday help the owner does not reward (付けない) but Claude does (付ける): the owner's ten written answers say teaching and helping count. **Twelve new scenes the owner answered afterwards** (`npm run f8 -- --round2`, `data/derived/f8-round2.json`): no skill 6, 6, 7 · the skill 5, 5, 5 · **the skill plus the owner's twenty earlier answers as examples 9, 7, 8** · the skill plus the owner's own one-line reason 5, 5, 5 · both 7, 7, 8. The owner's past decisions carried over to new lines (three small everyday scenes, help and tidying, went from 0 of 3 runs to 3 of 3); the one-line reason alone did not move the count. (Inside the twenty, examples from one half tested on the other: 8, 8, 8 → 9, 9, 9, `--examples`.) **① measured once with the same real owner on the fictional month (11/3): by hand, the owner spends about 30 minutes per person, starting three days before the end of the month (about 5 hours for 10 people). With this tool, from "start" to the eight finished letters took 18 min 07 s for 8 people — about 2 min 15 s per person.** The time includes the owner working out the old money screen, which was rebuilt the same day (F6); Claude's preparation (facts and checks, 150 s) ran beforehand and is not included |
 | F9 | The owner corrects the month-end verdicts on `/month` (open an event → 店長の答え: 付ける / 迷う / 付けない), and one tap adds those decisions to the yardstick Skill as examples (「店長が実際に決めた例」): word for word, without people's names, by plain code (no Claude). Month after month the section grows; a new decision on the same line replaces the old one; past 60 the oldest leave first; the version before each save is kept in `data/local/skill-history/` and one tap puts it back. Why examples: in F8 ② the owner's past decisions carried over to new lines (5 → 9, 7, 8 of 12) while a one-line reason did not | ✅ working (6 tests; not yet measured on a second month) |
+| F10 | One question back, right after a line is saved: when a line is too vague to say who did what (「いろいろ手伝いました。」), the `asker` subagent asks the writer **one** short question in the writer's own language; gossip, judgements and feelings are never asked about. The line is saved first and never changed; the answer is kept next to it, and at month end the fact extractor reads the two together. Plain code checks every question (one line, short, a question, no character words, the writer's language) — any problem means no question, so writing a line works exactly as before. The phone demo shows questions written beforehand (Claude is off there): pick a name and press 「あいまいな例」 | ✅ real run on the fictional month (`npm run askback`, `data/derived/askback.json`, Haiku): asked about **9 of 9 vague lines, 0 of 18 gossip lines and 0 of 18 clear lines**, in Japanese, Vietnamese and Indonesian · about $0.0002 a line (45 lines in 26 s). With answers written beforehand for the fictional writers, the 9 vague lines that were dropped became **9 facts (0 → 9)** · 9 tests |
 | — | **Phone demo:** a static copy of the three pages on GitHub Pages (https://jojocaw.github.io/mienai-ganbari/), built from the committed fictional month only (`npm run demo:build` stops if that data has uncommitted changes and checks that nothing from `data/local` or the API key is in the output). A guide on the first page and one "next" button per step, a line written there stays on the device, and Claude is switched off | ✅ live |
 | — | **Your own shop:** a shop file (shop name + staff list) switches every screen from the fictional café to the real shop; its lines, its yardstick skill and its month-end result stay in folders that are never committed; `npm run month` takes the shop's own month through F3 + F4 (no answer key, so no score) | ✅ working (12 tests; built and checked in the browser with a test shop: the shop's names only, no fictional line mixed in, the fictional demo unchanged) — not yet run on a real shop's month |
 
@@ -95,6 +97,8 @@ npm run facts       # F3 + F4 on the fictional month with the real subagents, sc
 npm run letters     # F6 + F7: the fictional owner's decision → amounts by code → one letter per person
                     # → data/derived/letters.json (committed)
 npm run f8 -- --demo  # F8 ② dry run with the fictional café's skill: twenty scenes, without vs with the skill
+npm run askback       # F10: does the asker ask only about the vague lines? (9 vague vs 18 gossip vs 18 clear)
+                      # → data/derived/askback.json (committed)
 npm run f8            # F8 ② with a real owner's private answers in data/local/f8/ (not in this repository);
                       # --examples: the owner's answers as examples, two folds · --round2: twelve new scenes
 ```
@@ -161,6 +165,7 @@ Inside the app, the **Claude Agent SDK** (TypeScript) runs every Claude call. Ea
 | F4 `checker` | **Subagent**, JSON schema output | Haiku 5.5 · low | A narrow job: it only *suggests* which facts are the same event; plain code decides |
 | F6 money (`src/lib/pay/allocate.ts`) | none — plain TypeScript | — | Money must be exact to the yen and explainable; Claude never calculates it |
 | F7 `letter-writer` | **Subagent**, JSON schema output | Opus 5.5 · medium | Few calls, and warm, natural thank-yous in Japanese, Vietnamese and Indonesian matter |
+| F10 `asker` (`src/lib/askback/`) | **Subagent**, JSON schema output; plain code checks the question before it is shown | Haiku 5.5 · low | One small call per line while the writer is still on the page: it has to be quick and cheap (about $0.0002 a line) |
 
 How the calls are kept safe and honest:
 
@@ -169,8 +174,8 @@ How the calls are kept safe and honest:
 - **Measured against a hidden answer key.** The fictional month has planted duplicates (always in two languages), self-reports, gossip and vague lines; `npm run facts` prints the score.
 - **Isolated runs.** The SDK runs with its own config directory and only the API key; every inherited `CLAUDE_*` / `ANTHROPIC_*` variable is dropped
   (we found a developer's own effort setting leaking in and making one call think for over four minutes). Subagents cannot start further subagents, and every call has a spending cap.
-- Models can be changed per role with `MIENAI_MODEL_WRITER` / `_EXTRACTOR` / `_CHECKER` / `_LETTER`.
-- **Cost**, measured on the fictional month (8 staff, 180 lines): facts and checks $0.70 (`data/derived/month.json`) + letters $0.20 (`data/derived/letters.json`) — **about $0.90 a month**. The yardstick skill is written once per shop (about $0.08). The cost grows with the number of lines.
+- Models can be changed per role with `MIENAI_MODEL_WRITER` / `_EXTRACTOR` / `_CHECKER` / `_LETTER` / `_ASKER`.
+- **Cost**, measured on the fictional month (8 staff, 180 lines): facts and checks $0.70 (`data/derived/month.json`) + letters $0.20 (`data/derived/letters.json`) + questions back $0.04 (`data/derived/askback.json`: about $0.0002 a line × 180) — **about $0.94 a month**. The yardstick skill is written once per shop (about $0.08). The cost grows with the number of lines.
 
 ## How it was built with Claude Code
 
@@ -243,6 +248,7 @@ What the real runs caught, and how each was fixed (each fix has a test):
 - **F7 母語の手紙**: 手紙の係は、確かめた事実と F6 の金額だけを使います。プログラムが1通ずつ確かめます（金額は1回だけ・ほかのお金の話なし・使った事実は本物・人柄の言葉なし・言葉が合っている）。8通すべて合格（1通は1回直して）・26秒・約0.20ドル
 - **F8 動画のための2つの数**: ① 決める時間（上の 18分07秒） ② 店長が答えた20の場面で、事実の係が店長と同じ答えを出した数 = 物差しなし 7・7・8 → 物差しあり 9・9・9（Sonnet・3回ずつ）。後から店長が答えた新しい12の場面では、物差しだけ 5・5・5 → 店長の前の20の答えを例に足すと 9・7・8（小さな手伝い・片づけの3場面が 0回 → 3回とも一致）。店長の理由の1行だけを足しても変わりませんでした（5・5・5）
 - **F9 物差しが育つ**: 店長が `/month` で Claude の答えを直し、1回押すと、その決定が Skill の「店長が実際に決めた例」に入ります（名前は外して行動だけ・プログラムで足す・60を超えたら古い順に外す・保存の前の版を残し、1回で戻せる）
+- **F10 書いた直後に1つだけ聞き返す**（Haiku の subagent）: だれが何をしたか分からない1行（「いろいろ手伝いました。」）の時だけ、その人の言葉で1つだけ聞き返します。うわさ・人柄・気持ちには聞き返しません。元の1行は先に保存して変えず、答えは横に残し、月末に事実の係が2つを合わせて読みます。聞き返しの文はプログラムが確かめ（1行・短い・問いの形・人柄の言葉なし・その人の言葉）、うまくいかない時は聞き返さない＝今までと同じに動きます。本物の実行（架空の月・`npm run askback`）: あいまいな9行に 9/9 で聞き返し、うわさの18行とはっきりした18行には0回・1行 約0.0002ドル。架空の書き手の答えを用意して足すと、捨てていた9行が事実 9件になりました（0 → 9）。スマホの試し版では、名前を選んで「あいまいな例」を押すと、用意した聞き返しを見られます
 
 ### Claude をどこで・どう使ったか
 
@@ -256,6 +262,7 @@ What the real runs caught, and how each was fixed (each fix has a test):
 | F4 確かめの係 | **subagent**・JSON の形 | Haiku 5.5・low | 同じ出来事の候補を出すだけ。決めるのはプログラム |
 | F6 お金 | 使わない（ふつうの TypeScript） | — | 1円まで正確で、説明できる必要がある。Claude にお金の計算はさせない |
 | F7 手紙の係 | **subagent**・JSON の形 | Opus 5.5・medium | 回数が少なく、日本語・ベトナム語・インドネシア語で温かく自然な手紙が大事 |
+| F10 聞き返しの係 | **subagent**・JSON の形。見せる前にプログラムが聞き返しを確かめる | Haiku 5.5・low | 書いた人がまだ画面にいる間に、1行ごとに1回。速く安いことが大事（1行 約0.0002ドル） |
 
 安全と正直さのための決まり:
 
@@ -263,7 +270,7 @@ What the real runs caught, and how each was fixed (each fix has a test):
 - **係に道具も MCP も持たせません。** ファイル・ネット・お金に触れられません
 - **隠した答えと比べて測ります。** `npm run facts` が点数を出します
 - **実行を分けます。** SDK は専用の設定の場所と API の鍵だけで動き、受け継いだ `CLAUDE_*` / `ANTHROPIC_*` の値は全部外します（作る人の設定が混ざり、1回の呼び出しが4分以上考え込んだのを見つけたため）。subagent はさらに subagent を始められず、呼び出しごとに使えるお金の上限があります
-- **費用**（架空の1か月・8人・180行）: 事実と確かめ 0.70ドル＋手紙 0.20ドル = 1か月 約0.9ドル。物差しはお店ごとに1回 約0.08ドル。行が増えると費用も増えます
+- **費用**（架空の1か月・8人・180行）: 事実と確かめ 0.70ドル＋手紙 0.20ドル＋聞き返し 0.04ドル（1行 約0.0002ドル×180）= 1か月 約0.94ドル。物差しはお店ごとに1回 約0.08ドル。行が増えると費用も増えます
 
 ### Claude Code での作り方
 

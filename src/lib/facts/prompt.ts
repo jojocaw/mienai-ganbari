@@ -44,10 +44,19 @@ export const CHECK_SCHEMA = {
 
 const staffList = () => shopStaff().map((s) => `- ${s.id}: ${s.name}${s.roman ? ` (${s.roman})` : ""}, writes in ${s.lang}`).join("\n");
 
+/** F10: the question asked right after the line was saved and the writer's answer, read together with the line. */
+const answerPart = (e: Entry): string =>
+  e.clarification?.answer !== undefined ? `\n  asked back: ${e.clarification.question}\n  writer's answer: ${e.clarification.answer}` : "";
+
+export const ANSWER_NOTE =
+  "Some lines have a \"writer's answer\": the writer's own answer to one question asked right after they wrote the line. Read the line and the answer together as one note by the writer.";
+
 /** One batch (usually one day) of lines for the fact extractor. */
 export function buildExtractPrompt(entries: Entry[], problems: string[] = []): string {
-  const lines = entries.map((e) => `- entryId: ${e.id} | date: ${e.date} | writer: ${e.authorId}\n  line: ${e.text}`).join("\n");
+  const lines = entries.map((e) => `- entryId: ${e.id} | date: ${e.date} | writer: ${e.authorId}\n  line: ${e.text}${answerPart(e)}`).join("\n");
   let prompt = `Staff:\n${staffList()}\n\nLines (${entries.length}):\n${lines}\n\nReturn one item for every line.`;
+  // F10: only when a line in this batch has the writer's answer, so batches without answers stay exactly as before.
+  if (entries.some((e) => answerPart(e))) prompt += `\n${ANSWER_NOTE}`;
   if (problems.length) prompt += `\n\nYour previous answer did not pass these checks. Answer again for every line:\n${problems.map((p) => `- ${p}`).join("\n")}`;
   return prompt;
 }

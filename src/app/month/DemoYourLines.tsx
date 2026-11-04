@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { LANG_LABEL, type Lang } from "@/lib/staff";
 
-type Line = { id: string; date: string; authorId: string; lang: Lang; text: string; source: string };
+type Line = { id: string; date: string; authorId: string; lang: Lang; text: string; source: string; clarification?: { question: string; answer?: string } };
 
 /**
  * Static demo only: the lines this visitor wrote on the first page (kept in this browser), so they can see where they
@@ -29,6 +29,14 @@ export default function DemoYourLines({ names }: { names: Record<string, string>
               {l.date}・{names[l.authorId] ?? l.authorId}・{LANG_LABEL[l.lang]}
             </span>
             <span lang={l.lang}>{l.text}</span>
+            {l.clarification?.answer !== undefined && (
+              <span className="mt-1 block border-l-2 border-sky-300 pl-2">
+                <span className="block text-xs text-stone-500" lang={l.lang}>
+                  書いた直後の聞き返し: {l.clarification.question}
+                </span>
+                <span lang={l.lang}>{l.clarification.answer}</span>
+              </span>
+            )}
           </li>
         ))}
       </ul>

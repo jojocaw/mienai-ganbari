@@ -82,6 +82,44 @@
     }
   }
 
+  // F10: the demo never calls Claude, so the question back is written beforehand, only for the fictional month's
+  // vague lines (the same sentences as the "あいまいな例" button). Any other line gets no question, as when Claude
+  // finds nothing missing.
+  // F10: 試し版は Claude を呼ばないので、架空の月のあいまいな1行 (「あいまいな例」と同じ文) にだけ、用意した聞き返しを出す。
+  var ASKED = {
+    "いろいろ手伝いました。": "だれの、どんな仕事を手伝いましたか？",
+    "今日もみんなよく頑張っていた。": "だれが、どんなことをしていましたか？",
+    "今日は忙しかったけど、なんとか回った。": "だれが、どんな仕事をしていましたか？",
+    "Hôm nay mọi người đều cố gắng.": "Ai đã làm việc gì vậy?",
+    "Hôm nay bận nhưng mọi việc vẫn ổn.": "Hôm nay ai đã làm việc gì vậy?",
+    "Semua orang bekerja keras hari ini.": "Siapa yang mengerjakan apa hari ini?",
+    "Hari ini sibuk, tapi semuanya lancar.": "Siapa yang mengerjakan apa sampai semuanya lancar?",
+  };
+
+  // changes one line written here (like updateLocalEntry() in src/lib/entries.ts)
+  function updateLocal(id, change) {
+    var list = readLocal();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === id) {
+        var next = change(list[i]);
+        if (typeof next === "string") return next;
+        list[i] = next;
+        writeLocal(list);
+        return next;
+      }
+    }
+    return "その1行が見つかりません";
+  }
+
+  // the same checks and messages as validateAnswer() in src/lib/entries.ts
+  function validateAnswer(answer) {
+    if (typeof answer !== "string") return "答えを1行で書いてください";
+    if (/[\r\n\u2028\u2029]/.test(answer)) return "1行で書いてください（改行は入れられません）";
+    if (answer.trim().length === 0) return "答えを1行で書いてください";
+    if (Array.from(answer).length > MAX_CHARS) return MAX_CHARS + "文字までにしてください";
+    return null;
+  }
+
   function json(name) {
     return data(name).then(function (d) {
       return reply(d);
@@ -117,6 +155,32 @@
         writeLocal(readLocal().concat([entry]));
         return reply({ entry: entry }, 201);
       });
+    }
+    if (path === "/api/entries/ask" && method === "POST") {
+      var ab = parseBody(init) || {};
+      var asked = null;
+      updateLocal(ab.entryId, function (e) {
+        var q = ASKED[String(e.text).trim()];
+        if (e.clarification || !q) return "no question";
+        asked = q;
+        return Object.assign({}, e, { clarification: { question: q, askedAt: new Date().toISOString() } });
+      });
+      return Promise.resolve(reply({ question: asked }));
+    }
+    if (path === "/api/entries/answer" && method === "POST") {
+      var bb = parseBody(init);
+      if (!bb) return Promise.resolve(reply({ error: "送る形がちがいます" }, 400));
+      var bad = validateAnswer(bb.answer);
+      if (bad) return Promise.resolve(reply({ error: bad }, 400));
+      var r = updateLocal(bb.entryId, function (e) {
+        if (!e.clarification) return "この1行には聞き返していません";
+        if (e.clarification.answer !== undefined) return "答えはもう足してあります";
+        return Object.assign({}, e, {
+          clarification: Object.assign({}, e.clarification, { answer: bb.answer, answeredAt: new Date().toISOString() }),
+        });
+      });
+      if (typeof r === "string") return Promise.resolve(reply({ error: r }, 400));
+      return Promise.resolve(reply({ entry: r }));
     }
     if (method === "GET" && path === "/api/month") return json("month");
     if (method === "GET" && path === "/api/monosashi") return json("monosashi");

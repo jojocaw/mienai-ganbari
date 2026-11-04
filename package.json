@@ -15,6 +15,7 @@
     "month": "node --env-file-if-exists=.env.local scripts/run-month.ts",
     "letters": "node --env-file-if-exists=.env.local scripts/run-letters.ts",
     "f8": "node --env-file-if-exists=.env.local scripts/run-f8.ts",
+    "askback": "node --env-file-if-exists=.env.local scripts/run-askback.ts",
     "test": "node --test \"tests/**/*.test.ts\""
   },
   "dependencies": {
