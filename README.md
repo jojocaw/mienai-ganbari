@@ -22,6 +22,10 @@ or taught the new hire goes unnoticed — especially when Japanese is not their 
 The builder has run a small business for 18 years and has had to make these month-end calls by hand.
 By hand it takes the builder about 30 minutes per person; with this tool, the fictional month for 8 people took 18 minutes from start to the finished letters — about 2 min 15 s per person (F8 ①).
 
+**Demo video (3 min):** https://www.youtube.com/watch?v=J344oP0UuNc
+
+<a href="https://www.youtube.com/watch?v=J344oP0UuNc"><img src="https://img.youtube.com/vi/J344oP0UuNc/maxresdefault.jpg" alt="Demo video (3 min)" width="560"></a>
+
 **Try it on your phone:** **https://jojocaw.github.io/mienai-ganbari/** — the fictional café, nothing to install. Write a line as a staff member → decide the month-end thank-yous as the owner → read the letters. (Claude is switched off there: you see the real results Claude produced for the fictional month.)
 
 ### How it works
@@ -219,6 +223,7 @@ What the builder caught by using it as a shop owner, and how each was fixed (all
 - **A real shop stays outside the repository:** the shop file, the shop's yardstick skill and its earlier versions live in the shop file's folder; the lines and the month-end result live in `data/local/`. Neither is ever committed.
 - **The yardstick keeps actions, not people:** names are taken out of the owner's examples, and plain code refuses any word that judges a person's character.
 - **Gossip and judgements are dropped and only counted** — they are never shown on anyone's page.
+- **Checked before publishing (Nov 7):** no API key or secret in any file, or anywhere in the history of any branch (a key-pattern search over every commit, the demo branch included); `.env*` is never committed; GitHub secret scanning and push protection are on; the demo video shows only the fictional café.
 
 ---
 
@@ -240,6 +245,7 @@ What the builder caught by using it as a shop owner, and how each was fixed (all
 
 ### 試し方
 
+- **デモ動画（3分）**: https://www.youtube.com/watch?v=J344oP0UuNc
 - **スマホで開くだけ**（入れる物なし・架空のデータ・Claude は止めてある）: https://jojocaw.github.io/mienai-ganbari/
   スタッフとして1行を書く → 店長として月末のありがとうを決める → 手紙を読む、の順に進めます。そこで書いた1行は、その端末の中だけに残ります。
 - **手元のパソコンで**: Node.js 22.18 以上で `npm install` → `npm run dev` → http://localhost:3000（毎日の1行）・`/monosashi`（店長の10問 → 物差しのスキル）・`/month`（月末の画面・店長が決める・手紙）。API の鍵が無くても、リポジトリに入っている結果で全部の画面を見られます（Claude を呼ぶボタンだけ止まります）。テストは `npm test`（API は呼びません）。くわしくは上の「Try it」
@@ -322,3 +328,4 @@ What the builder caught by using it as a shop owner, and how each was fixed (all
 - **本物のお店の物は、リポジトリの外**: お店のファイル・お店の物差しの Skill とその前の版は、お店のファイルの場所に、1行と月末の結果は `data/local/` に置き、どちらもコミットしません
 - **物差しは、人ではなく行動を残します**: 店長の例から名前を外し、人柄を決めつける言葉はプログラムが通しません
 - **うわさと決めつけは捨てて、数だけ数えます**。誰のページにも出しません
+- **公開の前に確かめた事（11/7）**: どのファイルにも、どの枝の履歴にも、API の鍵や秘密の値は入っていません（試し版の枝も含めて、全部の記録を鍵の形で検索）。`.env*` はコミットしない設定で、GitHub の鍵の自動検出と、送る時の止めも有効です。デモ動画に映るのは架空のお店だけです
