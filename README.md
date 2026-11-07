@@ -110,7 +110,7 @@ npm run f8            # F8 ② with a real owner's private answers in data/local
 The owner's screens (`/month`, `/monosashi`) are behind the owner's passcode. Without one, the fictional café can still be read on every screen; saving the owner's corrections and anything that calls Claude needs it:
 
 ```bash
-echo "MIENAI_OWNER_PASS=choose-a-passcode" >> .env.local   # 8 characters or more; each browser tab asks once
+echo "MIENAI_OWNER_PASS=choose-a-passcode" >> .env.local   # 8 characters or more; each device asks once, then keeps a signed cookie for 30 days
 ```
 
 Without a key the app still runs: it shows the skill, the month and the letters already in the repository, and the buttons that call Claude are disabled.
@@ -234,7 +234,7 @@ What the builder caught by using it as a shop owner, and how each was fixed (all
 - **The yardstick keeps actions, not people:** names are taken out of the owner's examples, and plain code refuses any word that judges a person's character.
 - **Gossip and judgements are dropped and only counted** — they are never shown on anyone's page.
 - **Checked before publishing (Nov 7):** no API key or secret in any file, or anywhere in the history of any branch (a key-pattern search over every commit, the demo branch included); `.env*` is never committed; GitHub secret scanning and push protection are on; the demo video shows only the fictional café.
-- **Checked with Claude Security (Nov 7), fixed the same day:** the official Claude Code plugin scanned the whole repository; 12 findings passed its three-vote panel (7 medium, 5 low, none critical or high). Now the owner's entrances (the month, the letters, the yardstick) need the owner's passcode; the API answers only this computer and the shop's own network and takes writes only as JSON from the app's own page (no cross-site requests, no DNS rebinding); the list of lines returns only a count; staff lines are marked as data in the letter-writer's prompt; and the F8 benchmark keeps the owner's skill in a private temporary folder that it removes. One limit stays, and the month page says so: the writer's name is picked on the phone, not verified, so green means "written under another name". A passcode per person is the next step.
+- **Checked with Claude Security (Nov 7), fixed the same day:** the official Claude Code plugin scanned the whole repository; 12 findings passed its three-vote panel (7 medium, 5 low, none critical or high). Now the owner's entrances (the month, the letters, the yardstick) need the owner's passcode; the API answers only this computer and the shop's own network and takes writes only as JSON from the app's own page (no cross-site requests, no DNS rebinding); the list of lines returns only a count; staff lines are marked as data in the letter-writer's prompt; and the F8 benchmark keeps the owner's skill in a private temporary folder that it removes. One limit stays, and the month page says so: the writer's name is picked on the phone, not verified, so green means "written under another name". A passcode per person is the next step. A second scan of just these fixes (its change scan) found one low issue in them: wrong passcodes were counted for everyone, so someone on the shop's network could keep the owner out. Fixed too: the passcode is typed once per device, which then keeps a signed cookie for 30 days and is never locked out by anyone else's wrong tries (only new sign-ins wait).
 
 ---
 
@@ -259,7 +259,7 @@ What the builder caught by using it as a shop owner, and how each was fixed (all
 - **デモ動画（3分）**: https://www.youtube.com/watch?v=J344oP0UuNc
 - **スマホで開くだけ**（入れる物なし・架空のデータ・Claude は止めてある）: https://jojocaw.github.io/mienai-ganbari/
   スタッフとして1行を書く → 店長として月末のありがとうを決める → 手紙を読む、の順に進めます。そこで書いた1行は、その端末の中だけに残ります。
-- **手元のパソコンで**: Node.js 22.18 以上で `npm install` → `npm run dev` → http://localhost:3000（毎日の1行）・`/monosashi`（店長の10問 → 物差しのスキル）・`/month`（月末の画面・店長が決める・手紙）。API の鍵が無くても、リポジトリに入っている結果で全部の画面を見られます（Claude を呼ぶボタンだけ止まります）。店長の直しの保存と Claude を呼ぶ所は、`.env.local` に店長の合言葉 `MIENAI_OWNER_PASS`（8文字以上）を書くと使えます。テストは `npm test`（API は呼びません）。くわしくは上の「Try it」
+- **手元のパソコンで**: Node.js 22.18 以上で `npm install` → `npm run dev` → http://localhost:3000（毎日の1行）・`/monosashi`（店長の10問 → 物差しのスキル）・`/month`（月末の画面・店長が決める・手紙）。API の鍵が無くても、リポジトリに入っている結果で全部の画面を見られます（Claude を呼ぶボタンだけ止まります）。店長の直しの保存と Claude を呼ぶ所は、`.env.local` に店長の合言葉 `MIENAI_OWNER_PASS`（8文字以上）を書くと使えます（合言葉は端末ごとに1回入れると、30日のあいだ聞きません）。テストは `npm test`（API は呼びません）。くわしくは上の「Try it」
 
 ### いまの状態（2026-11-03）
 
@@ -340,4 +340,4 @@ What the builder caught by using it as a shop owner, and how each was fixed (all
 - **物差しは、人ではなく行動を残します**: 店長の例から名前を外し、人柄を決めつける言葉はプログラムが通しません
 - **うわさと決めつけは捨てて、数だけ数えます**。誰のページにも出しません
 - **公開の前に確かめた事（11/7）**: どのファイルにも、どの枝の履歴にも、API の鍵や秘密の値は入っていません（試し版の枝も含めて、全部の記録を鍵の形で検索）。`.env*` はコミットしない設定で、GitHub の鍵の自動検出と、送る時の止めも有効です。デモ動画に映るのは架空のお店だけです
-- **公式の点検（Claude Security・11/7）と、その日のうちの直し**: Claude Code の公式のプラグインで作品全体を点検し、3人の多数決を通った12件（中7・低5・重大と高は0）を直しました。店長の入口（月末・手紙・物差し）は店長の合言葉が要ります。API はこの PC と店のネットワークだけに答え、書き込みは自分の画面からの JSON だけを受けます（別のサイトからの送信と、DNS の付け替えを断る）。1行の一覧は件数だけを返し、手紙の係への指示ではスタッフの1行を「データ」と区切り、F8 の測りは店長の物差しを本人だけが開ける一時フォルダに置いて、最後に消します。残る限界は1つで、月末の画面にも書きました: 書き手の名前はスマホで選ぶだけで本人確認をしていないので、緑は「別の名前で書かれた」という意味です。人ごとの合言葉が次の段です
+- **公式の点検（Claude Security・11/7）と、その日のうちの直し**: Claude Code の公式のプラグインで作品全体を点検し、3人の多数決を通った12件（中7・低5・重大と高は0）を直しました。店長の入口（月末・手紙・物差し）は店長の合言葉が要ります。API はこの PC と店のネットワークだけに答え、書き込みは自分の画面からの JSON だけを受けます（別のサイトからの送信と、DNS の付け替えを断る）。1行の一覧は件数だけを返し、手紙の係への指示ではスタッフの1行を「データ」と区切り、F8 の測りは店長の物差しを本人だけが開ける一時フォルダに置いて、最後に消します。残る限界は1つで、月末の画面にも書きました: 書き手の名前はスマホで選ぶだけで本人確認をしていないので、緑は「別の名前で書かれた」という意味です。人ごとの合言葉が次の段です。直しの部分だけをもう一度点検（変えた所の点検）すると、低1件が見つかりました。合言葉のまちがいを全員で1つに数えていたので、店のネットワークにいる誰かが店長を締め出せました。これも直し、合言葉は端末ごとに1回だけ入れる形にしました。通した端末は署名つきのクッキーで30日のあいだ開き、ほかの人のまちがいでは止まりません（待つのは、まだ通していない端末だけです）

@@ -3,17 +3,23 @@
 //    the app through DNS rebinding (MIENAI_ALLOWED_HOSTS adds more names).
 // 2. Every request that writes: it must come from this app's own page (Origin / Sec-Fetch-Site), and a POST must be
 //    JSON. A page on another site therefore cannot make the browser write a line or spend the owner's Claude budget.
-// 3. The owner's entrances (the month, the letters, the yardstick): with MIENAI_OWNER_PASS set, the owner's passcode
-//    must come with the request (header x-mienai-owner). Without it, a real shop's owner entrances stay closed, and
+// 3. The owner's entrances (the month, the letters, the yardstick): with MIENAI_OWNER_PASS set, the owner types the
+//    passcode once on a device (POST /api/owner/login). The app answers with a signed cookie (30 days, HttpOnly,
+//    SameSite=Strict) and checks that cookie on every owner request. Wrong passcodes are counted for the whole app, but
+//    they only make new sign-ins wait: a device that already signed in is never locked out by someone else's wrong
+//    tries. A new passcode signs every device out. Without a passcode, a real shop's owner entrances stay closed, and
 //    the fictional café only lets you read: writing and calling Claude (which costs money) need the passcode.
 // API の守り (サーバーだけ): ①Host はこの PC か店のネットワークだけ ②書き込みは自分の画面からの JSON だけ
-// ③店長の入口は合言葉 (MIENAI_OWNER_PASS)。決めていなければ、本物のお店の店長の入口は閉じ、架空のカフェは読むだけ。
+// ③店長の入口は合言葉 (MIENAI_OWNER_PASS)。端末ごとに1回入れると、署名つきのクッキー (30日) で通す。
+//   まちがいの回数で待たせるのは、まだ通していない端末だけ (通した端末は、ほかの人のまちがいで止まらない)。
+//   合言葉を変えると、全部の端末でもう一度聞く。決めていなければ、本物のお店の店長の入口は閉じ、架空のカフェは読むだけ。
 
-import { createHash, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { shopConfig } from "./shop-config.ts";
 
-export const OWNER_HEADER = "x-mienai-owner";
+export const OWNER_COOKIE = "mienai_owner";
 export const OWNER_PASS_MIN = 8;
+const OWNER_DAYS = 30;
 
 const PRIVATE_V4 = [/^127\./, /^10\./, /^192\.168\./, /^172\.(1[6-9]|2\d|3[01])\./, /^169\.254\./];
 
@@ -65,7 +71,7 @@ export function requestProblem(request: Request, { write }: { write: boolean }):
 
 const digest = (s: string) => createHash("sha256").update(s, "utf8").digest();
 
-/** Wrong passcodes in the last minute. More than OWNER_TRIES_PER_MINUTE and every try waits for the minute to pass. */
+/** Wrong passcodes in the last minute, for the whole app. More than OWNER_TRIES_PER_MINUTE and sign-in waits for the minute to pass. */
 const OWNER_TRIES_PER_MINUTE = 10;
 let wrong: number[] = [];
 
@@ -74,29 +80,72 @@ export function resetOwnerTries() {
   wrong = [];
 }
 
+const ownerPass = () => process.env.MIENAI_OWNER_PASS ?? "";
+const passDecided = (pass: string) => [...pass].length >= OWNER_PASS_MIN;
+const unset = () =>
+  refuse(403, `店長の入口を使うには、店長の合言葉 (MIENAI_OWNER_PASS・${OWNER_PASS_MIN}文字以上) を .env.local に決めて、アプリを動かし直してください`, { owner: "unset" });
+
+// The owner's cookie: "<second it was given>.<random id>.<signature>". The signature is keyed with the passcode, so a
+// new passcode makes every old cookie stop working.
+const sign = (pass: string, body: string) => createHmac("sha256", pass).update(`mienai-owner:${body}`).digest("base64url");
+
+function cookieOf(request: Request, name: string): string {
+  for (const part of (request.headers.get("cookie") ?? "").split(";")) {
+    const i = part.indexOf("=");
+    if (i > 0 && part.slice(0, i).trim() === name) return part.slice(i + 1).trim();
+  }
+  return "";
+}
+
+/** True when the request carries a cookie this app gave for the current passcode, not older than OWNER_DAYS. */
+function signedIn(request: Request, pass: string, now: number): boolean {
+  const value = cookieOf(request, OWNER_COOKIE);
+  const cut = value.lastIndexOf(".");
+  if (cut <= 0) return false;
+  const body = value.slice(0, cut);
+  const age = now / 1000 - Number(body.split(".")[0]);
+  if (!Number.isFinite(age) || age < -60 || age > OWNER_DAYS * 86_400) return false;
+  const given = Buffer.from(value.slice(cut + 1));
+  const want = Buffer.from(sign(pass, body));
+  return given.length === want.length && timingSafeEqual(given, want);
+}
+
 /**
  * The owner's entrances. kind "read" = shows the owner's data; "write" = changes the yardstick or calls Claude.
- * Returns the refusal to send back (with owner: "unset" | "need" | "wrong" | "wait" for the page), or null.
+ * Returns the refusal to send back (with owner: "unset" | "need" for the page), or null.
  */
 export function ownerProblem(request: Request, kind: "read" | "write", now = Date.now()): Response | null {
-  const pass = process.env.MIENAI_OWNER_PASS ?? "";
-  if ([...pass].length < OWNER_PASS_MIN) {
+  const pass = ownerPass();
+  if (!passDecided(pass)) {
     if (kind === "read" && !shopConfig().real) return null;
-    return refuse(403, `店長の入口を使うには、店長の合言葉 (MIENAI_OWNER_PASS・${OWNER_PASS_MIN}文字以上) を .env.local に決めて、アプリを動かし直してください`, { owner: "unset" });
+    return unset();
   }
+  if (signedIn(request, pass, now)) return null;
+  return refuse(401, "店長の合言葉を入れてください", { owner: "need" });
+}
+
+/**
+ * POST /api/owner/login with {"pass": "..."}: the right passcode gets the owner's cookie (owner: "wrong" | "wait" |
+ * "unset" otherwise). After OWNER_TRIES_PER_MINUTE wrong ones in a minute, sign-in waits; devices already signed in
+ * are not affected, because the owner's entrances only look at the cookie.
+ */
+export async function ownerLogin(request: Request, now = Date.now()): Promise<Response> {
+  const pass = ownerPass();
+  if (!passDecided(pass)) return unset();
   wrong = wrong.filter((t) => now - t < 60_000);
   if (wrong.length >= OWNER_TRIES_PER_MINUTE) return refuse(429, "合言葉のまちがいが続いたので、1分ほど待ってからもう一度どうぞ", { owner: "wait" });
-  const raw = request.headers.get(OWNER_HEADER);
-  if (!raw) return refuse(401, "店長の合言葉を入れてください", { owner: "need" });
   let given = "";
   try {
-    given = decodeURIComponent(raw);
+    const body = (await request.json()) as { pass?: unknown } | null;
+    if (typeof body?.pass === "string") given = body.pass;
   } catch {
     given = "";
   }
-  if (!timingSafeEqual(digest(given), digest(pass))) {
+  if (!given || !timingSafeEqual(digest(given), digest(pass))) {
     wrong.push(now);
     return refuse(401, "合言葉がちがいます", { owner: "wrong" });
   }
-  return null;
+  const id = `${Math.floor(now / 1000)}.${randomBytes(16).toString("base64url")}`;
+  const cookie = `${OWNER_COOKIE}=${id}.${sign(pass, id)}; Path=/; Max-Age=${OWNER_DAYS * 86_400}; HttpOnly; SameSite=Strict`;
+  return Response.json({ ok: true }, { headers: { "set-cookie": cookie } });
 }

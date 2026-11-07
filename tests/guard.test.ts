@@ -1,5 +1,5 @@
 // Who may use the API (src/lib/guard.ts): this computer and the shop's network only, writes only from the app's own
-// page, and the owner's entrances behind the owner's passcode.
+// page, and the owner's entrances behind the owner's passcode (typed once per device, then a signed cookie).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync } from "node:fs";
@@ -9,7 +9,7 @@ import path from "node:path";
 delete process.env.MIENAI_SHOP_FILE;
 delete process.env.MIENAI_OWNER_PASS;
 delete process.env.MIENAI_ALLOWED_HOSTS;
-const { hostAllowed, ownerProblem, requestProblem, resetOwnerTries, OWNER_HEADER } = await import("../src/lib/guard.ts");
+const { hostAllowed, ownerLogin, ownerProblem, requestProblem, resetOwnerTries, OWNER_COOKIE } = await import("../src/lib/guard.ts");
 
 const req = (method: string, headers: Record<string, string>) => new Request("http://localhost:3000/api/x", { method, headers });
 const json = { "content-type": "application/json" };
@@ -61,20 +61,58 @@ test("a real shop without a passcode: even reading the month stays closed", asyn
   delete process.env.MIENAI_SHOP_FILE;
 });
 
-test("with a passcode, every owner entrance needs it; wrong tries are counted", async () => {
-  process.env.MIENAI_OWNER_PASS = "あいことば-2026";
+const login = (pass: string, now: number) =>
+  ownerLogin(new Request("http://localhost:3000/api/owner/login", { method: "POST", headers: { host: "localhost:3000", ...json }, body: JSON.stringify({ pass }) }), now);
+const cookieOf = (r: Response) => (r.headers.get("set-cookie") ?? "").split(";")[0]; // "mienai_owner=..."
+const PASS = "あいことば-2026";
+const t0 = 1_800_000_000_000;
+
+test("with a passcode: typed once on a device, then its cookie opens every owner entrance", async () => {
+  process.env.MIENAI_OWNER_PASS = PASS;
   resetOwnerTries();
-  const need = ownerProblem(req("GET", { host: "localhost:3000" }), "read");
+  const need = ownerProblem(req("GET", { host: "localhost:3000" }), "read", t0);
   assert.equal(need?.status, 401);
   assert.equal((await need!.json()).owner, "need");
-  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", [OWNER_HEADER]: encodeURIComponent("あいことば-2026") }), "read"), null);
-  assert.equal(ownerProblem(req("POST", { host: "localhost:3000", [OWNER_HEADER]: encodeURIComponent("あいことば-2026") }), "write"), null);
-  const t0 = 1_000_000;
-  for (let i = 0; i < 10; i++) assert.equal(ownerProblem(req("GET", { host: "localhost:3000", [OWNER_HEADER]: "wrong" }), "read", t0 + i)?.status, 401);
-  // the eleventh try within the minute waits, even with the right passcode
-  const wait = ownerProblem(req("GET", { host: "localhost:3000", [OWNER_HEADER]: encodeURIComponent("あいことば-2026") }), "read", t0 + 20);
-  assert.equal(wait?.status, 429);
-  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", [OWNER_HEADER]: encodeURIComponent("あいことば-2026") }), "read", t0 + 61_000), null);
+  const no = await login("ちがう合言葉", t0);
+  assert.equal(no.status, 401);
+  assert.equal((await no.json()).owner, "wrong");
+  assert.equal(no.headers.get("set-cookie"), null);
+  const ok = await login(PASS, t0);
+  assert.equal(ok.status, 200);
+  const set = ok.headers.get("set-cookie") ?? "";
+  for (const part of ["HttpOnly", "SameSite=Strict", "Path=/", `Max-Age=${30 * 86_400}`]) assert.ok(set.includes(part), part);
+  const cookie = cookieOf(ok);
+  assert.ok(cookie.startsWith(`${OWNER_COOKIE}=`));
+  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", cookie }), "read", t0 + 1000), null);
+  assert.equal(ownerProblem(req("POST", { host: "localhost:3000", cookie }), "write", t0 + 1000), null);
+  // a changed cookie, an old one and one from before a new passcode open nothing
+  const forged = cookie.slice(0, -1) + (cookie.endsWith("A") ? "B" : "A");
+  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", cookie: forged }), "read", t0)?.status, 401);
+  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", cookie: `${OWNER_COOKIE}=1.2.3` }), "read", t0)?.status, 401);
+  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", cookie }), "read", t0 + 31 * 86_400_000)?.status, 401);
+  process.env.MIENAI_OWNER_PASS = "あたらしい合言葉-2026";
+  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", cookie }), "read", t0)?.status, 401);
+  // the passcode in a header (the first version) opens nothing any more
+  process.env.MIENAI_OWNER_PASS = PASS;
+  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", "x-mienai-owner": encodeURIComponent(PASS) }), "read", t0)?.status, 401);
+  resetOwnerTries();
+  delete process.env.MIENAI_OWNER_PASS;
+});
+
+test("someone else's wrong passcodes make new sign-ins wait, but never lock out a device that signed in", async () => {
+  process.env.MIENAI_OWNER_PASS = PASS;
+  resetOwnerTries();
+  const cookie = cookieOf(await login(PASS, t0));
+  for (let i = 0; i < 10; i++) assert.equal((await login("wrong", t0 + i)).status, 401);
+  // the eleventh sign-in within the minute waits, even with the right passcode
+  const wait = await login(PASS, t0 + 20);
+  assert.equal(wait.status, 429);
+  assert.equal((await wait.json()).owner, "wait");
+  // the owner's device that signed in before keeps working the whole time
+  assert.equal(ownerProblem(req("GET", { host: "localhost:3000", cookie }), "read", t0 + 30), null);
+  assert.equal(ownerProblem(req("POST", { host: "localhost:3000", cookie }), "write", t0 + 30), null);
+  // and after the minute, sign-in works again
+  assert.equal((await login(PASS, t0 + 61_000)).status, 200);
   resetOwnerTries();
   delete process.env.MIENAI_OWNER_PASS;
 });
