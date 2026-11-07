@@ -1,0 +1,29 @@
+1:"$Sreact.fragment"
+2:"/mienai-ganbari/_next/static/chunks/29cwzqrbg8-3m.js"
+3:I[39756,["$2"],"default"]
+4:I[37457,["$2"],"default"]
+5:I[22016,["$2"],""]
+6:I[79520,["$2"],""]
+d:I[97367,["$2"],"OutletBoundary"]
+e:"$Sreact.suspense"
+11:"ViewportBoundary"
+12:I[97367,["$2"],"$11"]
+13:"MetadataBoundary"
+14:I[97367,["$2"],"$13"]
+15:I[27201,["$2"],"IconMark"]
+:HL["/mienai-ganbari/_next/static/chunks/1_up-6br5rcgj.css","style"]
+8:X
+b:X
+b:C
+c:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","main",null,{"className":"mx-auto flex w-full max-w-sm flex-1 flex-col items-center justify-center gap-4 px-4 py-16 text-center","children":[["$","p",null,{"className":"text-xs font-semibold tracking-wide text-emerald-700","children":"見えない頑張りを拾う"}],["$","h1",null,{"className":"text-xl font-bold text-stone-900","children":"このページは見つかりませんでした"}],["$","p",null,{"className":"text-sm leading-relaxed text-stone-600","children":"リンクの終わりに、ほかの文字がついていたかもしれません。"}],["$","$L5",null,{"href":"/","className":"rounded-xl bg-emerald-700 px-6 py-3.5 text-base font-bold text-white shadow-sm","children":"最初の画面へ"}]]}],null,["$","$Ld",null,{"children":["$","$e",null,{"name":"Next.MetadataOutlet","children":"$@f"}]}]]}],"p":"$@10","v":null,"s":"$8"}}]]
+9:[["children",{"s":"/_not-found","h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}]}]]}],"p":"$@a","v":"$b","s":"$8"},"c":"$Qc"}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/mienai-ganbari/_next/static/chunks/1_up-6br5rcgj.css","precedence":"next"}],["$","script","script-0",{"src":"/mienai-ganbari/_next/static/chunks/29cwzqrbg8-3m.js","async":true}]],["$","html",null,{"lang":"ja","className":"h-full antialiased","children":["$","body",null,{"className":"flex min-h-full flex-col bg-stone-50 text-stone-900","children":[["$","details",null,{"className":"group border-b border-amber-200 bg-amber-50 px-4 py-1.5 text-[12px] leading-relaxed text-amber-950","children":[["$","summary",null,{"className":"mx-auto flex max-w-xl cursor-pointer list-none items-center justify-between gap-2 [&::-webkit-details-marker]:hidden","children":[["$","span",null,{"children":[["$","span",null,{"className":"font-bold","children":"試し版"}],"・データはすべて架空です"]}],["$","span",null,{"className":"shrink-0 font-semibold underline underline-offset-2 group-open:hidden","children":"くわしく"}],["$","span",null,{"className":"hidden shrink-0 font-semibold underline underline-offset-2 group-open:inline","children":"閉じる"}]]}],["$","div",null,{"className":"mx-auto mt-1 flex max-w-xl flex-col gap-1 pb-1","children":[["$","p",null,{"children":"書いた1行は、この端末の中にだけ残ります。Claude を呼ぶ所は止めてあり、架空の1か月で Claude が実際に出した結果を見せています。"}],["$","p",null,{"className":"text-amber-900/80","children":["Demo with fictional data. Lines you write stay on this device. Claude calls are switched off; you see the real results Claude produced for the fictional month."," ",["$","a",null,{"href":"https://github.com/jojocaw/mienai-ganbari","className":"font-semibold underline underline-offset-2","children":"README & code"}]]}]]}]]}],["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}],"notFound":[["$","main",null,{"className":"mx-auto flex w-full max-w-sm flex-1 flex-col items-center justify-center gap-4 px-4 py-16 text-center","children":[["$","p",null,{"className":"text-xs font-semibold tracking-wide text-emerald-700","children":"見えない頑張りを拾う"}],["$","h1",null,{"className":"text-xl font-bold text-stone-900","children":"このページは見つかりませんでした"}],["$","p",null,{"className":"text-sm leading-relaxed text-stone-600","children":"リンクの終わりに、ほかの文字がついていたかもしれません。"}],["$","$L5",null,{"href":"/","className":"rounded-xl bg-emerald-700 px-6 py-3.5 text-base font-bold text-white shadow-sm","children":"最初の画面へ"}]]}],[]]}],["$","$L6",null,{"src":"/mienai-ganbari/demo/shim.js","strategy":"beforeInteractive"}]]}]}]]}],"p":"$@7","v":null,"s":"$8"},"c":"$Q9"},"h":{"r":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L12",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L14",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$e",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"見えない頑張りを拾う (mienai-ganbari)"}],["$","meta","1",{"name":"description","content":"声の大きい人ではなく、本当に頑張った人にプラスが届く仕組み — Built with Claude: Japan 2026. All data is fictional."}],["$","link","2",{"rel":"icon","href":"/mienai-ganbari/favicon.ico?favicon.117ezoe8m31dk.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L15","3",{}]]}]}],null]}],null]}],"p":"$@16","v":null,"s":"$8"}},"a":"$@17","u":"$@18","b":"2ELgHSob8TFUnjgJ7-iRM"}
+f:null
+8:300
+18:true
+8:C
+17:0
+a:"$undefined"
+7:"$undefined"
+16:"$undefined"
+10:"$undefined"

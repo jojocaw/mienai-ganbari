@@ -1,0 +1,3 @@
+:HL["/mienai-ganbari/_next/static/chunks/1_up-6br5rcgj.css","style"]
+1:[["children",{"s":"__PAGE__","h":160}]]
+0:{"b":"2ELgHSob8TFUnjgJ7-iRM","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
