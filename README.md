@@ -198,6 +198,14 @@ What the real runs caught, and how each was fixed (each fix has a test):
 | **The owner's Skill was listed but never read.** F8's dry run showed the Skill changed only 2 of 20 answers; asked to quote the yardstick, the extractor said it had none. (`AgentDefinition.skills` preloads a Skill only for subagents started through the Agent tool — not for an agent that runs as the main thread, as here.) | Every extractor prompt now starts with the Skill as a slash command, which puts its full text in the request. Each real run first asks the extractor to quote the first 「付けない」 rule word for word and stops if the quote is not exact; without the Skill it answers that it has none. F3–F7 were run again with the Skill really in place |
 | **The owner's words and the owner's decisions disagreed.** The ten answers say teaching and helping count; the same owner did not reward small everyday help. On twelve new scenes the skill alone moved Claude away from this owner (6.3 → 5.0 of 12 on average) | The owner's past decisions go into the skill word for word as examples (`addOwnerExamples`: plain code, nothing that judges a person can enter, the rest of the skill unchanged). On the twelve new scenes: 8.0 of 12. The owner's one-line reason, added the same way, did not move the count by itself (5, 5, 5) |
 
+What the builder caught by using it as a shop owner, and how each was fixed (all on 11/3, during the event; after each fix the builder checked it again before the next step):
+
+| Found by the builder | Fix | Commit |
+|---|---|---|
+| On the month-end screen, "set a total first, then move each share from 0 to 10" left the owner stuck: it was not clear how the amounts changed, and a share could not go past 10 | Each person has − / amount / + (one press = 100, 500, 1,000 or 5,000 yen, or type the number), and the total to hand out is added up at the bottom, after the last person. The money stays in plain code, with tests | `bc2aa97` |
+| Someone who is not already interested will not touch a tool that looks hard, so the maker has to fill that gap, not the user | The phone demo was gone through one step at a time: a first screen that says what the tool is and where to start → the staff step says what to do, and the written line shows up at month end → the month-end page says how to read it and folds the detailed parts → the letters stay readable with the Japanese open, and the tour has an end | `85b65f1` `503b9a7` `7ac2fba` `c062a6b` |
+| A demo link with extra characters at the end (Japanese text written right after it in a chat) opened a dark default "404" page | A plain not-found page in Japanese, with one button back to the first page | `1861b7f` |
+
 ## Principles
 
 - Facts only — no personality scores, no gossip collected.
@@ -290,6 +298,14 @@ What the real runs caught, and how each was fixed (each fix has a test):
 | 手紙が、事実に無い目的を足した（「お客さんが読みやすいように」） | 手紙の係に決まりを1つ足し、本物の実行をやり直して確かめた |
 | **店長の Skill が、名前だけで中身が読まれていなかった。** F8 の試しで、Skill で変わった答えは20のうち2つだけ。物差しを引用させると「無い」と答えた（Skill を前もって読ませる設定は、Agent の道具から始めた subagent にだけ効き、ここのようにメインの流れで動く係には効かない） | 事実の係への頼みの最初に、毎回 Skill をスラッシュコマンドで入れ、全文が届くようにした。本物の実行では、最初に「付けない」の最初の決まりを一字一句引用させ、合わなければ止める（Skill が無いと「無い」と答える）。F3〜F7 をやり直した |
 | **店長の言葉と、店長の決定が食い違っていた。** 10問の答えは「教える・手伝うは数える」なのに、同じ店長が、小さな日々の手伝いには付けなかった。新しい12場面で、Skill だけだと Claude は店長から離れた（平均 6.3 → 5.0 / 12） | 店長の前の決定を、一字一句、例として Skill に入れた（プログラムで足す・人を決めつける言葉は入れられない・ほかの所は変えない）。新しい12場面で 8.0 / 12。理由の1行だけを同じように足しても、数は変わらなかった（5・5・5） |
+
+### 作った本人が店長として触って見つけ、直した事（どれも 11/3・大会の期間中。1つ直すたびに本人が確かめてから次へ）
+
+| 見つけた事 | 直し方 | コミット |
+|---|---|---|
+| 月末の画面の「先に合計を決めて、1人ずつ割合を 0〜10 で動かす」で、店長の手が止まった。金額がどう変わるか分からず、割合は10より上にできなかった | 1人ずつ − / 金額 / ＋（1回で 100・500・1,000・5,000円、数字を打ってもよい）にし、配る合計は最後の1人の下に出す。お金はふつうのプログラムのまま・テストつき | `bc2aa97` |
+| 興味のない人は、難しく見えた道具に触らない。補うのは使う人ではなく、作る側 | スマホの試し版を1段ずつ見直した：最初の画面に、何の道具かと始める所 → スタッフの画面に、やる事と、書いた1行が月末にどこへ行くか → 月末の画面に読み方、くわしい所はたたむ → 手紙は日本語訳を開いたまま、最後に終わりのカード | `85b65f1` `503b9a7` `7ac2fba` `c062a6b` |
+| チャットでリンクのすぐ後に字を続けて書くと、リンクに字が混ざり、黒い「404」の画面になった | 「ページが見つかりません」と日本語で言い、最初のページに戻るボタン1つの画面にした | `1861b7f` |
 
 ### 使う人と場面・自分のお店で使う
 
