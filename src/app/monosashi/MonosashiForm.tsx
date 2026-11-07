@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { findCharacterWords, wordLabel, type SkillLint } from "@/lib/monosashi/lint";
 import { QUESTIONS } from "@/lib/monosashi/questions";
+import { ownerFetch, ownerGateOf, type OwnerGate } from "../owner";
+import OwnerPass from "../OwnerPass";
 
 type Skill = { relPath: string; text: string; lint: SkillLint };
 type Written = Skill & { attempts: number; answerWords: { word: string; questionId: string }[] };
@@ -16,11 +18,18 @@ export default function MonosashiForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [problems, setProblems] = useState<string[]>([]);
+  const [gate, setGate] = useState<{ gate: OwnerGate; message: string } | null>(null);
 
   useEffect(() => {
-    fetch("/api/monosashi")
-      .then((r) => r.json())
-      .then((d) => {
+    ownerFetch("/api/monosashi")
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) {
+          const g = ownerGateOf(d);
+          if (g) setGate({ gate: g, message: d.error ?? "" });
+          else setError("読み込めませんでした");
+          return;
+        }
         setAnswers(d.demoAnswers ?? {});
         setSkill(d.skill);
         setLive(Boolean(d.live));
@@ -41,7 +50,7 @@ export default function MonosashiForm() {
     setProblems([]);
     setBusy(true);
     try {
-      const r = await fetch("/api/monosashi", {
+      const r = await ownerFetch("/api/monosashi", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers }),
@@ -62,6 +71,7 @@ export default function MonosashiForm() {
   }
 
   const shown = written ?? skill;
+  if (gate) return <OwnerPass gate={gate.gate} message={gate.message} />;
 
   return (
     <div className="flex flex-col gap-6">

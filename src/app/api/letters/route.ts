@@ -1,3 +1,4 @@
+import { ownerProblem, requestProblem } from "@/lib/guard";
 import { decisionShapeError, type Decision } from "@/lib/letters/plan";
 import { runLetters } from "@/lib/letters/run";
 import { live } from "@/lib/live";
@@ -6,6 +7,8 @@ import { AllocationError } from "@/lib/pay/allocate";
 
 // POST /api/letters { decision } → code splits the amount to the yen, the letter-writer subagent writes one letter per person, code checks each one
 export async function POST(request: Request) {
+  const bad = requestProblem(request, { write: true }) ?? ownerProblem(request, "write");
+  if (bad) return bad;
   if (!live()) return Response.json({ error: "この環境では Claude を呼ばない設定です (ANTHROPIC_API_KEY がありません)" }, { status: 503 });
   let body: { decision?: unknown };
   try {

@@ -1,7 +1,10 @@
 import { addAnswer, EntryError } from "@/lib/entries";
+import { requestProblem } from "@/lib/guard";
 
 // POST /api/entries/answer { entryId, answer } → saves the writer's answer next to the line, exactly as typed (F10)
 export async function POST(request: Request) {
+  const bad = requestProblem(request, { write: true });
+  if (bad) return bad;
   let body: { entryId?: unknown; answer?: unknown };
   try {
     body = await request.json();

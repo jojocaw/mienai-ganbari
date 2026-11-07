@@ -20,7 +20,7 @@
 // F8 ②: 場面を、物差しのスキルなし・ありの事実そろえ係に読ませ、店長と同じ答えの数をコードで数える。
 // --examples は店長の例を「測る場面と別の半分」からだけ入れる。--round2 は後から答えた新しい場面で、例・理由・両方を測る。
 
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { agentDefinitions } from "../src/lib/agents.ts";
@@ -98,11 +98,14 @@ const folds: { test: Scenario[]; examples: Scenario[] }[] =
 const examplesOf = (f: { examples: Scenario[] }): OwnerExample[] => f.examples.map((s) => ({ line: s.text, verdict: round1Answers[s.id] }));
 
 // Folders outside this repository, each holding only the skill under test, so nothing else can be picked up.
+// They live in a new folder with an unguessable name that only this user can open (mkdtemp makes it 0700), the skill
+// (the owner's private yardstick) is written for this user only, and the whole folder is removed when the run ends.
+const tempRoot = mkdtempSync(path.join(os.tmpdir(), "mienai-ganbari-f8-"));
+process.on("exit", () => rmSync(tempRoot, { recursive: true, force: true }));
 function projectWith(name: string, text: string): string {
-  const dir = path.join(os.tmpdir(), name);
-  rmSync(dir, { recursive: true, force: true });
-  mkdirSync(path.join(dir, ".claude/skills", SKILL_NAME), { recursive: true });
-  writeFileSync(path.join(dir, ".claude/skills", SKILL_NAME, "SKILL.md"), text);
+  const dir = path.join(tempRoot, name);
+  mkdirSync(path.join(dir, ".claude/skills", SKILL_NAME), { recursive: true, mode: 0o700 });
+  writeFileSync(path.join(dir, ".claude/skills", SKILL_NAME, "SKILL.md"), text, { mode: 0o600 });
   return dir;
 }
 const project = projectWith("mienai-ganbari-f8", skillText);

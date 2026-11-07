@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { ownerProblem, requestProblem } from "@/lib/guard";
 import { live } from "@/lib/live";
 import { validateAnswers } from "@/lib/monosashi/questions";
 import { readSkill, SkillWriteError, writeSkill } from "@/lib/monosashi/write-skill";
@@ -11,13 +12,17 @@ async function demoAnswers(): Promise<Record<string, string>> {
 }
 
 // GET /api/monosashi → the fictional owner's answers (none for a real shop), the skill on disk (with its check result), and whether Claude can be called here
-export async function GET() {
+export async function GET(request: Request) {
+  const bad = requestProblem(request, { write: false }) ?? ownerProblem(request, "read");
+  if (bad) return bad;
   const { real } = shopConfig();
   return Response.json({ demoAnswers: real ? {} : await demoAnswers(), skill: await readSkill(), live: live(), real });
 }
 
 // POST /api/monosashi { answers } → Claude writes a draft, plain code checks it, SKILL.md is saved
 export async function POST(request: Request) {
+  const bad = requestProblem(request, { write: true }) ?? ownerProblem(request, "write");
+  if (bad) return bad;
   if (!live()) return Response.json({ error: "この環境では Claude を呼ばない設定です (ANTHROPIC_API_KEY がありません)" }, { status: 503 });
   let body: { answers?: unknown };
   try {

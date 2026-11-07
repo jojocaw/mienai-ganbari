@@ -10,6 +10,8 @@ import type { FactsRun } from "@/lib/month/load";
 import type { EventView, MonthView, PersonView } from "@/lib/month/summary";
 import { allocate, MAX_TOTAL, RULE_TEXT, splitFromAmounts, yen } from "@/lib/pay/allocate";
 import { LANG_LABEL, type Staff } from "@/lib/staff";
+import { ownerFetch, ownerGateOf, type OwnerGate } from "../owner";
+import OwnerPass from "../OwnerPass";
 
 // how much one press of + or − moves a person's yen
 const STEPS = [100, 500, 1000, 5000] as const;
@@ -82,13 +84,20 @@ export default function MonthBoard({ demo = false }: { demo?: boolean }) {
   const [busy, setBusy] = useState(false);
   const [letterError, setLetterError] = useState("");
   const [owner, setOwner] = useState<Owner>({});
+  const [gate, setGate] = useState<{ gate: OwnerGate; message: string } | null>(null);
 
   useEffect(() => {
-    fetch("/api/month")
-      .then((r) => r.json())
-      .then((d: Data) => {
-        setData(d);
-        setAmounts(amountsOf(d.decision, d.staff.map((s) => s.id)));
+    ownerFetch("/api/month")
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) {
+          const g = ownerGateOf(d);
+          if (g) setGate({ gate: g, message: d.error ?? "" });
+          else setLoadError("読み込めませんでした");
+          return;
+        }
+        setData(d as Data);
+        setAmounts(amountsOf((d as Data).decision, (d as Data).staff.map((s) => s.id)));
       })
       .catch(() => setLoadError("読み込めませんでした"));
   }, []);
@@ -113,6 +122,7 @@ export default function MonthBoard({ demo = false }: { demo?: boolean }) {
     }
   }, [decision, order]);
 
+  if (gate) return <OwnerPass gate={gate.gate} message={gate.message} />;
   if (loadError) return <p className="text-sm text-red-700">{loadError}</p>;
   if (!data) return <p className="text-sm text-stone-500">読み込み中…</p>;
   if (data.pending)
@@ -149,7 +159,7 @@ export default function MonthBoard({ demo = false }: { demo?: boolean }) {
     setBusy(true);
     setLetterError("");
     try {
-      const r = await fetch("/api/letters", {
+      const r = await ownerFetch("/api/letters", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ decision }),
@@ -188,6 +198,7 @@ export default function MonthBoard({ demo = false }: { demo?: boolean }) {
           <p className="text-xs leading-relaxed text-stone-600">
             <span className="font-semibold text-emerald-800">緑</span> = ほかの人が書いた頑張り。
             <span className="font-semibold text-amber-800">黄</span> = 本人だけが書いたこと（ほかの人の1行では確かめられていない）。開くと、元の1行がそのまま見られます。
+            {data.real && "書き手の名前は、1行の画面で選ぶだけで本人確認をしていません（緑は「別の名前で書かれた」という意味です）。"}
             Claude の答え（付ける・迷う・付けない）がちがう時は、出来事を開いて「店長の答え」を押します。
           </p>
           <div className="flex flex-col gap-2">
@@ -662,7 +673,7 @@ function TeachSkill({ corrected, owner }: { corrected: EventView[]; owner: Owner
   const [savedKey, setSavedKey] = useState("");
 
   useEffect(() => {
-    fetch("/api/monosashi/examples")
+    ownerFetch("/api/monosashi/examples")
       .then((r) => r.json())
       .then((d: { section: string; canUndo: boolean }) => {
         setSection(d.section);
@@ -679,7 +690,7 @@ function TeachSkill({ corrected, owner }: { corrected: EventView[]; owner: Owner
     setBusy(true);
     setError("");
     try {
-      const r = await fetch("/api/monosashi/examples", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ corrections }) });
+      const r = await ownerFetch("/api/monosashi/examples", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ corrections }) });
       const d = await r.json();
       if (!r.ok) {
         setError(d.error || "保存できませんでした");
@@ -700,7 +711,7 @@ function TeachSkill({ corrected, owner }: { corrected: EventView[]; owner: Owner
     setBusy(true);
     setError("");
     try {
-      const r = await fetch("/api/monosashi/examples", { method: "DELETE" });
+      const r = await ownerFetch("/api/monosashi/examples", { method: "DELETE" });
       const d = await r.json();
       if (!r.ok) {
         setError(d.error || "戻せませんでした");

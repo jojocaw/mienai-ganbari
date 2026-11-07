@@ -1,3 +1,4 @@
+import { ownerProblem, requestProblem } from "@/lib/guard";
 import { correctionsToExamples, parseCorrections } from "@/lib/month/corrections";
 import { loadMonth } from "@/lib/month/load";
 import { readOwnerExamples } from "@/lib/monosashi/examples";
@@ -6,7 +7,9 @@ import { readSkill } from "@/lib/monosashi/write-skill";
 
 // F9: the owner's corrections on /month join the yardstick skill as examples (plain code, no Claude).
 // GET → the owner's examples now in the skill, and how many versions can be put back
-export async function GET() {
+export async function GET(request: Request) {
+  const bad = requestProblem(request, { write: false }) ?? ownerProblem(request, "read");
+  if (bad) return bad;
   const skill = await readSkill();
   return Response.json({
     examples: skill ? readOwnerExamples(skill.text).examples : [],
@@ -24,6 +27,8 @@ function failed(e: unknown) {
 
 // POST { corrections: [{ eventId, verdict }] } → the examples are added to SKILL.md (the previous version is kept)
 export async function POST(request: Request) {
+  const bad = requestProblem(request, { write: true }) ?? ownerProblem(request, "write");
+  if (bad) return bad;
   let body: { corrections?: unknown };
   try {
     body = await request.json();
@@ -45,7 +50,9 @@ export async function POST(request: Request) {
 }
 
 // DELETE → puts back the skill from before the last save
-export async function DELETE() {
+export async function DELETE(request: Request) {
+  const bad = requestProblem(request, { write: true }) ?? ownerProblem(request, "write");
+  if (bad) return bad;
   try {
     const restored = await undoOwnerExamples();
     if (!restored) return Response.json({ error: "戻せる前の版がありません" }, { status: 404 });
